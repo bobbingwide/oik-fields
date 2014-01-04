@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2013
+<?php // (C) Copyright Bobbing Wide 2013, 2014
 /**
  * Implement the [bw_field] and [bw_fields] shortcode
  * 

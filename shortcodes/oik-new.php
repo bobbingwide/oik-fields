@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2013
+<?php // (C) Copyright Bobbing Wide 2013, 2014
 
 /**
  * Implement [bw_new] shortcode to allow the creation of a new post through a simple form
@@ -65,6 +65,7 @@ function bw_new_post_form_id( $set=false ) {
  * @param string $text - the message text e.g. "Invalid Location, please correct"
  * @param string $type The type of message it is, controls HTML class. Use 'error' or 'updated'.
  */
+if ( !function_exists( "bw_issue_message" ) ) { 
 function bw_issue_message( $field, $code, $text, $type='error' ) { 
   bw_trace2();
   global $bw_messages;
@@ -78,12 +79,15 @@ function bw_issue_message( $field, $code, $text, $type='error' ) {
                         );
   return( false );                       
 }
+}
   
 /**
  * Return true is there are messages to display
  * 
  * @return integer - number of messages, if any
  */
+ 
+if ( !function_exists( "bw_query_messages" ) ) { 
 function bw_query_messages() {
   global $bw_messages;
   $messages = isset( $bw_messages );
@@ -91,6 +95,7 @@ function bw_query_messages() {
     $messages = count( $bw_messages );
   }
   return( $messages );
+}
 }
 
 /** 
@@ -101,6 +106,8 @@ function bw_query_messages() {
  * @param array $bw_message - a message field
  * @return bool - true 
  */
+ 
+if ( !function_exists( "bw_display_message" ) ) { 
 function bw_display_message( $bw_message ) {
   $classes = $bw_message['field'];
   $classes .= " ";
@@ -109,6 +116,7 @@ function bw_display_message( $bw_message ) {
   p( $bw_message['text'] );
   ediv();
   return( true );
+}
 }  
 
 /** 
@@ -116,6 +124,7 @@ function bw_display_message( $bw_message ) {
  * 
  * Display the set of messages in @global $bw_messages
  */
+if ( !function_exists( "bw_display_messages" ) ) { 
 function bw_display_messages() {
   global $bw_messages;
   $displayed = false;
@@ -125,6 +134,7 @@ function bw_display_messages() {
   }
   ediv();
   return( $displayed );
+}
 } 
  
 /**
@@ -772,10 +782,11 @@ function bw_display_new_post_form( $atts, $user=null ) {
   $new_post_form_id = bw_new_post_form_id( true );
   $new_post = bw_array_get( $_REQUEST, $new_post_form_id, null );
   if ( $new_post ) {
-     $new_post = bw_verify_nonce( "_oik_new_post_form", "_oik_new_post_nonce" );
-     if ( $new_post ) {
-       $new_post = _bw_process_new_post_form_oik( $atts );
-     }
+    oik_require( "bobbforms.inc" );
+    $new_post = bw_verify_nonce( "_oik_new_post_form", "_oik_new_post_nonce" );
+    if ( $new_post ) {
+      $new_post = _bw_process_new_post_form_oik( $atts );
+    }
   }
   if ( !$new_post ) { 
     _bw_show_new_post_form_oik( $atts, $user );

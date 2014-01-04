@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2011-2013
+<?php // (C) Copyright Bobbing Wide 2011-2014
 
 /**
  * Theme a field of type 'currency'
@@ -41,14 +41,18 @@ function bw_theme_field_numeric( $key, $value ) {
  * @param string $value - the field value - expected to be in ccyy-mm-dd  rather than a unix timestamp
  *
  */
+if ( !function_exists( "bw_theme_field_date" ) ) {
 function bw_theme_field_date( $key, $value ) {
   //if ( count( $value ) )
   //  e( bw_format_date( $value[0] ) );
-  $format = get_option( 'date_format' );
   $date = bw_array_get( $value, 0, $value );
-  $date = strtotime( $date );
-  e( date_i18n( $format, $date ) ); 
-  //e( bw_format_date(  ) );
+  if ( $date ) {
+    $format = get_option( 'date_format' );
+    $date = strtotime( $date );
+    e( date_i18n( $format, $date ) ); 
+    //e( bw_format_date(  ) );
+  }  
+}
 }
 
 /**
@@ -110,6 +114,7 @@ function bw_return_field_select( $key, $value, $field ) {
   $args = bw_array_get( $field, '#args', null );
   if ( $args ) {
     $select = bw_array_get( $args, '#options', null );
+    $select = bw_as_array( $select );
   } 
   // If value is an empty array this will return an empty array. 
   

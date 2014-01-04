@@ -3,12 +3,12 @@
 Plugin Name: oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-fields
 Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields] & [bw_new]  shortcodes
-Version: 1.19.1107
+Version: 1.20
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
 
-    Copyright 2011-2013 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2011-2014 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -139,6 +139,7 @@ function oik_fields_admin_menu() {
  * 
  * oik-fields v1.18 required oik v2.0
  * oik-fields v1.19 now requires oik v2.1-alpha
+ * oik-fields v1.20 is needed with oik v2.1-beta.0102 - this dependency checking is not yet developed.
  */ 
 function oik_fields_activation() {
   static $plugin_basename = null;

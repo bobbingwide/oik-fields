@@ -35,14 +35,8 @@ Allow end users to create "pending" content for a CPT
 [bw_field] / [bw_fields]
 Display custom fields on the page
 
-For documentation see oik-plugins.com
-
 ==== Actions and filter hooks ====
-
-http://www.oik-plugins.com/oik_hook/oik_pre_form_field/
-http://www.oik-plugins.com/oik_hook/oik_pre_theme_field/
-
-See http://www.oik-plugins.com/wordpress-plugins-from-oik-plugins/free-oik-plugins/oik-fields-custom-fields-plugin/
+to be listed
 
 
 == Installation ==
@@ -154,6 +148,7 @@ This version matches the version in oik v1.17
 
 = 1.19.1107 = 
 * Fixed: Theming for a select field with no value. 
+
 
 = 1.19.1028 =
 * Added: theming for textarea and checkbox fields

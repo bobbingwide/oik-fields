@@ -1,5 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2013 
-
+<?php // (C) Copyright Bobbing Wide 2013, 2014 
 
 /** 
  * Format a custom column on admin pages 
@@ -37,7 +36,6 @@ function bw_custom_column( $column, $post_id ) {
     bw_format_custom_column( $column );
   }    
 }  
-} // end if ( !function_exists
 
 /** 
  * format a custom column on the admin page IF the column is defined in bw_fields
@@ -79,7 +77,8 @@ function bw_format_custom_column( $column=null, $data=null ) {
   if ( $field ) {
     bw_theme_field( $column, $data, $field );
   }  
-}     
+} 
+    
 
 
 /**
@@ -271,6 +270,8 @@ function bw_format_field( $customfield ) {
   }
 }
 
+} // end if ( !function_exists
+
 /**
  * Return the default separator between the field label and field value
  * @return string - separator - with spaces if required
@@ -310,6 +311,8 @@ function bw_format_sep( $type="field" ) {
  *
  * @uses bw_format_field
  */
+ 
+if ( !function_exists( "bw_format_meta" ) ) {
 function bw_format_meta( $customfields ) {
   bw_trace2();
   bw_backtrace();
@@ -323,6 +326,7 @@ function bw_format_meta( $customfields ) {
     bw_format_field( $cf );
     ediv( "metadata $key" );
   }  
+}
 }
 
 

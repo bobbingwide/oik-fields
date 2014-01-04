@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2013
+<?php // (C) Copyright Bobbing Wide 2013, 2014
  
 /**
  * Implement 'bw_field_validation_text' filter for oik-fields 
