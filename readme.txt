@@ -4,28 +4,28 @@ Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: custom fields, metadata, shortcoes, [bw_field], [bw_fields], [bw_new]
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 1.20
+Stable tag: 1.30
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
-Field formatting for custom post type (CPT) meta data, plus [bw_field], [bw_fields] and [bw_new] shortcodes
+Field formatting for custom post type (CPT) meta data, plus [bw_field], [bw_fields], [bw_new] and [bw_related] shortcodes
 
 === Features:===
 * Advanced API for plugin developers
-* Extensible architecture for additional custom fields
+* Extensible architecture for additional custom field types
 * Uses APIs from the oik base plugin
 
 ==== Display ====
 * Displays custom fields using [bw_field] or [bw_fields] shortcode
+* Display related content using [bw_related]
 * Displays custom fields in admin pages
 
 ==== Input ====
-* Displays input versions for custom fields
+* Displays input versions for custom fields (front-end and admin UI)
 * Displays custom fields in Add New / Edit pages
 * Performs field validation and sanitization
 * Can be used for printing fields in emails
- 
 
 ==== Shortcodes ====  
 [bw_new]
@@ -33,16 +33,20 @@ Field formatting for custom post type (CPT) meta data, plus [bw_field], [bw_fiel
 Allow end users to create "pending" content for a CPT
   
 [bw_field] / [bw_fields]
+
 Display custom fields on the page
 
-For documentation see oik-plugins.com
+[bw_related] 
+
+Display related content. Uses the field definition to determine the search criteria
 
 ==== Actions and filter hooks ====
+Invokes - calls using do_action() or apply_filters()
+* tbc
 
-http://www.oik-plugins.com/oik_hook/oik_pre_form_field/
-http://www.oik-plugins.com/oik_hook/oik_pre_theme_field/
-
-See http://www.oik-plugins.com/wordpress-plugins-from-oik-plugins/free-oik-plugins/oik-fields-custom-fields-plugin/
+Implements  - ie. responds to 
+* "oik_default_meta_value_noderef" - determine the default meta_value for a noderef field type
+* the rest tbc
 
 
 == Installation ==
@@ -79,20 +83,23 @@ The following field types are provided by the plugins listed below:
 * mshot  - oik-mshot
 * rating  - oik-rating
 * userref - oik-user
+* time/timestamp - oik-dates
 
 = What is oik-fields dependent upon? =
 This plugin is dependent upon the oik base plugin. It specifically includes the following files:
 
+```
   oik_require( "includes/bw_register.inc" );
   oik_require( "bw_metadata.inc" );
   oik_require2( "includes/bw_fields.inc", "oik-fields", "oik" ); // When required! 
+```  
   
 = Fields displayed by default =
 Fields are displayed by default in both forms and [bw_fields] displays.
 You can control these using two values in the options array
 
-'#theme' => false - if you don't want the field displayed by [bw_fields]
-'#form' => false - if you don't want the form field displayed by [bw_new]
+ '#theme' => false - if you don't want the field displayed by [bw_fields]
+ '#form' => false - if you don't want the form field displayed by [bw_new]
 
   
 == Frequently Asked Questions ==
@@ -110,6 +117,9 @@ Yes - see above
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 == Upgrade Notice ==
+= 1.30 =
+Required if you need the new [bw_related] shortcode
+
 = 1.20 =
 If you use oik-fields then please upgrade to this version prior to upgrading the oik base plugins to v2.1-beta.0102 or higher.
 
@@ -147,10 +157,14 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.30 =
+* Added: [bw_related] shortcode to list related content
+* Added: oik_fields_default_meta_value_noderef filter to return the default value for a a noderef type field 
+* Changed: Copyright dates
+* Changed: Added readme.md - built from readme.txt. See also [GitHub oik-fields](https://github.com/bobbingwide/oik-fields)
+
 = 1.20 =
-* Changed: oik base plugin now implements message issuing APIs, previously developed in shortcodes/oik-new.php. Duplicated functions are now wrapped in function_exists() tests
-* Changed: Copyright dates.
-* Added: readme.md - copied from readme.txt
+* Changed: oik base plugin now implements message issuing APIs, previously developed in shortcodes/oik-new.php. 
 
 = 1.19.1107 = 
 * Fixed: Theming for a select field with no value. 
@@ -178,7 +192,6 @@ This version matches the version in oik v1.17
 * Added: Field validation functions for: text, textarea, email. 
 * Changed: Improved validation/sanitization for "title", "post_content"
 
-* Added: 
 = 1.19.0723 = 
 * Added: Started adding field validation functions ( new file includes/oik-fields-validation.php )
 * Added: bw_issue_message() and related functions for creating and displaying messages

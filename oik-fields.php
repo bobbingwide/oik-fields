@@ -3,7 +3,7 @@
 Plugin Name: oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-fields
 Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields] & [bw_new]  shortcodes
-Version: 1.20
+Version: 1.30
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
@@ -47,6 +47,7 @@ function oik_fields_init() {
   bw_add_shortcode( 'bw_field', 'bw_metadata', $path );
   bw_add_shortcode( 'bw_fields', 'bw_metadata', $path );
   bw_add_shortcode( 'bw_new', 'bw_new', oik_path( "shortcodes/oik-new.php", "oik-fields" ));
+  bw_add_shortcode( 'bw_related', 'bw_related', oik_path( "shortcodes/oik-related.php", "oik-fields" )); 
   add_action( "bw_metadata", "oik_fields_bw_metadata" );
   do_action( 'oik_fields_loaded' );
 }
@@ -211,6 +212,27 @@ function oik_fields_query_field_types( $field_types ) {
   $field_types['URL'] = __( 'URL - external link' );
   $field_types['checkbox'] = __( 'Check box' );
   return( $field_types );
+} 
+ 
+/**
+ * Implement "oik_default_meta_value_noderef" filter for noderef fields
+ * 
+ * @param string $meta_value - the given value for meta_value= parameter
+ * @param array $atts - other parameters
+ * @return string $meta_value - default value if original was no good
+ */ 
+function oik_fields_default_meta_value_noderef( $meta_value, $atts ) { 
+  if ( !$meta_value ) {
+    $meta_value = bw_global_post_id();
+  }
+  // Let's check for a numeric value. If it's a 
+  if ( is_numeric( $meta_value ) ) {
+    // They seem to know what they're looking for 
+  } else {
+    bw_trace2( $meta_value, "defaulting meta_value" );
+    $meta_value = bw_global_post_id();
+  }
+  return( $meta_value );
 }  
 
 /**
@@ -224,6 +246,7 @@ function oik_fields_plugin_loaded() {
   add_action( "oik_pre_theme_field", "oik_fields_pre_theme_field" ); 
   add_filter( "bw_validate_functions", "oik_fields_validate_functions" );
   add_filter( "oik_query_field_types", "oik_fields_query_field_types" );
+  add_filter( "oik_default_meta_value_noderef", "oik_fields_default_meta_value_noderef", 10, 2 );
 }
 
 /**
