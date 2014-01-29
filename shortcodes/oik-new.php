@@ -146,7 +146,17 @@ function bw_display_messages() {
  */
 function bw_obtain_field( $field_name, &$validated ) {
   $value = bw_array_get( $_REQUEST, $field_name, null );
-  $value = trim( $value );
+  bw_trace2( $value, "value" );
+  bw_backtrace();
+  if ( is_array( $value ) ) {
+    // @TODO - Don't bother performing any validation yet
+    foreach( $value as $k => $v ) {
+      $value[$k] = stripslashes( trim( $v )) ;
+      
+    }
+  } else { 
+    $value = stripslashes( trim( $value ));
+  }  
   $validated[ $field_name ] = $value;
   if ( $value ) { 
     $valid = true;

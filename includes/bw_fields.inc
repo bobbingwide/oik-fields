@@ -1,5 +1,27 @@
 <?php // (C) Copyright Bobbing Wide 2013, 2014 
 
+/**
+ * Query the field type given the field name
+ *
+ * Returns the field type of the registered field or null
+ *
+ * @param string $name - the field name e.g. _date
+ * @param string $field_type - the field type e.g. date or null
+ */
+if ( !function_exists( "bw_query_field_type" ) ) {  
+function bw_query_field_type( $name ) {
+  global $bw_fields;
+  $field = bw_array_get( $bw_fields, $name, null );
+  if ( $field ) {
+    $field_type = bw_array_get( $field, "#field_type", null );
+  } else {
+    bw_trace2( "Invalid field name" );
+    $field_type = null;
+  }
+  return( $field_type );
+}
+} 
+
 /** 
  * Format a custom column on admin pages 
  *
@@ -15,7 +37,32 @@ if ( !function_exists( "bw_custom_column" ) ) {
 function bw_custom_column_admin( $column, $post_id ) {
   bw_custom_column( $column, $post_id );
   bw_flush();
-}  
+}
+
+/**
+ * Format custom column data for a taxonomy
+ * @TODO - should be use $term_list = wp_get_post_terms($post->ID, 'my_term', array("fields" => "all"));
+ */
+function bw_custom_column_taxonomy( $column, $post_id ) {
+  //e( "$column taxonomy for $post_id" );
+  $terms = get_the_term_list( $post_id, $column, "", ",", "" );
+  e( $terms );    
+}
+
+
+/**
+ * Format custom column data for post_meta data
+ */
+function bw_custom_column_post_meta( $column, $post_id ) {
+  $data = get_post_meta( $post_id, $column );
+  if ( $data && is_array( $data) && count( $data ) ) {
+    /* At least one value to format */
+      bw_format_custom_column( $column, $data );
+  } else {
+    $data = null;
+    bw_format_custom_column( $column );
+  }    
+}
 
 /**
  * Display a custom column for a post
@@ -27,14 +74,12 @@ function bw_custom_column_admin( $column, $post_id ) {
  * @uses bw_format_custom_column to format it
  */
 function bw_custom_column( $column, $post_id ) {
-  $data = get_post_meta( $post_id, $column );
-  if ( $data && is_array( $data) && count( $data ) ) {
-    /* At least one value to format */
-      bw_format_custom_column( $column, $data );
-  } else {
-    $data = null;
-    bw_format_custom_column( $column );
-  }    
+  $type = bw_query_field_type( $column );
+  if ( $type === "taxonomy" ) {
+    bw_custom_column_taxonomy( $column, $post_id );
+  } else { 
+    bw_custom_column_post_meta( $column, $post_id );
+  }  
 }  
 
 /** 
@@ -72,6 +117,8 @@ function bw_custom_column( $column, $post_id ) {
 )
 */
 function bw_format_custom_column( $column=null, $data=null ) {
+  // @TODO - this code can be replaced by bw_query_field_type(), perhaps
+  
   global $bw_fields; 
   $field = bw_array_get( $bw_fields, $column, null );
   if ( $field ) {
@@ -122,12 +169,12 @@ function bw_theme_field( $key, $value, $field=null ) {
   if ( $funcname == "bw_theme_field_" && $type ) { 
     $funcname = bw_funcname( "bw_theme_field_", $key );
   }  
-  bw_trace2( $funcname, "funcname chosen", false );
   
   if ( is_callable( $funcname ) ) {
+    bw_trace2( $funcname, "funcname chosen", false );
     call_user_func( $funcname,  $key, $value, $field );
   } else {
-    bw_trace2( $funcname, "funcname chosen not callable, using default", false );
+    bw_trace2( $funcname, "funcname chosen not callable, using default _bw_theme_field_default", false );
     _bw_theme_field_default( $key, $value, $field );
   }
 } 
@@ -213,7 +260,7 @@ function _bw_theme_field_default( $key, $value ) {
  * It's not exactly related to "custom header image" but could be.
  */
 function _bw_theme_field_default_bw_header_image( $key, $value ) {
-  e( retimage( $key, $value )) ;
+  e( retimage( $key, $value ) );
 } 
 
 /** 
@@ -269,8 +316,7 @@ function bw_format_field( $customfield ) {
     epan( "value" ); 
   }
 }
-
-} // end if ( !function_exists
+} // end if ( !function_exists bw_custom_column
 
 /**
  * Return the default separator between the field label and field value
@@ -311,11 +357,10 @@ function bw_format_sep( $type="field" ) {
  *
  * @uses bw_format_field
  */
- 
 if ( !function_exists( "bw_format_meta" ) ) {
 function bw_format_meta( $customfields ) {
   bw_trace2();
-  bw_backtrace();
+  //bw_backtrace();
   foreach  ( $customfields as $key => $customfield ) {
     $value = $customfield;
     // $value = bw_array_get( $customfield, 0, $customfield ); **?** is it OK to pass an array everywhere?   Herb 2013/10/24
@@ -329,4 +374,34 @@ function bw_format_meta( $customfields ) {
 }
 }
 
+/**
+ * Format a taxonomy for the 'post'
+ * 
+ * @TODO - is this function required? Does the parameter to format_label need to be how it is now?
+ */ 
+if ( !function_exists( "bw_format_taxonomy" ) ) {
+function bw_format_taxonomy( $field, $post_id ) {
+  // We need to query the taxonomy name 
+  bw_format_label( array( $field => $field ) );
+  bw_format_sep( $field );
+  bw_custom_column_taxonomy( $field, $post_id );
+}  
+}
 
+/** 
+ * If the field type is not defined then it's probably a post object's property
+ */ 
+if ( !function_exists( "bw_theme_object_property" ) ) {  
+function bw_theme_object_property( $post_id, $value, $atts=null ) {
+  $post = get_post( $post_id );  
+  if ( property_exists( $post, $value ) ) {
+    $field_value = $post->$value ;
+    bw_theme_field( $value, $field_value, $atts ); 
+  } elseif ( property_exists( $post, "post_$value" ) ) {       
+    $field_name = "post_" . $value;  
+    $field_value = $post->$field_name;
+    bw_theme_field( $field_name, $field_value, $atts );
+  } 
+}
+}    
+ 

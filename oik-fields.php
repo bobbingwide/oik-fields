@@ -2,8 +2,8 @@
 /*
 Plugin Name: oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-fields
-Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields] & [bw_new]  shortcodes
-Version: 1.30
+Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes
+Version: 1.32
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
@@ -44,7 +44,7 @@ function oik_fields_init() {
   oik_require( "bw_metadata.inc" );
   oik_require2( "includes/bw_fields.inc", "oik", "oik-fields" );
   $path = oik_path( "shortcodes/oik-fields.php", "oik-fields" );
-  bw_add_shortcode( 'bw_field', 'bw_metadata', $path );
+  bw_add_shortcode( 'bw_field', 'bw_field', oik_path( "shortcodes/oik-field.php", "oik-fields"));
   bw_add_shortcode( 'bw_fields', 'bw_metadata', $path );
   bw_add_shortcode( 'bw_new', 'bw_new', oik_path( "shortcodes/oik-new.php", "oik-fields" ));
   bw_add_shortcode( 'bw_related', 'bw_related', oik_path( "shortcodes/oik-related.php", "oik-fields" )); 
@@ -54,15 +54,18 @@ function oik_fields_init() {
 
 /**
  * Return the value from a fields #args array, setting the default if not defined
+ *
  * @param string $field - the field name - which is expected to be defined in $bw_fields
  * @param string $key - the key to the #args array. e.g. #theme
  * @param mixed $default - the default value
- * @return mixed - the value found/defaulted
+ * @return mixed - the value found/defaulted or false if the field is not defined
  */
 function bw_get_field_data_arg( $field, $key, $default=true ) {
   global $bw_fields;
-  $data = $bw_fields[ $field ];
-  $value = bw_array_get( $data["#args"], $key, $default );
+  $value = bw_array_get( $bw_fields, $field, false );
+  if ( $value ) {
+    $value = bw_array_get( $value["#args"], $key, $default );
+  }  
   return( $value );
 }
 
@@ -105,6 +108,8 @@ function oik_fields_validate_functions( $fields ) {
  *
  * If none is specified then it doesn't return anything
  * so should we then call custom_header logic?
+ * 
+ * @TODO - retest since "name=" is now "fields="
  */
 if ( !(function_exists( "bw_header_image" ))) {
   function bw_header_image() {
@@ -141,6 +146,7 @@ function oik_fields_admin_menu() {
  * oik-fields v1.18 required oik v2.0
  * oik-fields v1.19 now requires oik v2.1-alpha
  * oik-fields v1.20 is needed with oik v2.1-beta.0102 - this dependency checking is not yet developed.
+ * oik-fields v1.31 has same code for bw_fields.inc as oik v2.1-beta.0121
  */ 
 function oik_fields_activation() {
   static $plugin_basename = null;

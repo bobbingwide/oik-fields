@@ -58,7 +58,8 @@ function bw_related( $atts=null, $content=null, $tag=null ) {
  *
  * @param string $name - the field name e.g. _date
  * @param string $field_type - the field type e.g. date or null
- */ 
+ */
+if ( !function_exists( "bw_query_field_type" ) ) {  
 function bw_query_field_type( $name ) {
   global $bw_fields;
   $field = bw_array_get( $bw_fields, $name, null );
@@ -70,7 +71,7 @@ function bw_query_field_type( $name ) {
   }
   return( $field_type );
 } 
-
+}
 
 /**
  * Determine a meta_value based on the field type, the specified meta_value and possibly the "meta_compare" parameter

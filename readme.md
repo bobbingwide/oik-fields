@@ -1,10 +1,10 @@
 # oik-fields 
 Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
-Tags: custom fields, metadata, shortcoes, [bw_field], [bw_fields], [bw_new]
+Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 1.30
+Stable tag: 1.32
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,13 +32,16 @@ Field formatting for custom post type (CPT) meta data, plus [bw_field], [bw_fiel
 
 Allow end users to create "pending" content for a CPT
 
-[bw_field] / [bw_fields]
+[bw_field]
+Display custom fields on the page, without labels or separators
 
-Display custom fields on the page
+[bw_fields]
+Display custom fields on the page, with labels and separators
 
 [bw_related]
 
-Display related content. Uses the field definition to determine the search criteria
+Display related content. Uses the field definition to determine the search criteria.
+Works for both noderef type fields and date fields ( using oik-dates )
 
 #### Actions and filter hooks 
 Invokes - calls using do_action() or apply_filters()
@@ -83,7 +86,7 @@ The following field types are provided by the plugins listed below:
 * mshot  - oik-mshot
 * rating  - oik-rating
 * userref - oik-user
-* time/timestamp - oik-dates
+* date/time/timestamp - oik-dates  - currently in prototype
 
 # What is oik-fields dependent upon? 
 This plugin is dependent upon the oik base plugin. It specifically includes the following files:
@@ -117,6 +120,12 @@ Yes - see above
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 ## Upgrade Notice 
+# 1.32 
+Required for officialcaravan.co.uk
+
+# 1.31 
+Required for OLC
+
 # 1.30 
 Required if you need the new [bw_related] shortcode
 
@@ -157,9 +166,21 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 ## Changelog 
+# 1.32 
+* Fixed: Reinstated some logic for [bw_field] allowing display of a field without labels and separator
+* Changed: Now supports displaying post object properties.
+
+# 1.31 
+* Added: Initial support for displaying custom taxonomies as fields. Field type: "taxonomy"
+* Added: [bw_fields] can be used to display a custom taxonomy if it's been registered as a field using bw_register_field()
+* Changed: [bw_new] supports multiple selection list fields.
+* Changed: Removed notify from bw_get_field_data_arg()
+* Changed: oik v2.1-beta.0121 and oik-fields v1.31 should deliver identical versions of includes/bw_fields.inc
+* Tested: Performed some compatibility testing with different versions of oik base plugin
+
 # 1.30 
 * Added: [bw_related] shortcode to list related content
-* Added: oik_fields_default_meta_value_noderef filter to return the default value for a a noderef type field
+* Added: oik_fields_default_meta_value_noderef filter to return the default value for a noderef type field
 * Changed: Copyright dates
 * Changed: Added readme.md - built from readme.txt. See also [GitHub oik-fields](https://github.com/bobbingwide/oik-fields)
 

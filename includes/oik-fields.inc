@@ -135,6 +135,8 @@ function bw_return_field_select( $key, $value, $field ) {
  * Theme a field of type 'noderef' 
  *
  * If it's a multiple link then display the results as an unordered list, otherwise display a single item
+ * @TODO Also support comma separated display format. 
+ 
  *
  * @param string $key - the field name 
  * @param mixed $value - the ID of the post either directly or as $value[0] or an array of posts
@@ -145,6 +147,7 @@ function bw_theme_field_noderef( $key, $value, $field ) {
   bw_backtrace();
   $multiple = bw_array_get( $field['#args'], "#multiple", false );
   if ( $multiple ) {
+    if ( is_array( $value ) && count( $value ) ) {
     sul();
     foreach ( $value as $key => $v0 ) {
       stag( "li" );
@@ -153,6 +156,7 @@ function bw_theme_field_noderef( $key, $value, $field ) {
       etag( "li");
     }
     eul();
+    }
   } else {
     $v0 = bw_array_get( $value, 0, $value );
     if ( $v0 ) {
@@ -234,5 +238,15 @@ function bw_theme_field_checkbox( $key, $value ) {
     e( __( "No" ));
   } 
   //e( $value[0] );
+}
+
+/**
+ * Theme a field of type "taxonomy"
+ */
+function bw_theme_field_taxonomy( $key, $value ) {
+  bw_trace2();
+  bw_backtrace();
+  gobang();
+
 }
 
