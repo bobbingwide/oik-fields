@@ -382,9 +382,13 @@ function bw_format_meta( $customfields ) {
 if ( !function_exists( "bw_format_taxonomy" ) ) {
 function bw_format_taxonomy( $field, $post_id ) {
   // We need to query the taxonomy name 
+  
+  sdiv( "bw_taxonomy $key" );
   bw_format_label( array( $field => $field ) );
   bw_format_sep( $field );
   bw_custom_column_taxonomy( $field, $post_id );
+  
+  ediv( "taxonomy $key" );
 }  
 }
 

@@ -3,7 +3,7 @@
 Plugin Name: oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-fields
 Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes
-Version: 1.32
+Version: 1.37
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
@@ -45,10 +45,15 @@ function oik_fields_init() {
   oik_require2( "includes/bw_fields.inc", "oik", "oik-fields" );
   $path = oik_path( "shortcodes/oik-fields.php", "oik-fields" );
   bw_add_shortcode( 'bw_field', 'bw_field', oik_path( "shortcodes/oik-field.php", "oik-fields"));
-  bw_add_shortcode( 'bw_fields', 'bw_metadata', $path );
-  bw_add_shortcode( 'bw_new', 'bw_new', oik_path( "shortcodes/oik-new.php", "oik-fields" ));
-  bw_add_shortcode( 'bw_related', 'bw_related', oik_path( "shortcodes/oik-related.php", "oik-fields" )); 
+  bw_add_shortcode( 'bw_fields', 'bw_metadata', $path, false );
+  bw_add_shortcode( 'bw_new', 'bw_new', oik_path( "shortcodes/oik-new.php", "oik-fields" ), false);
+  bw_add_shortcode( 'bw_related', 'bw_related', oik_path( "shortcodes/oik-related.php", "oik-fields" ), false ); 
   add_action( "bw_metadata", "oik_fields_bw_metadata" );
+  /**
+   * Inform plugins that oik-fields has been loaded
+   *
+   * Some plugins may choose to defer their initialization until they know that oik-fields is active.
+   */
   do_action( 'oik_fields_loaded' );
 }
 
@@ -71,6 +76,7 @@ function bw_get_field_data_arg( $field, $key, $default=true ) {
 
 /**
  * Return the array of field names for the selected post
+ *
  * @param ID $post_id 
  * @return array - registered field names for the post type
  */
@@ -92,6 +98,14 @@ function bw_get_field_names( $post_id ) {
  */
 function oik_fields_pre_theme_field() {
   oik_require( "includes/oik-fields.inc", "oik-fields" );
+}
+
+/**
+ * Implement "oik_pre_form_field" for oik_fields
+ */
+function oik_fields_pre_form_field() {
+  oik_fields_pre_theme_field();
+  oik_require( "includes/oik-form-fields.php", "oik-fields" );
 }
 
 /**
@@ -147,15 +161,19 @@ function oik_fields_admin_menu() {
  * oik-fields v1.19 now requires oik v2.1-alpha
  * oik-fields v1.20 is needed with oik v2.1-beta.0102 - this dependency checking is not yet developed.
  * oik-fields v1.31 has same code for bw_fields.inc as oik v2.1-beta.0121
+ * oik-fields v1.35 is dependent upon oik v2.2-beta
+ * oik-fields v1.36 is dependent upon oik v2.2
  */ 
 function oik_fields_activation() {
   static $plugin_basename = null;
   if ( !$plugin_basename ) {
     $plugin_basename = plugin_basename(__FILE__);
-    add_action( "after_plugin_row_" . $plugin_basename, __FUNCTION__ );   
-    require_once( "admin/oik-activation.php" );
+    add_action( "after_plugin_row_oik-fields/oik-fields.php", "oik_fields_activation" ); 
+    if ( !function_exists( "oik_plugin_lazy_activation" ) ) { 
+      require_once( "admin/oik-activation.php" );
+    }
   }  
-  $depends = "oik:2.1-alpha";
+  $depends = "oik:2.2";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
 }
 
@@ -217,13 +235,33 @@ function oik_fields_query_field_types( $field_types ) {
   $field_types['email'] = __( 'Email address' );
   $field_types['URL'] = __( 'URL - external link' );
   $field_types['checkbox'] = __( 'Check box' );
+  $field_types['virtual'] = __( 'Virtual' );
+  $field_types['sctext'] = __( 'Text with shortcodes' );
+  $field_types['sctextarea'] = __( 'Textarea with shortcodes' );
   return( $field_types );
 } 
+
+/**
+ * Return the meta_value to use - either the value of the current post or the value of a post meta field of type noderef
+ *
+ * @param string $meta_value - the specified meta_value 
+ * @returm ID - the post ID to use 
+ */
+function oik_fields_default_meta_value_meta_key( $meta_value ) {
+  $field_type = bw_query_field_type( $meta_value );
+  if ( $field_type == "noderef" ) {
+    $meta_value = get_post_meta( bw_global_post_id(), $meta_value, true ); 
+  } else {
+    bw_trace2( $meta_value, "defaulting meta_value" );
+    $meta_value = bw_global_post_id();
+  }
+  return( $meta_value );
+}
  
 /**
  * Implement "oik_default_meta_value_noderef" filter for noderef fields
  * 
- * @param string $meta_value - the given value for meta_value= parameter
+ * @param string $meta_value - the given value for meta_value= parameter - may be null
  * @param array $atts - other parameters
  * @return string $meta_value - default value if original was no good
  */ 
@@ -235,8 +273,7 @@ function oik_fields_default_meta_value_noderef( $meta_value, $atts ) {
   if ( is_numeric( $meta_value ) ) {
     // They seem to know what they're looking for 
   } else {
-    bw_trace2( $meta_value, "defaulting meta_value" );
-    $meta_value = bw_global_post_id();
+    $meta_value = oik_fields_default_meta_value_meta_key( $meta_value ); 
   }
   return( $meta_value );
 }  
@@ -253,6 +290,7 @@ function oik_fields_plugin_loaded() {
   add_filter( "bw_validate_functions", "oik_fields_validate_functions" );
   add_filter( "oik_query_field_types", "oik_fields_query_field_types" );
   add_filter( "oik_default_meta_value_noderef", "oik_fields_default_meta_value_noderef", 10, 2 );
+  add_action( "oik_pre_form_field", "oik_fields_pre_form_field" );
 }
 
 /**

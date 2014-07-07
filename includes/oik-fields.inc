@@ -193,6 +193,23 @@ function bw_theme_field_text( $key, $value ) {
 }
 
 /**
+ * Theme a field of type 'sctext' 
+ *
+ * Theme a field which may contain shortcodes
+ * e.g. _mbo_class - which may contain the [mbo] shortcode to book a class
+ *
+ * @param string $key - the field name
+ * @param array $value - the field value at index 0  
+ */
+function bw_theme_field_sctext( $key, $value ) {
+  if ( !empty( $value ) ) {
+    $text = bw_array_get( $value, 0, $value );
+    $text = bw_do_shortcode( $text );
+    e( $text );
+  }  
+}
+
+/**
  * Theme a field of type 'textarea' 
  *
  * @param string $key - the field name
@@ -202,6 +219,16 @@ function bw_theme_field_textarea( $key, $value ) {
   if ( !empty( $value ) ) {
     e( bw_array_get( $value, 0, $value ) );
   }  
+}
+
+/**
+ * Theme a field of type 'sctextarea' 
+ *
+ * @param string $key - the field name
+ * @param array $value - the field value at index 0  
+ */
+function bw_theme_field_sctextarea( $key, $value ) {
+  bw_theme_field_sctext( $key, $value );
 }
 
 /**
@@ -242,11 +269,104 @@ function bw_theme_field_checkbox( $key, $value ) {
 
 /**
  * Theme a field of type "taxonomy"
+ * 
+ * We should never get here since 'taxonomy' fields are handled differently from other fields.
+ * @See bw_format_taxonomy(), called from bw_metadata()
+ * 
+ * @TODO: It seems we do when the bw_new form is being processed. 
  */
 function bw_theme_field_taxonomy( $key, $value ) {
   bw_trace2();
   bw_backtrace();
-  gobang();
+  //gobang();
+}
 
+/**
+ * Obtain the parm values for the callback function
+ * 
+ * The parameters we pass to the callback function must be obtained from post_meta for the current post.
+ * For example for the callback function used to display the value of the virtual field _oik_sc_the_title_cb
+ * we need to obtain the value of the _oik_sc_code field to pass as the first parameter.
+ *
+ * @TODO Extend to support 'fieldref' fields as well, by using bw_query_fieldref_value()
+ *
+ * Note: The parms must be unique values... not multiple
+ */
+function bw_virtual_field_parm_values( $field ) { 
+  $args = $field['#args'];
+  $parms = bw_assoc( bw_as_array( bw_array_get( $args, "#parms", null ) ) );
+  $parm_values = array();
+  if ( count( $parms ) ) {
+    $post_id = bw_current_post_id();
+    foreach ( $parms as $parm ) {
+      $parm_values[] = get_post_meta( $post_id, $parm, true );
+    }
+  }
+  //bw_trace2( $post_id, "post id" );
+  //bw_trace2( $parm_values, "parm_values" );
+  return( $parm_values );
+}
+
+/**
+ * Load the callback function for a virtual field
+ *
+ * Example, the _oik_sc_the_title_cb virtual field is themed by the 
+ * #callback function bw_get_shortcode_expands_in_titles() 
+ * which is implemented in "#file" => "shortcodes/oik-codes.php"
+ * from "#plugin" => "oik"
+ *
+ * @param array $field - the definition of the field
+ * @return string - the callback name if successfully loaded
+ *
+ */
+function bw_load_callback( $field ) {
+  $args = $field['#args'];
+  $callback = bw_array_get( $args, "#callback", null );
+  if ( !is_callable( $callback ) ) {
+    $file = bw_array_get( $args, "#file", null );
+    $plugin = bw_array_get( $args, "#plugin", null );
+    $path = oik_path( $file, $plugin );
+    if ( file_exists( $path ) ) {
+      oik_require( $file, $plugin );
+    }  
+    if ( !is_callable( $callback ) ) {
+      $callback = "Missing callback for field"; 
+    }
+  }
+  return( $callback );  
+}  
+
+/**
+ * Theme a field of type 'virtual'
+ * 
+ * @param string $key
+ * @param mixed $value
+ * @param array $field
+ 
+   [2] => Array
+        (
+            [#field_type] => virtual
+            [#title] => Expands during 'the_title' processing?
+            [#args] => Array
+                (
+                    [#callback] => bw_get_shortcode_expands_in_titles
+                    [#parms] => _oik_sc_code
+                    [#plugin] => oik
+                    [#file] => shortcodes/oik-codes.php
+                )
+
+        )
+
+ */
+function bw_theme_field_virtual( $key, $value, $field ) {
+  //bw_trace2();
+  //bw_backtrace();
+  $parm_values = bw_virtual_field_parm_values( $field );
+  $funcname = bw_load_callback( $field );
+  if ( is_callable( $funcname ) ) {
+    e ( call_user_func_array( $funcname, $parm_values ) );
+  } else {
+    e( $funcname . $key );
+  }
 }
 

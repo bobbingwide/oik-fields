@@ -1,12 +1,12 @@
 # oik-fields 
-Contributors: bobbingwide
-Donate link: http://www.oik-plugins.com/oik/oik-donate/
-Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
-Requires at least: 3.5
-Tested up to: 3.8
-Stable tag: 1.32
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+* Contributors: bobbingwide
+* Donate link: http://www.oik-plugins.com/oik/oik-donate/
+* Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
+* Requires at least: 3.7
+* Tested up to: 3.9.1
+* Stable tag: 1.37
+* License: GPLv2 or later
+* License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 ## Description 
 Field formatting for custom post type (CPT) meta data, plus [bw_field], [bw_fields], [bw_new] and [bw_related] shortcodes
@@ -42,12 +42,29 @@ Display custom fields on the page, with labels and separators
 
 Display related content. Uses the field definition to determine the search criteria.
 Works for both noderef type fields and date fields ( using oik-dates )
+Now supports the format= parameter to display results using the same logic as [bw_pages]
 
 #### Actions and filter hooks 
 Invokes - calls using do_action() or apply_filters()
-* tbc
+* oik_fields_loaded
+
+The [bw_new] shortcode invokes the following filters:
+
+* "bw_field_validation_${field_type}"
+* "bw_field_validation_${field}"
+* "bw_validate_functions"
+* "oik_add_new_${post_type}"
+* "oik_add_new_format_${post_type}"
+* "oik_add_new_fields_${post_type}"
+* "oik_set_spam_fields_${post_type}"
+* "bw_form_functions", $fields );
+
+The [bw_related] shortcode invokes the following filters:
+
+* "oik_default_meta_value_${field_type}"
 
 Implements  - ie. responds to
+
 * "oik_default_meta_value_noderef" - determine the default meta_value for a noderef field type
 * the rest tbc
 
@@ -56,7 +73,7 @@ Implements  - ie. responds to
 1. Upload the contents of the oik-fields plugin to the `/wp-content/plugins/oik-fields' directory
 1. Activate the oik-fields plugin through the 'Plugins' menu in WordPress
 
-Note: oik-fields is dependent upon the oik base plugin
+* Note: oik-fields is dependent upon the oik base plugin
 
 # What is this plugin for? 
 This plugin, working in conjunction with include files from the oik base plugin, provides the support to display meta data associated with custom post types.
@@ -68,10 +85,13 @@ It provides basic support for the following types of field:
 * email
 * noderef
 * numeric
+* sctext - text field accepting shortcodes
+* sctextarea - text area field accepting shortcodes
 * select, including multi-select
 * text
 * textarea
 * URL
+* virtual
 
 Support is also provided for specific fields:
 
@@ -115,11 +135,36 @@ Yes - please use the standard WordPress forum - http://wordpress.org/tags/oik?fo
 # Can I get support? 
 Yes - see above
 
+# What are ._field_name and _node_ref?  
+
+For the tag= and category_name= parameters, the code for the [bw_related] shortcode
+will lookup the current value for the specified field and pass this as the value for the tag or category slug.
+
+* Use ._field_name when the field is directly attached to the current post.
+* Use _node_ref._field_name when the field is attached to the post referenced by the _node_ref field.
+
+# Can I use _node_ref._field_ref with [bw_fields] 
+Not yet. But supporting virtual fields ( field references aka field type 'fieldref') is a planned enhancement.
 
 ## Screenshots 
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 ## Upgrade Notice 
+# 1.37 
+Required for sites wanting to use shortcode expansion in fields in tables
+
+# 1.36 
+Required for oik-shortcodes v1.12 or higher
+
+# 1.35 
+Required for rngs.org.uk. Tested with WordPress 3.9-RC1
+
+# 1.34 
+Required for oik-plugins.com's use of [bw_related post_type=post tag=_field_name] in widgets
+
+# 1.33 
+Required for oik-plugins.com
+
 # 1.32 
 Required for officialcaravan.co.uk
 
@@ -166,6 +211,30 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 ## Changelog 
+# 1.37 
+* Added: sctext and sctextarea field types
+
+# 1.36 
+* Added: Custom taxonomy fields will be displayed by [bw_fields] shortcode
+* Added: Support for 'virtual' fields using dynamically loaded callback functions
+* Changed: Improved plugin dependency checking
+* Changed: Updated [bw_related] shortcode help and syntax
+* Changed: bw_fields, bw_new and bw_related shortcodes won't expand in 'the_title'
+
+# 1.35 
+* Added: [bw_related] now displays output as [bw_pages] when format= parameter is set
+* Tested: With WordPress 3.9-RC1
+* Changed: bw_query_related_fields() to attempt to find values for post_type and meta_key when neither parameter is set. Not ready for production.
+
+# 1.34 
+* Added: [bw_related tag=._field_name] and [bw_related tag=_node_ref._field_name] support
+* Added: [bw_related category_name=._field_name] and [bw_related category_name=_node_ref._field_name] support
+* Added: bw_query_taxonomy_value(), bw_query_fieldref_value() and bw_query_field_value()
+
+# 1.33 
+* Added: [bw_related meta_key=_this_field meta_value=_that_field] support
+* Changed: [bw_related] now defaults to post_parent=no
+
 # 1.32 
 * Fixed: Reinstated some logic for [bw_field] allowing display of a field without labels and separator
 * Changed: Now supports displaying post object properties.

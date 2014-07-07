@@ -7,7 +7,6 @@
  *
  * Here we have the original shortcode from post ID 401 which is an instance of an "oik_shortcode"
  *
- *  <h3>See also</h3>
  *  [bw_list post_type=shortcode_example meta_key=_sc_param_code meta_value=401]
  *
  * The lookup performed in bw_list is for posts of type "shortcode_example" with meta fields with a name of "_sc_param_code" that have a value of 401.
@@ -38,17 +37,124 @@
  * 
  */
 function bw_related( $atts=null, $content=null, $tag=null ) {
+  bw_trace2();
   oik_require( "shortcodes/oik-list.php" );
   oik_require( "includes/bw_posts.inc" );
   $post_type = bw_array_get( $atts, "post_type", null );
   $meta_key = bw_array_get( $atts, "meta_key", null );
-  if ( $post_type && $meta_key ) {
-    // they've specified the post type and meta_key so we don't have to look for it
+  $atts['post_parent'] = bw_array_get( $atts, 'post_parent', 'no' );
+  $tag = bw_array_get( $atts, "tag", null );
+  $category_name = bw_array_get( $atts, "category_name", null );
+  if ( $tag ) {
+    $atts['tag'] = bw_query_taxonomy_value( $tag ); 
+  } elseif ( $category_name ) {
+    $atts['category_name'] = bw_query_taxonomy_value( $category_name );  
   } else {
-    $meta_key = bw_query_related_fields( $atts );
+    if ( $post_type && $meta_key ) {
+      // they've specified the post type and meta_key so we don't have to look for it
+    } else {
+      $meta_key = bw_query_related_fields( $atts );
+    }
+    $atts['meta_value'] = bw_related_meta_value( $atts, $meta_key );
+  } 
+  $format = bw_array_get( $atts, "format", null );
+  if ( $format ) {
+    oik_require( "shortcodes/oik-pages.php" );
+    $result = bw_pages( $atts );
+  } else {
+    $result = bw_list( $atts ); 
+  }  
+  return( $result );  
+}
+
+/**
+ * Determine the tag or category value to use if the given value is not a tag or category slug
+ * 
+ * The rules for tag and category slugs are... that they are usually all lowercase and contains only letters, numbers, and hyphens.
+ * So if we find a period then we can consider it to be a field reference
+ * 
+ * But we need to convert the field value into a tag slug! 
+ *
+ * Note: If the tag is numeric or comma separated then we'll not do any lookup
+ *
+ * 
+ */
+function bw_query_taxonomy_value( $fieldorvalue ) {
+  $dotpos = strpos( $fieldorvalue, "." );
+  bw_trace2( $dotpos, "dotpos");
+  if ( false !== $dotpos ) {
+    if ( $dotpos ) {
+      // lookup field from noderef - bw_query_fieldref_value
+      //
+      $value = bw_query_fieldref_value( $fieldorvalue );
+    } else {
+      // get_post_meta if a field name follows
+      //
+      // 
+      $field_name = substr( $fieldorvalue, 1 );
+      
+  bw_trace2( $field_name, "field_name");
+      
+      if ( $field_name ) {
+        $value = bw_query_field_value( $field_name );
+      } else {
+        // or get the current tags as in bw_get_posts() **?** @TODO
+        $value = null;
+      }
+    }
+    
+  } else {
+    $value = $fieldorvalue;
   }
-  $atts['meta_value'] = bw_related_meta_value( $atts, $meta_key );
-  return( bw_list( $atts ) );  
+  bw_trace2( $value, "value" );
+  return( $value );
+}
+
+/**
+ * Return the field value for the given fieldref
+ * 
+ * Lookup the noderef then access the field value for that noderef
+ * Assumptions:
+ * - The fields are single fields
+ * - the noderef is a noderef field for the current post
+ * - the field_name is a value field in the target_post
+ *
+ * @param string $fieldref in format _node_ref._field_ref
+ * @param ID $post_id - post ID, if not the global post
+ * @return string - the value or null
+ */
+if ( !function_exists( "bw_query_fieldref_value" ) ) { 
+function bw_query_fieldref_value( $fieldref, $post_id=null ) {
+  list( $noderef_name, $field_name ) = explode( ".", $fieldref ); 
+  $target_post = bw_query_field_value( $noderef_name, $post_id );
+  if ( $target_post ) {
+    $value = bw_query_field_value( $field_name, $target_post );
+  } else {
+    $value = null;
+  }
+  return( $value );   
+}
+}
+
+/**
+ * Return the field value for the given post
+ *
+ * @TODO: Cater for object properties
+ * @TODO: Cater for multiple values
+ *
+ * @param string $field_name e.g. _oikp_slug 
+ * @param ID $post_id - post ID, if not the global post
+ * @return string - the value or null
+ *  
+ */
+if ( !function_exists( "bw_query_field_value" ) ) { 
+function bw_query_field_value( $field_name, $post_id=null ) {
+  if ( null == $post_id ) {
+    $post_id = bw_global_post_id();
+  }  
+  $value = get_post_meta( $post_id, $field_name, true );
+  return( $value );
+}
 }
 
 /**
@@ -98,6 +204,7 @@ function bw_related_meta_value( $atts, $meta_key ) {
  *  
  */ 
 function bw_check_noderef_types( $post_types, $post_type ) {
+  //bw_trace2();
   if ( is_array( $post_types ) ) { 
     $found = bw_array_get( $post_types, $post_type, false );
   } else {
@@ -128,13 +235,21 @@ function bw_check_noderef_types( $post_types, $post_type ) {
  * #field_type = noderef
  * #args #type = oik_shortcodes == $current_post_type
  * 
+ * Note: for some post types  (e.g. shortcode_examples ) the noderef points to a 
+ * so we need to determine the meta key differently... the first noderef for the post type
  * 
  *  
  * @param string $current_post_type - post type we're finding references to
  * @param string $post_type - target post type or null
+ * 
+ * @TODO - this logic does not use the $post_type parameter but there are instances where it's passed in as if it should have been used. 
+ * Need to reconsider what we're actually trying to achieve and how to achieve it **?** 
+ * 
  */
 function bw_query_field( $current_post_type, $post_type=null ) {
+  //bw_trace2();
   global $bw_fields;
+  global $bw_mapping;
   $meta_key = null;
   //bw_trace2( $bw_fields, "fields" );
   //bw_trace2( $bw_mapping, "mapping" );
@@ -166,7 +281,28 @@ function bw_query_post_type( $current_post_type, $meta_key ) {
   $post_type = 'any';
   bw_trace2( $post_type, "post_type" );
   return( $post_type );
-}   
+}
+
+/**
+ * Query post type and meta key for performing a bw_related
+ *
+ */  
+function bw_query_post_type_and_meta_key( $atts ) {
+   
+      $gpt = bw_global_post_type();
+      if ( $gpt ) {
+        $meta_key = bw_query_field( $gpt );
+        if ( $meta_key ) {
+          bw_trace2( $meta_key, "meta_key for global post type $gpt" );
+          $post_type = bw_query_post_type( $gpt, $meta_key ); 
+        } else {
+         gobang(); 
+        } 
+      } else {
+        gobanh();
+      }
+      return( array( $post_type, $meta_key ) );
+}  
   
 /** 
  * Determine what we should be listing based on the current post
@@ -174,8 +310,11 @@ function bw_query_post_type( $current_post_type, $meta_key ) {
  * @param array $atts - array of shortcode parameters
  *
  * post_type  meta_key   action
+ * ---------  --------   -----------------------------------------------
  * set        set        n/a - this function should not have been called
- * set        null       find 
+ * set        null       find tbc
+ * null       set        tbc 
+ * null       null       
  * @TODO tbc
  */  
 function bw_query_related_fields( &$atts) {
@@ -189,8 +328,8 @@ function bw_query_related_fields( &$atts) {
       $post_type = bw_query_post_type( bw_global_post_type(), $meta_key ); 
     } else {
       // Neither set 
-      $meta_key = bw_query_field( bw_global_post_type() );
-      $post_type = bw_query_post_type( bw_global_post_type(), $meta_key ); 
+      list( $post_type, $meta_key ) = bw_query_post_type_and_meta_key( $atts ); 
+      //$meta_key = ?;
     }
   }
   $atts['post_type'] = $post_type;
@@ -200,23 +339,28 @@ function bw_query_related_fields( &$atts) {
 
                                          
 function bw_related__help( $shortcode="bw_related" ) {
-  return( __( "Display links to related content", "oik-bob-bing-wide" ) );
+  return( __( "Display related content", "oik-fields" ) );
 }
 
 /*
  * Syntax help for [bw_related] shortcode
  *
- * Note: the expected parameters for this shortcode are:
+ * Note: the <i>expected</i> parameters for this shortcode include:
  * post_type= post type(s) to be listed
- * meta_key = the name of noderef field that refers to this post's type
+ * meta_key = the name of noderef field that refers to this post's type or the date field when searching by date
+ * meta_value = the value we're looking for
+ * meta_compare = used with dates
  * 
  * You may want to add other parameters to further qualify the lookup. 
+ * Use the format= parameter to have output displayed using same logic as [bw_pages]
+ * If not specified the output is formatted using [bw_list] logic
  */
 function bw_related__syntax( $shortcode="bw_related" ) {
   $syntax = _sc_posts(); 
   $syntax = array( "post_type" => bw_skv( null, "<i>post type</i>", "Related post type" )
                  , "meta_key" => bw_skv( null, "<i>meta key</i>", "name of noderef field" )
                  , "meta_value" => bw_skv( null, "<i>meta value</i>", "the default value depends on the field type" )
+                 , "format" => bw_skv( null, "<i>format string</i>", "field format string" )
                  );
   return( $syntax );
 } 
