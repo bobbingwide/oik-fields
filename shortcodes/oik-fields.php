@@ -21,7 +21,7 @@ function bw_metadata( $atts=null, $content=null, $tag=null ) {
   $post_id = bw_array_get_dcb( $atts, "id", null, "bw_current_post_id" );
   //bw_backtrace();
   //p( "Fields for $post_id "); 
-  $name = bw_array_get( $atts, "fields", NULL );
+  $name = bw_array_get_from( $atts, "fields,0", NULL );
   if ( null == $name ) {
     $names = bw_get_field_names( $post_id );
     
@@ -54,7 +54,7 @@ function bw_metadata( $atts=null, $content=null, $tag=null ) {
       }  
     }
   } else {
-    p( "Invalid use of $tag. No field names to process for $post_id" );
+    bw_trace2( "Invalid use of $tag. No field names to process for $post_id" );
   }
   return( bw_ret() );
 }
@@ -74,7 +74,7 @@ function bw_fields__help( $shortcode="bw_fields" ) {
  *
  */
 function bw_fields__syntax( $shortcode="bw_fields" ) {
-  $syntax = array( "fields" => bw_skv( null, "<i>field names</i>", "CSV list of field names. Default: all registered fields" )
+  $syntax = array( "fields,0" => bw_skv( null, "<i>field names</i>", "CSV list of field names. Default: all registered fields" )
                  , "id" => bw_skv( null, "<i>ID</i>", "Post ID to use to access the fields" )
                  ); 
   return( $syntax );

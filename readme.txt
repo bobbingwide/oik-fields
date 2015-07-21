@@ -2,9 +2,9 @@
 Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
-Requires at least: 3.7
-Tested up to: 4.0-beta2
-Stable tag: 1.38
+Requires at least: 3.9
+Tested up to: 4.0-beta4
+Stable tag: 1.39
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,6 +104,8 @@ Support is also provided for specific fields:
 Virtual fields provided:
 * file_size  - display the file size in bytes of an attachment
 * dimensions - display the width and height of an attached image
+* featured   - the featured image is the full size image
+* thumbnail  - the thumbnail sized version of the featured image
 
 
 = What other field types are there? =
@@ -112,7 +114,7 @@ The following field types are provided by the plugins listed below:
 * mshot  - oik-mshot
 * rating  - oik-rating
 * userref - oik-user
-* date/time/timestamp - oik-dates  - currently in prototype
+* date/time/timestamp - oik-dates 
 
 = What is oik-fields dependent upon? =
 This plugin is dependent upon the oik base plugin. It specifically includes the following files:
@@ -129,6 +131,9 @@ You can control these using two values in the options array
 
  '#theme' => false - if you don't want the field displayed by [bw_fields]
  '#form' => false - if you don't want the form field displayed by [bw_new]
+ 
+If you don't want the field's label to be displayed by [bw_fields] add:
+ '#label' => false
 
   
 == Frequently Asked Questions ==
@@ -150,12 +155,15 @@ will lookup the current value for the specified field and pass this as the value
 * Use _node_ref._field_name when the field is attached to the post referenced by the _node_ref field. 
 
 = Can I use _node_ref._field_ref with [bw_fields] =
-Not yet. But supporting virtual fields ( field references aka field type 'fieldref') is a planned enhancement.
+Not yet. But supporting 'fieldref' fields ( field references aka field type 'fieldref') is a planned enhancement.
 
 == Screenshots ==
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 == Upgrade Notice ==
+= 1.39 = 
+Added more virtual fields and by= parameter for [bw_related]. Tested with WordPress 4.0-beta4
+
 = 1.38 =
 For anyone wanting to use virtual fields. Tested with WordPress 4.0-beta2
 
@@ -220,6 +228,12 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+* Added: featured and thumbnail virtual fields
+* Added: by=noderef_field for [bw_related] to show posts linked via the named noderef_field
+* Added: #label arg. Set to false when you don't want the field label or separator to be displayed when using [bw_fields]
+* Changed: [bw_field] and [bw_fields] now issue "Invalid use of $tag. No fields to process for $post_id" to trace output only
+* Changed: [bw_field] and [bw_fields] accept the field names as the first unnamed parameter.
+
 = 1.38 =
 * Added: file_size and dimensions virtual fields
 * Changed: Invokes "oik_fields_loaded" with priority 9 to define virtual fields before other plugins

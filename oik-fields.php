@@ -2,8 +2,8 @@
 /*
 Plugin Name: oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-fields
-Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes
-Version: 1.38
+Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes, and 'virtual' fields
+Version: 1.39
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
@@ -110,7 +110,10 @@ function oik_fields_pre_form_field() {
 }
 
 /**
- * Implement "bw_validate_functions" filter for oik-fields 
+ * Implement "bw_validate_functions" filter for oik-fields   
+ *
+ * @param array $fields - array of fields
+ * @return filtered array of fields
  */
 function oik_fields_validate_functions( $fields ) {
   oik_require( "includes/oik-fields-validation.php", "oik-fields" );
@@ -164,6 +167,7 @@ function oik_fields_admin_menu() {
  * oik-fields v1.31 has same code for bw_fields.inc as oik v2.1-beta.0121
  * oik-fields v1.35 is dependent upon oik v2.2-beta
  * oik-fields v1.36 is dependent upon oik v2.2
+ * oik-fields v1.39 has been tested with oik v2.3 but does not require it
  */ 
 function oik_fields_activation() {
   static $plugin_basename = null;
@@ -226,6 +230,9 @@ function oik_fields_bw_metadata( $post_id ) {
  * or can be registered as a virtual field of a post type
  * For example the "_file_size" virtual field could be applied to an attachment such as a PDF
  *
+ * The "featured" image is the full size image
+ * The "thumbnail" is the thumbnail sized version of the featured image
+ *
  */
 function oik_fields_oik_fields_loaded() {
   $field_args = array( "#callback" => "bw_fields_get_file_size"
@@ -245,6 +252,19 @@ function oik_fields_oik_fields_loaded() {
                      , "#hint" => "virtual field"
                      ); 
   bw_register_field( "dimensions", "virtual", "Dimensions", $field_args );
+  
+  $field_args = array( "#callback" => "bw_fields_get_featured_image"
+                     , "#parms" => "_thumbnail_id" 
+                     , "#plugin" => "oik-fields"
+                     , "#file" => "includes/oik-fields-virtual.php"
+                     , "#form" => false
+                     , "#hint" => "virtual field"
+                     , "#label" => false
+                     ); 
+  bw_register_field( "featured", "virtual", "Featured image", $field_args );
+  
+  $field_args[ "#callback" ] = "bw_fields_get_thumbnail";
+  bw_register_field( "thumbnail", "virtual", "Thumbnail", $field_args );
 } 
 
 /**

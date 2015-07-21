@@ -45,10 +45,15 @@ function bw_related( $atts=null, $content=null, $tag=null ) {
   $atts['post_parent'] = bw_array_get( $atts, 'post_parent', 'no' );
   $tag = bw_array_get( $atts, "tag", null );
   $category_name = bw_array_get( $atts, "category_name", null );
+  $by = bw_array_get( $atts, "by", null );
   if ( $tag ) {
     $atts['tag'] = bw_query_taxonomy_value( $tag ); 
   } elseif ( $category_name ) {
     $atts['category_name'] = bw_query_taxonomy_value( $category_name );  
+  } elseif ( $by ) {
+    $ids = bw_query_field_values( $by ); 
+    $atts['post__in'] = bw_array_get_unkeyed( $ids );
+    unset( $atts['by'] );
   } else {
     if ( $post_type && $meta_key ) {
       // they've specified the post type and meta_key so we don't have to look for it
@@ -153,6 +158,26 @@ function bw_query_field_value( $field_name, $post_id=null ) {
     $post_id = bw_global_post_id();
   }  
   $value = get_post_meta( $post_id, $field_name, true );
+  return( $value );
+}
+}
+
+/**
+ * Return the field values for the given post
+ *
+ * @TODO: Cater for object properties
+ *
+ * @param string $field_name e.g. _oikp_slug 
+ * @param ID $post_id - post ID, if not the global post
+ * @return string - the value or null
+ *  
+ */
+if ( !function_exists( "bw_query_field_values" ) ) { 
+function bw_query_field_values( $field_name, $post_id=null ) {
+  if ( null == $post_id ) {
+    $post_id = bw_global_post_id();
+  }  
+  $value = get_post_meta( $post_id, $field_name, false );
   return( $value );
 }
 }
@@ -286,26 +311,31 @@ function bw_query_post_type( $current_post_type, $meta_key ) {
 /**
  * Query post type and meta key for performing a bw_related
  *
+ * @TODO - complete this code! 
+ * 
  */  
 function bw_query_post_type_and_meta_key( $atts ) {
-   
-      $gpt = bw_global_post_type();
-      if ( $gpt ) {
-        $meta_key = bw_query_field( $gpt );
-        if ( $meta_key ) {
-          bw_trace2( $meta_key, "meta_key for global post type $gpt" );
-          $post_type = bw_query_post_type( $gpt, $meta_key ); 
-        } else {
-         gobang(); 
-        } 
-      } else {
-        gobanh();
-      }
-      return( array( $post_type, $meta_key ) );
+  $post_type = null;
+  $meta_key = null;
+  $gpt = bw_global_post_type();
+  if ( $gpt ) {
+    $meta_key = bw_query_field( $gpt );
+    if ( $meta_key ) {
+      bw_trace2( $meta_key, "meta_key for global post type $gpt" );
+      $post_type = bw_query_post_type( $gpt, $meta_key ); 
+    } else {
+     //gobang(); 
+    } 
+  } else {
+    //gobanh();
+  }
+  return( array( $post_type, $meta_key ) );
 }  
   
 /** 
  * Determine what we should be listing based on the current post
+ * 
+ * @TODO tbc
  * 
  * @param array $atts - array of shortcode parameters
  *
@@ -314,8 +344,7 @@ function bw_query_post_type_and_meta_key( $atts ) {
  * set        set        n/a - this function should not have been called
  * set        null       find tbc
  * null       set        tbc 
- * null       null       
- * @TODO tbc
+ * null       null       tbc
  */  
 function bw_query_related_fields( &$atts) {
   $post_type = bw_array_get( $atts, "post_type", null );
@@ -350,6 +379,8 @@ function bw_related__help( $shortcode="bw_related" ) {
  * meta_key = the name of noderef field that refers to this post's type or the date field when searching by date
  * meta_value = the value we're looking for
  * meta_compare = used with dates
+ * OR
+ * by = the name of a noderef field attached to this post. 
  * 
  * You may want to add other parameters to further qualify the lookup. 
  * Use the format= parameter to have output displayed using same logic as [bw_pages]
@@ -361,6 +392,7 @@ function bw_related__syntax( $shortcode="bw_related" ) {
                  , "meta_key" => bw_skv( null, "<i>meta key</i>", "name of noderef field" )
                  , "meta_value" => bw_skv( null, "<i>meta value</i>", "the default value depends on the field type" )
                  , "format" => bw_skv( null, "<i>format string</i>", "field format string" )
+                 , "by" => bw_skv( null, "<i>noderef field</i>", "name of a noderef field" )
                  );
   return( $syntax );
 } 

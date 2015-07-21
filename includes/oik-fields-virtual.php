@@ -39,4 +39,36 @@ function bw_fields_get_dimensions( $wp_attachment_metadata ) {
   } 
   return( $dimensions );
 }
+
+/**
+ * Return a featured image
+ * 
+ * @param ID $thumbnail_id - the ID of the post's thumbnail image
+ * @return full size featured image
+ */
+function bw_fields_get_featured_image( $thumbnail_id ) {
+  $thumbnail =  wp_get_attachment_image_src( $thumbnail_id, "full" ) ;
+  if ( $thumbnail ) {
+    $thumbnail = retimage( "featured", $thumbnail[0] );
+  }
+  bw_trace2( $thumbnail );
+  return( $thumbnail);
+}
+
+
+
+/**
+ * Return the thumbnail for the featured image
+ * 
+ * @param ID $thumbnail_id - the ID of the post's thumbnail image
+ * @return thumbnail sized featured image
+ */
+function bw_fields_get_thumbnail( $thumbnail_id ) {
+  $thumbnail =  wp_get_attachment_image_src( $thumbnail_id, "thumbnail" ) ;
+  if ( $thumbnail ) {
+    $thumbnail = retimage( "thumbnail", $thumbnail[0] );
+  }
+  bw_trace2( $thumbnail );
+  return( $thumbnail);
+}
  
