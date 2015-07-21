@@ -3,7 +3,7 @@
 Plugin Name: oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-fields
 Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes
-Version: 1.37
+Version: 1.38
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
@@ -49,6 +49,7 @@ function oik_fields_init() {
   bw_add_shortcode( 'bw_new', 'bw_new', oik_path( "shortcodes/oik-new.php", "oik-fields" ), false);
   bw_add_shortcode( 'bw_related', 'bw_related', oik_path( "shortcodes/oik-related.php", "oik-fields" ), false ); 
   add_action( "bw_metadata", "oik_fields_bw_metadata" );
+  add_action( "oik_fields_loaded", "oik_fields_oik_fields_loaded", 9 );
   /**
    * Inform plugins that oik-fields has been loaded
    *
@@ -217,6 +218,34 @@ function oik_fields_bw_metadata( $post_id ) {
   oik_require( "shortcodes/oik-fields.php", "oik-fields" );
   e( bw_metadata( $atts ) );
 }
+
+/**
+ * Implement "oik_fields_loaded" action for oik-fields
+ *
+ * Here we register the virtual fields that may be used directly in the bw_fields shortcode
+ * or can be registered as a virtual field of a post type
+ * For example the "_file_size" virtual field could be applied to an attachment such as a PDF
+ *
+ */
+function oik_fields_oik_fields_loaded() {
+  $field_args = array( "#callback" => "bw_fields_get_file_size"
+                     , "#parms" => "_wp_attached_file" 
+                     , "#plugin" => "oik-fields"
+                     , "#file" => "includes/oik-fields-virtual.php"
+                     , "#form" => false
+                     , "#hint" => "virtual field"
+                     ); 
+  bw_register_field( "file_size", "virtual", "File size", $field_args );
+  
+  $field_args = array( "#callback" => "bw_fields_get_dimensions"
+                     , "#parms" => "_wp_attachment_metadata" 
+                     , "#plugin" => "oik-fields"
+                     , "#file" => "includes/oik-fields-virtual.php"
+                     , "#form" => false
+                     , "#hint" => "virtual field"
+                     ); 
+  bw_register_field( "dimensions", "virtual", "Dimensions", $field_args );
+} 
 
 /**
  * Implement "oik_query_field_types" to return the field types supported by oik-fields

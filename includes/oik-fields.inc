@@ -23,8 +23,8 @@ function bw_theme_field_currency( $key, $value ) {
  *
  */
 function bw_theme_field_numeric( $key, $value ) {
-  bw_backtrace();
-  bw_trace2( $value, "numeric field $key" );
+  //bw_backtrace();
+  //bw_trace2( $value, "numeric field $key" );
   if ( empty( $value ) ) {
     e( "" );
   } else {   
@@ -143,8 +143,8 @@ function bw_return_field_select( $key, $value, $field ) {
  * @param array $field - the information about the field
  */
 function bw_theme_field_noderef( $key, $value, $field ) {
-  bw_trace2();
-  bw_backtrace();
+  //bw_trace2();
+  //bw_backtrace();
   $multiple = bw_array_get( $field['#args'], "#multiple", false );
   if ( $multiple ) {
     if ( is_array( $value ) && count( $value ) ) {

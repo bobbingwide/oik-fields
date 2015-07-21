@@ -3,8 +3,8 @@ Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 Requires at least: 3.7
-Tested up to: 3.9.1
-Stable tag: 1.37
+Tested up to: 4.0-beta2
+Stable tag: 1.38
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,7 @@ The [bw_related] shortcode invokes the following filters:
 Implements  - ie. responds to 
 
 * "oik_default_meta_value_noderef" - determine the default meta_value for a noderef field type
+* "oik_fields_loaded" - define some standard virtual fields
 * the rest tbc
 
 
@@ -99,6 +100,11 @@ Support is also provided for specific fields:
 * post_content
 * excerpt
 * bw_header_image
+
+Virtual fields provided:
+* file_size  - display the file size in bytes of an attachment
+* dimensions - display the width and height of an attached image
+
 
 = What other field types are there? =
 The following field types are provided by the plugins listed below:
@@ -150,6 +156,9 @@ Not yet. But supporting virtual fields ( field references aka field type 'fieldr
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 == Upgrade Notice ==
+= 1.38 =
+For anyone wanting to use virtual fields. Tested with WordPress 4.0-beta2
+
 = 1.37 =
 Required for sites wanting to use shortcode expansion in fields in tables
 
@@ -211,6 +220,12 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.38 =
+* Added: file_size and dimensions virtual fields
+* Changed: Invokes "oik_fields_loaded" with priority 9 to define virtual fields before other plugins
+* Changed: Commented out some trace calls
+* Added: File includes/oik-fields-virtual.php contains the file_size and dimensions virtual fields
+
 = 1.37 =
 * Added: sctext and sctextarea field types
 
