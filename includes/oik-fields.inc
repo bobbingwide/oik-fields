@@ -169,13 +169,18 @@ function bw_theme_field_noderef( $key, $value, $field ) {
 /**
  * Theme a field of type 'URL'
  *
+ * Display a link to the given URL.
+ * @TODO Assume an http:// prefix a la bw_link 
+ *
  * @param string $key - the field name
  * @param array $value - the field value at index 0
  */ 
 function bw_theme_field_URL( $key, $value ) {
   $v0 = bw_array_get( $value, 0, $value );
   if ( $v0 ) {
-    $link = retlink( null, $v0, $v0 );
+    oik_require( "shortcodes/oik-link.php" );
+    $url = bw_link_url( $v0, null );
+    $link = retlink( null, $url, $v0 );
     e( $link );
   }  
 }
