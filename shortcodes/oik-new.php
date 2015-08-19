@@ -591,7 +591,7 @@ function bw_add_new_format_default() {
  * Similar to bw_get_field_names() this gets the names of the fields to be displayed on the "Add new" form
  *
  * @param string $post_type - the post_type to find fields for
- * @return array $names - thhe array of registered fields for the post_type
+ * @return array $names - the array of registered fields for the post_type
  *  
  */
 function bw_add_new_fields_defaults( $post_type ) {

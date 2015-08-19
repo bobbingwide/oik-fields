@@ -37,7 +37,9 @@
  * 
  */
 function bw_related( $atts=null, $content=null, $tag=null ) {
-  bw_trace2();
+  //bw_trace2();
+  //bw_backtrace();
+  
   oik_require( "shortcodes/oik-list.php" );
   oik_require( "includes/bw_posts.inc" );
   $post_type = bw_array_get( $atts, "post_type", null );
@@ -216,6 +218,7 @@ function bw_related_meta_value( $atts, $meta_key ) {
   $field_type = bw_query_field_type( $meta_key );
   bw_trace2( $field_type, "field_type" );
   $meta_value = apply_filters( "oik_default_meta_value_${field_type}", $meta_value, $atts );
+  //bw_trace2( $meta_value, "meta_value" );
   return( $meta_value ); 
 }   
 
