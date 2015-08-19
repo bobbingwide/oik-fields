@@ -3,12 +3,16 @@
 Plugin Name: oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-fields
 Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes, and 'virtual' fields
-Version: 1.39
+Depends: oik base plugin
+Version: 1.40
 Author: bobbingwide
-Author URI: http://www.bobbingwide.com
-License: GPL2
+Author URI: http://www.oik-plugins.com/author/bobbingwide
+Text Domain: oik-fields
+Domain Path: /languages/
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-    Copyright 2011-2014 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2011-2015 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -38,6 +42,7 @@ License: GPL2
  * 
  * Note: In oik-fields version 1.18 the bw_theme_field() function was implemented in the wrong place. 
  * In version 1.19 we deliver the include file ( includes/bw_fields.inc ) in both oik and oik-fields, expecting to load it from the oik base plugin.
+ * In version 1.40 and oik v2.3 we're still delivering the file in two places.
  */
 function oik_fields_init() {
   oik_require( "includes/bw_register.inc" );
@@ -50,12 +55,32 @@ function oik_fields_init() {
   bw_add_shortcode( 'bw_related', 'bw_related', oik_path( "shortcodes/oik-related.php", "oik-fields" ), false ); 
   add_action( "bw_metadata", "oik_fields_bw_metadata" );
   add_action( "oik_fields_loaded", "oik_fields_oik_fields_loaded", 9 );
+  ///add_filter( 'no_texturize_shortcodes', "oik_fields_no_texturize_shortcodes" );
+  //remove_filter( 'the_content', 'wptexturize' );
   /**
    * Inform plugins that oik-fields has been loaded
    *
    * Some plugins may choose to defer their initialization until they know that oik-fields is active.
    */
   do_action( 'oik_fields_loaded' );
+}
+
+/**
+ * Implement "no_texturize_shortcodes" for oik-fields
+ *
+ * With WordPress 3.9.2 it was possible to pass a parameter of meta_compare=">=" to the [bw_related] shortcode
+ * In WordPress 4.0 the wptexturize logic converted the quotes to HTML entities
+ * which prevented the shortcode from being parsed correctly.
+ * 
+ * This logic somehow prevents the 'messing up', which I believe was unintentional... i.e. a bug.
+ *
+ * @param array - array of shortcodes that should not be texturized
+ * @return array - as before with bw_related added
+ */
+function oik_fields_no_texturize_shortcodes( $shortcodes ) {
+  //gobang();
+  $shortcodes[] = "bw_related";
+  return( $shortcodes );
 }
 
 /**
@@ -194,7 +219,7 @@ function oik_fields_activation() {
  */
 function oik_fields_field_functions( $fields ) {
   $fields['_'] = "bw_field_function_fields"; 
-  bw_trace2();
+  //bw_trace2( $fields, "fields");
   return( $fields ); 
 }
 
@@ -206,7 +231,7 @@ function oik_fields_field_functions( $fields ) {
  * e.g. [ bw_pages format="T _" fields="_dtib_rating" ]
  */
 function bw_field_function_fields( $post, &$atts, $f ) {
-  // bw_trace2();
+  //bw_trace2();
   $atts['id'] = $post->ID;
   oik_require( "shortcodes/oik-fields.php", "oik-fields" );
   e( bw_metadata( $atts ) );

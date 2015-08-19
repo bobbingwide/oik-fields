@@ -9,6 +9,11 @@
  * 
  * @TODO resolve quandary - when the field names are specified are we allowed to override the #theme setting? ie. Ignore #theme => false ?
  * Answer: For "taxonomy" type fields the #theme setting may not be defined. BUT these fields have to be specified separately anyway.
+ 
+ * @TODO decide best way to deal with nested usage of this shortcode or multiple usage of this shortcode
+ * when the post we're trying to process is different from the main post. 
+ * This happens when we are combining information from multiple posts into one output. 
+ * Current solution is to not produce anything, not even 'Not single'
  * 
  * @param array $atts - shortcode parameters
  * @param string $content - not expected
@@ -17,44 +22,61 @@
  * 
  */
 function bw_metadata( $atts=null, $content=null, $tag=null ) {
-  //bw_trace2( );
-  $post_id = bw_array_get_dcb( $atts, "id", null, "bw_current_post_id" );
-  //bw_backtrace();
-  //p( "Fields for $post_id "); 
-  $name = bw_array_get_from( $atts, "fields,0", NULL );
-  if ( null == $name ) {
-    $names = bw_get_field_names( $post_id );
-    
-  } else {
-    $name = wp_strip_all_tags( $name, TRUE );
-    $names = explode( ",", $name );
-    
-  }
-  if ( count( $names ) ) {
-    //oik_require( "bobbforms.inc" );
-    foreach ( $names as $name ) {
-      if ( bw_get_field_data_arg( $name, "#theme", true ) ) {
+  $post_id = bw_array_get( $atts, "id", null );
+  if ( $post_id ) {
+    $single = true;
+  } else { 
+    $post_id = bw_current_post_id();
+    if ( $post_id === bw_global_post_id() ) {
+      $single = true;
+    } else {
+      $single = is_single( $post_id );
       
-        /**
-         * We have to cater for "taxonomy" fields as well
-         */
-        $type = bw_query_field_type( $name );
-        if ( $type === "taxonomy" ) {
-          // bw_custom_column_taxonomy( $name, $post_id );
-          bw_format_taxonomy( $name, $post_id );
-        } else { 
-          //bw_custom_column_post_meta( $column, $post_id );
-          $post_meta = get_post_meta( $post_id, $name, FALSE );
-          bw_trace2( $post_meta );
-          $customfields = array( $name => $post_meta ); 
-          bw_format_meta( $customfields );
+    }   
+  }
+    
+  bw_trace2( );
+  bw_backtrace();
+  if ( $single ) {
+    //bw_backtrace();
+    //p( "Fields for $post_id "); 
+    $name = bw_array_get_from( $atts, "fields,0", NULL );
+    if ( null == $name ) {
+      $names = bw_get_field_names( $post_id );
+      
+    } else {
+      $name = wp_strip_all_tags( $name, TRUE );
+      $names = explode( ",", $name );
+      
+    }
+    if ( count( $names ) ) {
+      //oik_require( "bobbforms.inc" );
+      foreach ( $names as $name ) {
+        if ( bw_get_field_data_arg( $name, "#theme", true ) ) {
+        
+          /**
+           * We have to cater for "taxonomy" fields as well
+           */
+          $type = bw_query_field_type( $name );
+          if ( $type === "taxonomy" ) {
+            // bw_custom_column_taxonomy( $name, $post_id );
+            bw_format_taxonomy( $name, $post_id );
+          } else { 
+            //bw_custom_column_post_meta( $column, $post_id );
+            $post_meta = get_post_meta( $post_id, $name, FALSE );
+            bw_trace2( $post_meta );
+            $customfields = array( $name => $post_meta ); 
+            bw_format_meta( $customfields );
+          }  
+        } else {
+          bw_theme_object_property( $post_id, $name, $atts );
         }  
-      } else {
-        bw_theme_object_property( $post_id, $name, $atts );
-      }  
+      }
+    } else {
+      bw_trace2( "Invalid use of $tag. No field names to process for $post_id" );
     }
   } else {
-    bw_trace2( "Invalid use of $tag. No field names to process for $post_id" );
+    //e( "Not single" );
   }
   return( bw_ret() );
 }

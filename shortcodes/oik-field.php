@@ -7,7 +7,7 @@
  * Built from bw_metadata() to re-introduce support for [bw_field name=field] which was used by oik-tunes when creating an oik-track
  * 
  * Since "name" is used by get_posts() we had to change [bw_pages] to use fields= rather than name= when specifying which fields to format. 
- * We also changed [bw_fields] to be consisten but discovered a problem 10 months later which we're now addressing by creating 
+ * We also changed [bw_fields] to be consistent but discovered a problem 10 months later which we're now addressing by creating 
  * a separate function for [bw_field]. 
  * We will also (re)introduce logic to not display the label and separator by default for bw_field. 
  * 
