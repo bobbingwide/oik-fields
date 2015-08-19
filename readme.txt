@@ -3,7 +3,7 @@ Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 Requires at least: 3.9
-Tested up to: 4.0-beta4
+Tested up to: 4.3-beta3
 Stable tag: 1.39
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -161,6 +161,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 == Upgrade Notice ==
+= 1.40 =
+Improves formatting for URL type fields
+
 = 1.39 = 
 Added more virtual fields and by= parameter for [bw_related]. Tested with WordPress 4.0-beta4
 
@@ -228,6 +231,17 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.40 =
+* Changed: Improved formatting for the URL field type
+* Changed: [bw_fields] better handling when displaying multiple posts
+* Changed: Some minor typos fixes in doc blocks
+* Changed: Commented out some trace calls
+* Changed: Started internationalization ( i18n ) and localization ( l10n )
+* Changed: Delivers, but doesn't currently use, oik_fields_no_texturize_shortcodes() 
+* Changed: Some trace calls commented out
+* Fixed: Some documentation typos
+
+= 1.39 =
 * Added: featured and thumbnail virtual fields
 * Added: by=noderef_field for [bw_related] to show posts linked via the named noderef_field
 * Added: #label arg. Set to false when you don't want the field label or separator to be displayed when using [bw_fields]
@@ -354,6 +368,6 @@ This version matches the version in oik v1.17
 
 == Further reading ==
 If you want to read more about the oik plugins then please visit the
-[oik plugin](http://www.oik-plugins.com/oik) 
-**"the oik plugin - for often included key-information"**
+
+[oik base plugin](http://www.oik-plugins.com/oik) 
 
