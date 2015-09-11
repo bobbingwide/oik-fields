@@ -7,8 +7,10 @@
  *
  * Here we have the original shortcode from post ID 401 which is an instance of an "oik_shortcode"
  *
+ * `
  *  [bw_list post_type=shortcode_example meta_key=_sc_param_code meta_value=401]
- *
+ * `
+ * 
  * The lookup performed in bw_list is for posts of type "shortcode_example" with meta fields with a name of "_sc_param_code" that have a value of 401.
  * In other words it lists all the "shortcode examples" which refer to this particular post. 
  *

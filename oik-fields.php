@@ -4,7 +4,7 @@ Plugin Name: oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-fields
 Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes, and 'virtual' fields
 Depends: oik base plugin
-Version: 1.40
+Version: 1.40.1
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-fields
@@ -55,6 +55,7 @@ function oik_fields_init() {
   bw_add_shortcode( 'bw_related', 'bw_related', oik_path( "shortcodes/oik-related.php", "oik-fields" ), false ); 
   add_action( "bw_metadata", "oik_fields_bw_metadata" );
   add_action( "oik_fields_loaded", "oik_fields_oik_fields_loaded", 9 );
+	add_filter( "oik_shortcode_atts", "oik_fields_shortcode_atts", 10, 3 );
   ///add_filter( 'no_texturize_shortcodes', "oik_fields_no_texturize_shortcodes" );
   //remove_filter( 'the_content', 'wptexturize' );
   /**
@@ -81,6 +82,33 @@ function oik_fields_no_texturize_shortcodes( $shortcodes ) {
   //gobang();
   $shortcodes[] = "bw_related";
   return( $shortcodes );
+}
+
+/**
+ * Implement "oik_shortcode_atts" for oik-fields
+ *
+ * Converts Standard relational operators into those needed by WordPress's use of MySQL
+ *
+ * - This code implements a workaround for TRAC #29608
+ * - The function is shortcode insensitive. 
+ * - It applies for any use of the meta_compare attribute
+ * - See {@link https://en.wikipedia.org/wiki/Relational_operator#Standard_relational_operators}
+ *
+ * @param array $atts shortcode attributes
+ * @param string $content 
+ * @param string shortcode
+ * @return array updated array of $atts
+ */
+function oik_fields_shortcode_atts( $atts, $content, $tag ) {
+	bw_trace2( null, null, true, BW_TRACE_DEBUG );
+	$meta_compare = bw_array_get( $atts, "meta_compare", null );
+	if ( $meta_compare ) {
+		$meta_compare = strtolower( $meta_compare );
+		$conversions = array( "eg" => "=" , "ne" => "<>", "gt" => ">", "lt" => "<", "ge" => ">=", "le" => "<" );
+		$meta_compare = strtr( $meta_compare, $conversions );
+		$atts['meta_compare'] = $meta_compare;
+	}
+	return( $atts );
 }
 
 /**
