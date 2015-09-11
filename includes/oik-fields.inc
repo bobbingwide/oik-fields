@@ -1,4 +1,10 @@
-<?php // (C) Copyright Bobbing Wide 2011-2014
+<?php // (C) Copyright Bobbing Wide 2011-2015
+
+/**
+ * Library: 
+ * Provides:
+ * Depends: 
+ */
 
 /**
  * Theme a field of type 'currency'
@@ -300,13 +306,14 @@ function bw_theme_field_taxonomy( $key, $value ) {
 function bw_virtual_field_parm_values( $field ) { 
   $args = $field['#args'];
   $parms = bw_assoc( bw_as_array( bw_array_get( $args, "#parms", null ) ) );
+  $post_id = bw_current_post_id();
   $parm_values = array();
   if ( count( $parms ) ) {
-    $post_id = bw_current_post_id();
     foreach ( $parms as $parm ) {
       $parm_values[] = get_post_meta( $post_id, $parm, true );
     }
   }
+	$parm_values[] = $post_id;
   //bw_trace2( $post_id, "post id" );
   //bw_trace2( $parm_values, "parm_values" );
   return( $parm_values );
