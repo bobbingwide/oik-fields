@@ -3,8 +3,8 @@
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 * Requires at least: 3.9
-* Tested up to: 4.3-beta3
-* Stable tag: 1.39
+* Tested up to: 4.3
+* Stable tag: 1.40.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,6 +15,7 @@ Field formatting for custom post type (CPT) meta data, plus [bw_field], [bw_fiel
 * Advanced API for plugin developers
 * Extensible architecture for additional custom field types
 * Uses APIs from the oik base plugin
+* Virtual fields
 
 #### Display 
 * Displays custom fields using [bw_field] or [bw_fields] shortcode
@@ -161,6 +162,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 ## Upgrade Notice 
+# 1.40.1 
+Provides a workaround for WordPress TRAC #29608
+
 # 1.40 
 Improves formatting for URL type fields
 
@@ -231,14 +235,18 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 ## Changelog 
+# 1.40.1 
+* Added: Implements "oik_shortcode_atts" filter
+* Changed: Returns $post_id value in parms for use by virtual fields
+* Fixed: Provides a workaround to WordPress TRAC #29608
+* Tested: With WordPress 4.3
+
 # 1.40 
 * Changed: Improved formatting for the URL field type
 * Changed: [bw_fields] better handling when displaying multiple posts
-* Changed: Some minor typos fixes in doc blocks
 * Changed: Commented out some trace calls
 * Changed: Started internationalization ( i18n ) and localization ( l10n )
 * Changed: Delivers, but doesn't currently use, oik_fields_no_texturize_shortcodes()
-* Changed: Some trace calls commented out
 * Fixed: Some documentation typos
 
 # 1.39 
