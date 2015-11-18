@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2013, 2014
+<?php // (C) Copyright Bobbing Wide 2013-2015
 /**
  * Implement the [bw_fields] shortcode
  *
@@ -35,8 +35,8 @@ function bw_metadata( $atts=null, $content=null, $tag=null ) {
     }   
   }
     
-  bw_trace2( );
-  bw_backtrace();
+  bw_trace2( null, null, true, BW_TRACE_VERBOSE );
+  bw_backtrace( BW_TRACE_VERBOSE );
   if ( $single ) {
     //bw_backtrace();
     //p( "Fields for $post_id "); 
@@ -64,7 +64,7 @@ function bw_metadata( $atts=null, $content=null, $tag=null ) {
           } else { 
             //bw_custom_column_post_meta( $column, $post_id );
             $post_meta = get_post_meta( $post_id, $name, FALSE );
-            bw_trace2( $post_meta );
+            bw_trace2( $post_meta, "post_meta", false, BW_TRACE_VERBOSE );
             $customfields = array( $name => $post_meta ); 
             bw_format_meta( $customfields );
           }  
@@ -73,7 +73,7 @@ function bw_metadata( $atts=null, $content=null, $tag=null ) {
         }  
       }
     } else {
-      bw_trace2( "Invalid use of $tag. No field names to process for $post_id" );
+      bw_trace2( "Invalid use of $tag. No field names to process for $post_id", null, true, BW_TRACE_WARNING );
     }
   } else {
     //e( "Not single" );
