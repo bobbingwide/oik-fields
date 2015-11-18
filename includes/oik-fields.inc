@@ -74,15 +74,13 @@ function bw_theme_field_select( $key, $value, $field ) {
 }
 
 /**
- * Return the value for the select field
+ * Return the value(s) for the select field
  *
- * @param string $key - the field name
- * @param mixed $value - the field value as array index 0 OR a string 
- * @param array $field - key value pairs containing the #options for the select field within the #args element
- 
  * The select field may be #optional indicating that no value is needed.
+ * The field may also be #multiple, indicating that a comma separated list should be returned.
+ *
  * We need to be able to cater for this. 
-(
+ * `
     [0] => _oik_api_type
     [1] => Array
         (
@@ -108,33 +106,40 @@ function bw_theme_field_select( $key, $value, $field ) {
 
                     [#optional] => 1
                 )
-
         )
-
-)
- * 
+ * `
+ *
+ * @param string $key - the field name
+ * @param mixed $value - the field value as array index 0, OR a string, or multiple array items 
+ * @param array $field - key value pairs containing the #options for the select field within the #args element
+ * @return string the field value(s), comma separated as necessary
  */
 function bw_return_field_select( $key, $value, $field ) {
-  bw_trace2(); 
-  bw_backtrace();
-  $args = bw_array_get( $field, '#args', null );
-  if ( $args ) {
-    $select = bw_array_get( $args, '#options', null );
-    $select = bw_as_array( $select );
-  } 
-  // If value is an empty array this will return an empty array. 
-  
-  $val = bw_array_get( $value, 0, $value );
-  if ( empty( $val ) ) {
-    $result = null;
-  } else { 
-    $result = bw_array_get( $select, $val, $val );   
-  }  
-  //if ( null !== $val ) { 
-  //} else {
-  //  $result = $value;
-  //}  
-  return( $result );  
+	//bw_trace2(); 
+	//bw_backtrace();
+	$args = bw_array_get( $field, '#args', null );
+	$multiple = false;
+	$select = array();
+	$result = null;
+	if ( $args ) {
+		$select = bw_array_get( $args, '#options', null );
+		$select = bw_as_array( $select );
+		$multiple = bw_array_get( $args, "#multiple", false );
+	} 
+	if ( $multiple ) {
+		$results = array();
+		foreach ( $value as $val ) {
+			$results[] = bw_array_get( $select, $val, $val );   
+		}
+		$result = implode( ", ", $results );
+	} else {
+		// If value is an empty array this will return an empty array. 
+		$val = bw_array_get( $value, 0, $value );
+		if ( !empty( $val ) ) {
+			$result = bw_array_get( $select, $val, $val );   
+		}
+	}	  
+	return( $result );  
 }
 
 /**
