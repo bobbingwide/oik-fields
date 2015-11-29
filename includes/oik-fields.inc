@@ -307,6 +307,9 @@ function bw_theme_field_taxonomy( $key, $value ) {
  * @TODO Extend to support 'fieldref' fields as well, by using bw_query_fieldref_value()
  *
  * Note: The parms must be unique values... not multiple
+ * 
+ * @param string $field the virtual field being displayed
+ * @return array  parm values
  */
 function bw_virtual_field_parm_values( $field ) { 
   $args = $field['#args'];

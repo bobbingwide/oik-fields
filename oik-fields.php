@@ -318,6 +318,16 @@ function oik_fields_oik_fields_loaded() {
   
   $field_args[ "#callback" ] = "bw_fields_get_thumbnail";
   bw_register_field( "thumbnail", "virtual", "Thumbnail", $field_args );
+	
+	
+  $field_args = array( "#callback" => "bw_fields_get_google_map"
+                     , "#parms" => "_post_code,_lat,_long" 
+                     , "#plugin" => "oik-fields"
+                     , "#file" => "includes/oik-fields-virtual-google-map.php"
+                     , "#form" => false
+                     , "#hint" => "virtual field"
+                     ); 
+	bw_register_field( "googlemap", "virtual", "Google map", $field_args );
 } 
 
 /**
