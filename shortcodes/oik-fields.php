@@ -1,4 +1,27 @@
 <?php // (C) Copyright Bobbing Wide 2013-2015
+
+
+/**
+ * Determine if the field has a value
+ *
+ * @param mixed $post_meta
+ * @param string $name the field name - just in cases
+ * @return bool true if we think the field has a value
+ */
+
+function bw_field_has_value( $post_meta, $name ) {
+	if ( is_array( $post_meta ) ) {
+		if ( count( $post_meta ) ) {
+			$field_has_value = $post_meta[0];
+		} else {
+			$field_has_value = false;
+		}
+	} else {
+		$field_has_value = $post_meta;
+	}
+	return( $field_has_value );
+
+}
 /**
  * Implement the [bw_fields] shortcode
  *
@@ -52,7 +75,8 @@ function bw_metadata( $atts=null, $content=null, $tag=null ) {
     if ( count( $names ) ) {
       //oik_require( "bobbforms.inc" );
       foreach ( $names as $name ) {
-        if ( bw_get_field_data_arg( $name, "#theme", true ) ) {
+				$theme_it = bw_get_field_data_arg( $name, "#theme", true );
+        if ( $theme_it ) {
         
           /**
            * We have to cater for "taxonomy" fields as well
@@ -63,10 +87,18 @@ function bw_metadata( $atts=null, $content=null, $tag=null ) {
             bw_format_taxonomy( $name, $post_id );
           } else { 
             //bw_custom_column_post_meta( $column, $post_id );
+						
             $post_meta = get_post_meta( $post_id, $name, FALSE );
             bw_trace2( $post_meta, "post_meta", false, BW_TRACE_VERBOSE );
-            $customfields = array( $name => $post_meta ); 
-            bw_format_meta( $customfields );
+						if ( false == bw_get_field_data_arg( $name, "#theme_null", true ) ) {
+							$theme_it = bw_field_has_value( $post_meta, $name );
+						}
+						
+						if ( $theme_it ) {
+							
+							$customfields = array( $name => $post_meta ); 
+							bw_format_meta( $customfields );
+						}
           }  
         } else {
           bw_theme_object_property( $post_id, $name, $atts );
