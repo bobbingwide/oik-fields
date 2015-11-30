@@ -53,6 +53,7 @@ function oik_fields_init() {
   bw_add_shortcode( 'bw_fields', 'bw_metadata', $path, false );
   bw_add_shortcode( 'bw_new', 'bw_new', oik_path( "shortcodes/oik-new.php", "oik-fields" ), false);
   bw_add_shortcode( 'bw_related', 'bw_related', oik_path( "shortcodes/oik-related.php", "oik-fields" ), false ); 
+	bw_add_shortcode( 'bw_group', 'bw_group', oik_path( "shortcodes/oik-group.php", "oik-fields" ), false );
   add_action( "bw_metadata", "oik_fields_bw_metadata" );
   add_action( "oik_fields_loaded", "oik_fields_oik_fields_loaded", 9 );
 	add_filter( "oik_shortcode_atts", "oik_fields_shortcode_atts", 10, 3 );
@@ -403,6 +404,7 @@ function oik_fields_plugin_loaded() {
   add_filter( "oik_query_field_types", "oik_fields_query_field_types" );
   add_filter( "oik_default_meta_value_noderef", "oik_fields_default_meta_value_noderef", 10, 2 );
   add_action( "oik_pre_form_field", "oik_fields_pre_form_field" );
+	//add_filter( "oik_query_field_groups", "oik_fields_query_field_groups" );
 }
 
 /**
