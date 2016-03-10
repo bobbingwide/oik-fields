@@ -4,7 +4,7 @@ Plugin Name: oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-fields
 Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes, and 'virtual' fields
 Depends: oik base plugin
-Version: 1.40.1
+Version: 1.40.2
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-fields
@@ -12,7 +12,7 @@ Domain Path: /languages/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-    Copyright 2011-2015 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2011-2016 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -80,7 +80,6 @@ function oik_fields_init() {
  * @return array - as before with bw_related added
  */
 function oik_fields_no_texturize_shortcodes( $shortcodes ) {
-  //gobang();
   $shortcodes[] = "bw_related";
   return( $shortcodes );
 }
@@ -94,6 +93,7 @@ function oik_fields_no_texturize_shortcodes( $shortcodes ) {
  * - The function is shortcode insensitive. 
  * - It applies for any use of the meta_compare attribute
  * - See {@link https://en.wikipedia.org/wiki/Relational_operator#Standard_relational_operators}
+ * - It doesn't cater for "between", where we need to convert it to a meta_query later on
  *
  * @param array $atts shortcode attributes
  * @param string $content 
@@ -153,6 +153,7 @@ function bw_get_field_names( $post_id ) {
  */
 function oik_fields_pre_theme_field() {
   oik_require( "includes/oik-fields.inc", "oik-fields" );
+	oik_require( "includes/oik-fields-serialized.php", "oik-fields" );
 }
 
 /**
@@ -351,6 +352,7 @@ function oik_fields_query_field_types( $field_types ) {
   $field_types['virtual'] = __( 'Virtual' );
   $field_types['sctext'] = __( 'Text with shortcodes' );
   $field_types['sctextarea'] = __( 'Textarea with shortcodes' );
+	$field_types['serialized'] = __( 'PHP serialized' );
   return( $field_types );
 } 
 

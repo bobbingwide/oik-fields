@@ -41,3 +41,22 @@ function bw_form_field_virtual( $name, $type, $title, $value, $args ) {
   etag( "td" );
   etag( "tr" );
 }
+
+
+/**
+ * Implement bw_form_field_ hook for sctextextarea
+ *
+ * `sctextarea` is basically a text area where you can enter shortcodes
+ *
+ * @param string $name - field name
+ * @param string $type - field type
+ * @param string $title - field title
+ * @param string $value - not expected
+ * @param string $args - the '#args' part of the field definition
+ */
+function bw_form_field_sctextarea( $name, $type, $title, $value, $args ) {
+  bw_trace2();
+	bw_form_field_textarea( $name, $type, $title, $value, $args );
+}
+ 
+ 
