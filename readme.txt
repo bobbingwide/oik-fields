@@ -3,8 +3,8 @@ Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 Requires at least: 3.9
-Tested up to: 4.3
-Stable tag: 1.40.1
+Tested up to: 4.5-beta3
+Stable tag: 1.40.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,7 @@ It provides basic support for the following types of field:
 * textarea
 * URL
 * virtual
+* serialized
  
 Support is also provided for specific fields:
 
@@ -162,6 +163,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 == Upgrade Notice ==
+= 1.40.2 = 
+Includes changes for oik-requests ( part of the new WP-a2z.org )
+
 = 1.40.1 =
 Provides a workaround for WordPress TRAC #29608
 
@@ -235,6 +239,14 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.40.2 =
+* Added: Add 'googlemap' virtual field [github bobbingwide oik-fields issues 3]
+* Added: Support for displaying 'serialized' fields [github bobbingwide oik-fields issues 10]
+* Added: [bw_group] shortcode to shortcode to count the occurrences of a particular field value [github bobbingwide oik-fields issues 4]
+* Changed: Set trace levels on some trace calls
+* Fixed: Don't display fields with null values [github bobbingwide oik-fields issues 2]
+* Fixed: Show all the selected values for a multiple select field [github bobbingwide oik-fields issues 1]
+
 = 1.40.1 =
 * Added: Implements "oik_shortcode_atts" filter
 * Changed: Returns $post_id value in parms for use by virtual fields
