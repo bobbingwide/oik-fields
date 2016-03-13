@@ -108,9 +108,41 @@ function oik_fields_shortcode_atts( $atts, $content, $tag ) {
 		$conversions = array( "eg" => "=" , "ne" => "<>", "gt" => ">", "lt" => "<", "ge" => ">=", "le" => "<" );
 		$meta_compare = strtr( $meta_compare, $conversions );
 		$atts['meta_compare'] = $meta_compare;
+		
+		if ( $meta_compare == "between" ) {
+			$atts = oik_fields_shortcode_atts_between( $atts, $content, $tag );
+		}	
+	}
+	bw_trace2();
+	return( $atts );
+}
+
+/** 
+ * Implement "oik_shortcode_atts" for meta_compare=between 
+ *
+ * This could be a separate filter function
+ *
+ * @param array $atts shortcode parameters
+ * @param string $content 
+ * @param string $tag
+ * @return updated atts array
+ */
+function oik_fields_shortcode_atts_between( $atts, $content, $tag ) {
+	$meta_key = bw_array_get( $atts, "meta_key", null );
+	$meta_value = bw_array_get( $atts, "meta_value", null );
+	$and = bw_array_get( $atts, "and", null );
+	
+	if ( $meta_key && $meta_value && $and ) {
+		$meta_query = array();
+		$meta_query[] = array( "key" => $meta_key
+												 , "value" => array( $meta_value, $and )
+												 , "compare" => "BETWEEN"
+												 );
+		$atts['meta_query'] = $meta_query;
 	}
 	return( $atts );
 }
+
 
 /**
  * Return the value from a fields #args array, setting the default if not defined
