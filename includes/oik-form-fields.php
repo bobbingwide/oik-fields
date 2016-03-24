@@ -1,7 +1,7 @@
 <?php
 /* 
 
-    Copyright 2014 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2014-2016 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -42,11 +42,12 @@ function bw_form_field_virtual( $name, $type, $title, $value, $args ) {
   etag( "tr" );
 }
 
-
 /**
- * Implement bw_form_field_ hook for sctextextarea
+ * Implement bw_form_field_ hook for sctextarea
  *
- * `sctextarea` is basically a text area where you can enter shortcodes
+ * `sctextarea` is basically a text area where you can enter shortcodes.
+ * Ironically, considering the prefix 'sc', it's also one where we don't want the spell checker to be active
+ * since this can bring Chrome to a standstill.
  *
  * @param string $name - field name
  * @param string $type - field type
@@ -56,6 +57,7 @@ function bw_form_field_virtual( $name, $type, $title, $value, $args ) {
  */
 function bw_form_field_sctextarea( $name, $type, $title, $value, $args ) {
   bw_trace2();
+	$args['#spellcheck'] = bw_array_get( $args, "#spellcheck", "false" );
 	bw_form_field_textarea( $name, $type, $title, $value, $args );
 }
  
