@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2013, 2014
+<?php // (C) Copyright Bobbing Wide 2013-2016
 
 /**
  * Implement [bw_new] shortcode to allow the creation of a new post through a simple form
@@ -86,7 +86,6 @@ function bw_issue_message( $field, $code, $text, $type='error' ) {
  * 
  * @return integer - number of messages, if any
  */
- 
 if ( !function_exists( "bw_query_messages" ) ) { 
 function bw_query_messages() {
   global $bw_messages;
@@ -314,7 +313,8 @@ function _bw_validate_functions() {
  * @return bool - true if validation was successful
  */
 function bw_call_validate_function( $abbrev, $fields, &$validated ) {
-  // bw_backtrace();
+	bw_trace2();
+  bw_backtrace();
   $functions = _bw_validate_functions();
   $function = bw_array_get( $functions, $abbrev, "bw_validate_function_undefined" );
   //bw_trace2( $function );
@@ -344,6 +344,10 @@ function bw_validate_fields( $format, $fields, &$validated ) {
 
 /** 
  * Validate the Add new form to match what's expected
+ *
+ * @param string $post_type 
+ * @param array
+ * @return bool - true if validated
  */
 function bw_validate_form_as_required( $post_type, &$validated ) {
   $handle = apply_filters( "oik_add_new_${post_type}", true );
@@ -754,11 +758,11 @@ function _bw_show_new_post_form_oik( $atts ) {
     oik_require( "bobbforms.inc" );
     $class = bw_array_get( $atts, "class", "bw_new_post" );
     sdiv( $class );
-    bw_form();
+    bw_form_tag( $format );
     stag( "table" ); 
     bw_form_as_required( $format, $fields );
     etag( "table" );
-    e( wp_nonce_field( "_oik_new_post_form", "_oik_new_post_nonce", false ) );
+    e( wp_nonce_field( "_oik_new_post_form", "_oik_new_post_nonce", false, false ) );
     //e( ihidden( "oiku_email_to", $email_to ) );
     
     $text = bw_get_add_new_button_text( $post_type ); 
@@ -801,6 +805,18 @@ function bw_display_new_post_form( $atts, $user=null ) {
   if ( !$new_post ) { 
     _bw_show_new_post_form_oik( $atts, $user );
   }
+}
+
+
+function bw_form_tag( $format ) {
+	$extras = null;
+	if ( false !== strpos( $format, "I" ) ) {
+		$extras = kv( "enctype", "multipart/form-data" );
+	}
+	if ( false !== strpos( $format, "F" ) ) {
+		$extras = kv( "enctype", "multipart/form-data" );
+	}
+	bw_form( "", "post", null, $extras );
 }
 
                  
