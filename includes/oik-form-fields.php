@@ -60,5 +60,32 @@ function bw_form_field_sctextarea( $name, $type, $title, $value, $args ) {
 	$args['#spellcheck'] = bw_array_get( $args, "#spellcheck", "false" );
 	bw_form_field_textarea( $name, $type, $title, $value, $args );
 }
+
+/**
+ * Implement bw_form_field_ hook for category
+ *
+ * We want to display the Category as a selection list
+ * 
+ * Do we have to worry about selected? It would be pretty obvious from the selected list **?** 
+ * Answer - Yes, since we need to redisplay after each action 
+ */
+function bw_form_field_category( $name, $type, $title, $value, $args ) {
+	$lab = label( $name, $title );
+  $args = array( "show_count" => 0
+               , "hide_empty" => 0  
+               , "echo" => 0
+               , "hierarchical" => 1
+               , "name" => $name //  "" 
+               , "show_option_all" => 0
+               );
+  $selected = bw_array_get( $_REQUEST, $name, null );
+  if ( $selected ) {
+    $args['selected'] = $selected;
+  }
+  $categories = wp_dropdown_categories( $args );
+	//e( $categories );
+	bw_tablerow( array( $lab, $categories ) ); 
+} 
+
  
  
