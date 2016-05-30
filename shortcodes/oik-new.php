@@ -68,7 +68,7 @@ function bw_new_post_form_id( $set=false ) {
  */
 if ( !function_exists( "bw_issue_message" ) ) { 
 function bw_issue_message( $field, $code, $text, $type='error' ) { 
-  bw_trace2();
+  bw_trace2( null, null, true, BW_TRACE_ALWAYS );
   global $bw_messages;
   if ( !isset( $bw_messages ) ) {
     $bw_messages = array();
@@ -184,11 +184,14 @@ function bw_validate_function_title(  $abbrev, $fields, &$validated ) {
  * Validate a "post_content" field
  * 
  * Do we want to allow HTML or not?
+ * Do we need to stripslashes multiple times?
  */
 function bw_validate_function_content( $abbrev, $fields, &$validated ) {
   $valid = bw_obtain_field( "post_content", $validated );
   if ( $valid ) {
+		//bw_trace2( $validated['post_content'], "before", false, BW_TRACE_DEBUG );
     $validated['post_content'] = wp_kses_data( $validated['post_content'] );
+		//bw_trace2( $validated['post_content'], "after", false, BW_TRACE_DEBUG );
   }
   return( $valid );
 }
@@ -200,7 +203,8 @@ function bw_validate_function_content( $abbrev, $fields, &$validated ) {
  * 
  * @param bool $valid - whether or not a non-blank field was obtained
  * @param string $field - the field name
- * @param array $data   
+ * @param array $data 
+ * @return bool true if valid  
  */
 function _bw_field_validation_required( $valid, $field, $data ) {   
   if ( !$valid ) {
@@ -267,7 +271,7 @@ function bw_validate_function_fields( $abbrev, $fields, &$validated ) {
   foreach ( $fields as $field ) {
     $valid &= bw_field_validation( $field, $validated );   
   }
-	bw_trace2();
+	//bw_trace2();
   return( $valid );
 }
 
@@ -395,8 +399,8 @@ function bw_determine_post_status( $post_type, &$validated ) {
  * e.g. for "dtib_review" we want to add <!--more -->[bw_fields]
  * What's the best way of doing this?
  *
- * @TODO This assumes that we will have set the post_title, post_content and post_status in $validated
- * what do we do if we haven't? 
+ * @TODO This assumes that we will have set the post_title, post_content and post_status in $validated.
+ * What do we do if we haven't? 
  * 
  *
  * @param string $post_type 
@@ -404,7 +408,6 @@ function bw_determine_post_status( $post_type, &$validated ) {
  * @return ID post ID of the created post
  */
 function bw_insert_post( $post_type, $validated ) {
-	
   $post = array( 'post_type' => $post_type
                , 'post_title' => $validated['post_title']
                , 'post_name' => $validated['post_title']
@@ -428,7 +431,7 @@ function bw_spam_check( $post_type, $validated ) {
   $fields = $validated;
   $fields['comment_type'] = $post_type; 
   $fields = apply_filters( "oik_set_spam_fields_${post_type}", $fields );
-  bw_trace2( $fields ); 
+  bw_trace2( $fields, "fields", true, BW_TRACE_DEBUG ); 
   $send = bw_akismet_check( $fields );
   return( $send );
 }
@@ -456,7 +459,7 @@ function bw_get_edit_post_link( $post_type, $post ) {
  * @param bool $sent - post_id of the inserted post 
  */
 function bw_notify_author_email( $atts, $validated, $valid, $sent ) {  
-  bw_trace2();
+  bw_trace2( null, null, true, BW_TRACE_DEBUG );
   $email_to = bw_array_get( $atts, "email", null  );
   if ( $email_to !== "n" ) {
     if ( !$email_to ) {
@@ -515,7 +518,7 @@ function _bw_process_new_post_form_oik( $atts) {
   $post_type = bw_array_get( $atts, "post_type", null );
   $validated = array();
   $valid = bw_validate_form_as_required( $post_type, $validated );
-	bw_trace2( $validated, "validated", true );
+	bw_trace2( $validated, "validated", true, BW_TRACE_DEBUG );
   if ( $valid ) {
     $valid = bw_spam_check( $post_type, $validated );
     if ( $valid ) {
@@ -579,13 +582,12 @@ function _bw_form_required_field( $data ) {
  */
 function _bw_show_new_post_fields( $fields ) {
   global $bw_fields;
-  bw_backtrace();
+  //bw_backtrace();
   if ( count( $fields )) {
-    bw_trace2( $fields, "fields" ) ;
-    
+    bw_trace2( $fields, "fields", false, BW_TRACE_VERBOSE ) ;
     foreach ( $fields as $field ) {
       $data = $bw_fields[$field];
-      $value = null;
+      $value = "";
       $form = bw_array_get( $data['#args'], "#form", true );
       if ( $form ) {
         $data = _bw_form_required_field( $data );
@@ -673,20 +675,21 @@ function bw_set_spam_fields( $fields ) {
     $fields['comment_author_url'] = null;
   }    
   $fields['comment_content'] = $fields['post_content']; 
-  bw_trace2();
+  bw_trace2( null, null, true, BW_TRACE_VERBOSE );
   return( $fields ); 
 }
 
 /**
  * Invoke the function to display the field in a form
+ * 
  * @param string $abbrev - the single character abbreviation for the field
  * @param array $fields - array of fields 
  */
 function bw_call_form_function( $abbrev, $fields ) {
-  bw_backtrace();
+  //bw_backtrace();
   $functions = _bw_form_functions();
   $function = bw_array_get( $functions, $abbrev, "bw_form_function_undefined" );
-  bw_trace2( $function );
+  bw_trace2( $function, "function", true, BW_TRACE_VERBOSE );
   call_user_func( $function, $abbrev, $fields );
 }
 
@@ -770,7 +773,7 @@ function _bw_form_functions() {
  * @param array $atts - the attributes
  */
 function bw_form_as_required( $format, $fields ) {
-  bw_trace2();
+  bw_trace2( null, null, true, BW_TRACE_DEBUG );
   $fs = str_split( $format );
   foreach ( $fs as $f ) {
     bw_call_form_function( $f, $fields );
