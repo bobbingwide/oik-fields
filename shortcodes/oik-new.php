@@ -7,7 +7,8 @@
  * WITH
  * - authority checking - does the post_type support add_new? 
  * - spam checking - check the content against Akismet
- * - nonce free support for logged in users? @TODO
+ * - nonce free support for logged in users? - @TODO - demonstrate this is not a good idea
+ * - @TODO honeypot checking for spam bots
  * 
  * filters invoked to
  * - check if it's OK to do this for the defined post_type - default false
@@ -145,8 +146,8 @@ function bw_display_messages() {
  */
 function bw_obtain_field( $field_name, &$validated ) {
   $value = bw_array_get( $_REQUEST, $field_name, null );
-  bw_trace2( $value, "value" );
-  bw_backtrace();
+  bw_trace2( $value, "value", true, BW_TRACE_VERBOSE );
+  //bw_backtrace();
   if ( is_array( $value ) ) {
     // @TODO - Don't bother performing any validation yet
     foreach( $value as $k => $v ) {
@@ -232,6 +233,7 @@ function _bw_field_validation_required( $valid, $field, $data ) {
 function bw_field_validation( $field, &$validated ) {
   global $bw_fields;
   $data = $bw_fields[$field];
+	bw_trace2( $data, "data", true, BW_TRACE_DEBUG );
   $field_type = $data['#field_type'];
   $valid = bw_obtain_field( $field, $validated ); 
   $valid = _bw_field_validation_required( $valid, $field, $data );
@@ -265,6 +267,7 @@ function bw_validate_function_fields( $abbrev, $fields, &$validated ) {
   foreach ( $fields as $field ) {
     $valid &= bw_field_validation( $field, $validated );   
   }
+	bw_trace2();
   return( $valid );
 }
 
@@ -313,11 +316,9 @@ function _bw_validate_functions() {
  * @return bool - true if validation was successful
  */
 function bw_call_validate_function( $abbrev, $fields, &$validated ) {
-	bw_trace2();
-  bw_backtrace();
   $functions = _bw_validate_functions();
   $function = bw_array_get( $functions, $abbrev, "bw_validate_function_undefined" );
-  //bw_trace2( $function );
+	bw_trace2( $function, "function", true, BW_TRACE_VERBOSE );
   $valid = call_user_func_array( $function, array( $abbrev, $fields, &$validated ) );
   //bw_trace2( $valid, "valid?", false );
   return( $valid );
@@ -327,6 +328,8 @@ function bw_call_validate_function( $abbrev, $fields, &$validated ) {
  * Validate the fields in the form
  *
  * This is the validation of the main fields: Title, Content, and the custom fields
+ * If the form doesn't have certain fields, such as post_title, then we need to
+ * ensure that the final validation sets the values that are missing.
  *
  * @param string $format - the expected format of the set of fields to be validated
  * @param array $fields - array of custom post type field names expected 
@@ -339,6 +342,7 @@ function bw_validate_fields( $format, $fields, &$validated ) {
   foreach ( $fs as $f ) {
     $valid &= bw_call_validate_function( $f, $fields, $validated );
   }
+	$valid = apply_filters_ref_array( "oik_add_new_validate", array( $valid, $format, $fields, &$validated ) );
   return( $valid );
 }  
 
@@ -346,7 +350,7 @@ function bw_validate_fields( $format, $fields, &$validated ) {
  * Validate the Add new form to match what's expected
  *
  * @param string $post_type 
- * @param array
+ * @param array $validated
  * @return bool - true if validated
  */
 function bw_validate_form_as_required( $post_type, &$validated ) {
@@ -365,24 +369,52 @@ function bw_validate_form_as_required( $post_type, &$validated ) {
 }
 
 /**
+ * Determine post_status for new post
+ *
+ * The post status depends on the the authority of the submitting user
+ * 
+ * current_user_can | status
+ * ---------------- | ----------------
+ * publish_pages | publish
+ * -              | pending
+ * 
+ */
+function bw_determine_post_status( $post_type, &$validated ) {
+	$post_status = 'pending';
+	if ( current_user_can( 'publish_pages' ) ) {
+		$post_status = "publish";
+	}
+	$validated['post_status'] = $post_status;
+	return( $post_status );
+}
+
+/**
  * Insert a post of the specified post type with custom fields set from the validated fields
  * 
  * @TODO We may want to add our own additions to the post_content.
  * e.g. for "dtib_review" we want to add <!--more -->[bw_fields]
  * What's the best way of doing this?
  *
+ * @TODO This assumes that we will have set the post_title, post_content and post_status in $validated
+ * what do we do if we haven't? 
+ * 
+ *
+ * @param string $post_type 
+ * @param array $validated - containing both post fields and post meta data fields
+ * @return ID post ID of the created post
  */
 function bw_insert_post( $post_type, $validated ) {
+	
   $post = array( 'post_type' => $post_type
                , 'post_title' => $validated['post_title']
                , 'post_name' => $validated['post_title']
                , 'post_content' => $validated['post_content']
-               , 'post_status' => 'pending'
+               , 'post_status' => $validated['post_status']
                );
   /* Set metadata fields */
   $_POST = $validated;
   $post_id = wp_insert_post( $post, TRUE );
-  bw_trace2( $post_id );
+  bw_trace2( $post_id, "post_id", true, BW_TRACE_DEBUG );
   return( $post_id );
 } 
 
@@ -483,11 +515,16 @@ function _bw_process_new_post_form_oik( $atts) {
   $post_type = bw_array_get( $atts, "post_type", null );
   $validated = array();
   $valid = bw_validate_form_as_required( $post_type, $validated );
+	bw_trace2( $validated, "validated", true );
   if ( $valid ) {
     $valid = bw_spam_check( $post_type, $validated );
     if ( $valid ) {
+			$post_status = bw_determine_post_status( $post_type, $validated );
       $sent = bw_insert_post( $post_type, $validated ); 
-      bw_notify_author_email( $atts, $validated, $valid, $sent );
+			bw_set_post_terms( $post_type, $validated, $sent );
+			if ( $post_status != "publish" ) {
+				bw_notify_author_email( $atts, $validated, $valid, $sent );
+			}
     } else {
       $sent = true; 
     }    
@@ -790,6 +827,11 @@ function bw_get_add_new_button_text( $post_type ) {
 
 /**
  * Show/process a new post form using oik
+ *
+ * 
+ *
+ * @param array $atts shortcode parameters
+ * @param ? $user 
  */
 function bw_display_new_post_form( $atts, $user=null ) {
   oik_require( "shortcodes/oik-contact-form.php" );
@@ -802,12 +844,15 @@ function bw_display_new_post_form( $atts, $user=null ) {
       $new_post = _bw_process_new_post_form_oik( $atts );
     }
   }
-  if ( !$new_post ) { 
+  if ( !$new_post || is_user_logged_in() ) { 
     _bw_show_new_post_form_oik( $atts, $user );
   }
 }
 
-
+/**
+ * Create the form tag
+ *
+ */
 function bw_form_tag( $format ) {
 	$extras = null;
 	if ( false !== strpos( $format, "I" ) ) {
@@ -817,6 +862,27 @@ function bw_form_tag( $format ) {
 		$extras = kv( "enctype", "multipart/form-data" );
 	}
 	bw_form( "", "post", null, $extras );
+}
+
+/**
+ * Insert any post terms
+ * 
+ * @param string $post_type
+ * @param array $validated array of validated fields
+ * @param ID post ID
+ */
+function bw_set_post_terms( $post_type, $validated, $post_ID ) {
+	//bw_trace2( );
+	$fields = bw_get_field_names( $post_ID );
+	foreach ( $fields as $field_name ) { 
+		$field_type = bw_query_field_type( $field_name ); 
+		if ( $field_type === "taxonomy" ) {
+			$term_value = bw_array_get( $validated, $field_name, null );
+			if ( $term_value ) { 
+				wp_set_post_terms( $post_ID, $term_value, $field_name );
+			}
+		}	
+	}
 }
 
                  
