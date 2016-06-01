@@ -3,8 +3,8 @@ Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 Requires at least: 3.9
-Tested up to: 4.5-beta3
-Stable tag: 1.40.2
+Tested up to: 4.5.2
+Stable tag: 1.40.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ Field formatting for custom post type (CPT) meta data, plus [bw_field], [bw_fiel
 ==== Shortcodes ====  
 [bw_new]
 
-Allow end users to create "pending" content for a CPT
+Allow end users to create content for a CPT
   
 [bw_field]   
 Display custom fields on the page, without labels or separators
@@ -117,6 +117,7 @@ The following field types are provided by the plugins listed below:
 * rating  - oik-rating
 * userref - oik-user
 * date/time/timestamp - oik-dates 
+* media - oik-media
 
 = What is oik-fields dependent upon? =
 This plugin is dependent upon the oik base plugin. It specifically includes the following files:
@@ -163,6 +164,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 == Upgrade Notice ==
+= 1.40.3 = 
+Required for oik-media 
+
 = 1.40.2 = 
 Includes changes for oik-requests ( part of the new WP-a2z.org )
 
@@ -239,6 +243,14 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.40.3 = 
+* Added: Cater for multipart forms, required for oik-media
+* Added: Display 'Category' as a selection list [github bobbingwide oik-fields issue 15]
+* Changed: Enhance [bw_new] for authorised users [github bobbingwide oik-fields issue 16]
+* Changed: Trace levels and docblocks
+* Fixed: Atrocious performance of textarea fields in Chrome [github bobbingwide oik issue 26]
+* Fixed: Nonce field appearing twice [github bobbingwide oik-fields issue 13]
+
 = 1.40.2 =
 * Added: Add 'googlemap' virtual field [github bobbingwide oik-fields issues 3]
 * Added: Support for displaying 'serialized' fields [github bobbingwide oik-fields issues 10]

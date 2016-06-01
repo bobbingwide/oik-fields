@@ -4,7 +4,7 @@ Plugin Name: oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-fields
 Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes, and 'virtual' fields
 Depends: oik base plugin
-Version: 1.40.2
+Version: 1.40.3
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-fields
