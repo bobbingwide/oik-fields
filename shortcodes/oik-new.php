@@ -412,14 +412,30 @@ function bw_insert_post( $post_type, $validated ) {
                , 'post_title' => $validated['post_title']
                , 'post_name' => $validated['post_title']
                , 'post_content' => $validated['post_content']
-               , 'post_status' => $validated['post_status']
                );
+	$post = bw_set_validated_field( $post, $validated, 'post_status' );							 
+	$post = bw_set_validated_field( $post, $validated, "post_date" );							 
   /* Set metadata fields */
   $_POST = $validated;
   $post_id = wp_insert_post( $post, TRUE );
   bw_trace2( $post_id, "post_id", true, BW_TRACE_DEBUG );
   return( $post_id );
-} 
+}
+
+/**
+ * Set a post field if validated
+ * 
+ * @param array $post current settings for the new post object
+ * @param array $validated validated fields
+ * @param string $field the name of the field to set
+ * @return array the updated post array
+ */
+function bw_set_validated_field( $post, $validated, $field ) {
+	if ( isset( $validated[ $field ] ) ) {
+		$post[ $field ] = $validated[ $field ];
+	}
+	return( $post );
+}
 
 /**
  * Perform an Akismet spam check against the submitted form
