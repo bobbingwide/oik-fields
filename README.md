@@ -4,7 +4,7 @@
 * Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 * Requires at least: 3.9
 * Tested up to: 4.5.2
-* Stable tag: 1.40.3
+* Stable tag: 1.40.4
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -164,6 +164,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 ## Upgrade Notice 
+# 1.40.4 
+Required if you need to set a publication date to an original image date, using oik-media v0.0.1
+
 # 1.40.3 
 Required for oik-media
 
@@ -243,6 +246,10 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 ## Changelog 
+# 1.40.4 
+* Changed: Add bw_set_validated_field() [github bobbingwide oik-fields issue 14]
+* Changed: Whitespace and tracing
+
 # 1.40.3 
 * Added: Cater for multipart forms, required for oik-media
 * Added: Display 'Category' as a selection list [github bobbingwide oik-fields issue 15]
