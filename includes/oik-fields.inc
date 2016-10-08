@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2011-2015
+<?php // (C) Copyright Bobbing Wide 2011-2016
 
 /**
  * Library: 
@@ -145,36 +145,46 @@ function bw_return_field_select( $key, $value, $field ) {
 /**
  * Theme a field of type 'noderef' 
  *
- * If it's a multiple link then display the results as an unordered list, otherwise display a single item
+ * If it's a multiple link then display the results as an unordered list, otherwise display a single item.
+ * For a multiple link we have to avoid 'None' which has a value of 0, and is not a valid post ID.
+ *
  * @TODO Also support comma separated display format. 
- 
+ *
  *
  * @param string $key - the field name 
  * @param mixed $value - the ID of the post either directly or as $value[0] or an array of posts
  * @param array $field - the information about the field
  */
 function bw_theme_field_noderef( $key, $value, $field ) {
-  //bw_trace2();
-  //bw_backtrace();
-  $multiple = bw_array_get( $field['#args'], "#multiple", false );
-  if ( $multiple ) {
-    if ( is_array( $value ) && count( $value ) ) {
-    sul();
-    foreach ( $value as $key => $v0 ) {
-      stag( "li" );
-      $title = get_the_title( $v0 );
-      alink( null, get_permalink( $v0 ), $title );
-      etag( "li");
-    }
-    eul();
-    }
-  } else {
-    $v0 = bw_array_get( $value, 0, $value );
-    if ( $v0 ) {
-      $title = get_the_title( $v0 );
-      alink( null, get_permalink( $v0 ), $title );
-    }  
-  }  
+		bw_trace2();
+		$started = false;
+		//bw_backtrace();
+		$multiple = bw_array_get( $field['#args'], "#multiple", false );
+		if ( $multiple ) {
+			if ( is_array( $value ) && count( $value ) ) {
+				foreach ( $value as $key => $v0 ) {
+					if ( $v0 ) {
+						if ( !$started ) { 
+							sul();
+							$started = true;
+						}	
+						stag( "li" );
+						$title = get_the_title( $v0 );
+						alink( null, get_permalink( $v0 ), $title );
+						etag( "li");
+					}
+				}
+				if ( $started ) {
+					eul();
+				}	
+			}
+		} else {
+			$v0 = bw_array_get( $value, 0, $value );
+			if ( $v0 ) {
+				$title = get_the_title( $v0 );
+				alink( null, get_permalink( $v0 ), $title );
+			}  
+		}  
 }
 
 /**
