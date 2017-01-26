@@ -201,7 +201,8 @@ function bw_theme_field_URL( $key, $value ) {
   if ( $v0 ) {
     oik_require( "shortcodes/oik-link.php" );
     $url = bw_link_url( $v0, null );
-    $link = retlink( null, $url, $v0 );
+		$text = trim_scheme( $v0 );
+    $link = retlink( null, $url, $text );
     e( $link );
   }  
 }
