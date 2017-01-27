@@ -2,9 +2,9 @@
 Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
-Requires at least: 3.9
-Tested up to: 4.5.2
-Stable tag: 1.40.4
+Requires at least: 4.2
+Tested up to: 4.7.2
+Stable tag: 1.40.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -114,6 +114,7 @@ Virtual fields provided:
 The following field types are provided by the plugins listed below:
 
 * mshot  - oik-mshot
+* mshot2 - oik-mshot2
 * rating  - oik-rating
 * userref - oik-user
 * date/time/timestamp - oik-dates 
@@ -164,6 +165,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 == Upgrade Notice ==
+= 1.40.5 = 
+Upgrade for improved display of mshot2 fields ( oik-mshot plugin extension ).
+
 = 1.40.4 = 
 Required if you need to set a publication date to an original image date, using oik-media v0.0.1
 
@@ -246,6 +250,11 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.40.5 =
+* Changed: Strip scheme in bw_theme_field_URL [github bobbingwide oik-fields issue 22]
+* Fixed: Incorrect output for bw_theme_field_noderef when 'None' selected [github bobbingwide oik-fields issue 19]
+* Tested: With WordPress 4.7.2 and WordPress Multisite
+
 = 1.40.4 =
 * Changed: Add bw_set_validated_field() [github bobbingwide oik-fields issue 14]
 * Changed: Whitespace and tracing

@@ -1,10 +1,11 @@
 # oik-fields 
+![banner](https://raw.githubusercontent.com/bobbingwide/oik-fields/master/assets/oik-fields-banner-772x250.jpg)
 * Contributors: bobbingwide
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
-* Requires at least: 3.9
-* Tested up to: 4.5.2
-* Stable tag: 1.40.4
+* Requires at least: 4.2
+* Tested up to: 4.7.2
+* Stable tag: 1.40.5
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -114,6 +115,7 @@ Virtual fields provided:
 The following field types are provided by the plugins listed below:
 
 * mshot  - oik-mshot
+* mshot2 - oik-mshot2
 * rating  - oik-rating
 * userref - oik-user
 * date/time/timestamp - oik-dates
@@ -164,6 +166,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 ## Upgrade Notice 
+# 1.40.5 
+Upgrade for improved display of mshot2 fields ( oik-mshot plugin extension ).
+
 # 1.40.4 
 Required if you need to set a publication date to an original image date, using oik-media v0.0.1
 
@@ -246,25 +251,30 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 ## Changelog 
+# 1.40.5 
+* Changed: Strip scheme in bw_theme_field_URL https://github.com/bobbingwide/oik-fields/issues/22
+* Fixed: Incorrect output for bw_theme_field_noderef when 'None' selected https://github.com/bobbingwide/oik-fields/issues/19
+* Tested: With WordPress 4.7.2 and WordPress Multisite
+
 # 1.40.4 
-* Changed: Add bw_set_validated_field() [github bobbingwide oik-fields issue 14]
+* Changed: Add bw_set_validated_field() https://github.com/bobbingwide/oik-fields/issues/14
 * Changed: Whitespace and tracing
 
 # 1.40.3 
 * Added: Cater for multipart forms, required for oik-media
-* Added: Display 'Category' as a selection list [github bobbingwide oik-fields issue 15]
-* Changed: Enhance [bw_new] for authorised users [github bobbingwide oik-fields issue 16]
+* Added: Display 'Category' as a selection list https://github.com/bobbingwide/oik-fields/issues/15
+* Changed: Enhance [bw_new] for authorised users https://github.com/bobbingwide/oik-fields/issues/16
 * Changed: Trace levels and docblocks
-* Fixed: Atrocious performance of textarea fields in Chrome [github bobbingwide oik issue 26]
-* Fixed: Nonce field appearing twice [github bobbingwide oik-fields issue 13]
+* Fixed: Atrocious performance of textarea fields in Chrome https://github.com/bobbingwide/oik/issues/26
+* Fixed: Nonce field appearing twice https://github.com/bobbingwide/oik-fields/issues/13
 
 # 1.40.2 
-* Added: Add 'googlemap' virtual field [github bobbingwide oik-fields issues 3]
-* Added: Support for displaying 'serialized' fields [github bobbingwide oik-fields issues 10]
-* Added: [bw_group] shortcode to shortcode to count the occurrences of a particular field value [github bobbingwide oik-fields issues 4]
+* Added: Add 'googlemap' virtual field https://github.com/bobbingwide/oik-fields/issues/3
+* Added: Support for displaying 'serialized' fields https://github.com/bobbingwide/oik-fields/issues/10
+* Added: [bw_group] shortcode to shortcode to count the occurrences of a particular field value https://github.com/bobbingwide/oik-fields/issues/4
 * Changed: Set trace levels on some trace calls
-* Fixed: Don't display fields with null values [github bobbingwide oik-fields issues 2]
-* Fixed: Show all the selected values for a multiple select field [github bobbingwide oik-fields issues 1]
+* Fixed: Don't display fields with null values https://github.com/bobbingwide/oik-fields/issues/2
+* Fixed: Show all the selected values for a multiple select field https://github.com/bobbingwide/oik-fields/issues/1
 
 # 1.40.1 
 * Added: Implements "oik_shortcode_atts" filter
