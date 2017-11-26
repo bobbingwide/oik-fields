@@ -3,9 +3,9 @@
 * Contributors: bobbingwide
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
-* Requires at least: 4.2
-* Tested up to: 4.7.2
-* Stable tag: 1.40.5
+* Requires at least: 4.8
+* Tested up to: 4.9
+* Stable tag: 1.50.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,6 +166,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 ## Upgrade Notice 
+# 1.50.0 
+Now depends on oik v3.2.1
+
 # 1.40.5 
 Upgrade for improved display of mshot2 fields ( oik-mshot plugin extension ).
 
@@ -251,6 +254,11 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 ## Changelog 
+# 1.50.0 
+* Changed: Now depends on oik v3.2.1
+* Tested: With WordPress 4.9 and WordPress Multisite
+* Tested: With PHP 7.0 and 7.1
+
 # 1.40.5 
 * Changed: Strip scheme in bw_theme_field_URL https://github.com/bobbingwide/oik-fields/issues/22
 * Fixed: Incorrect output for bw_theme_field_noderef when 'None' selected https://github.com/bobbingwide/oik-fields/issues/19

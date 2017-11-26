@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: oik fields
-Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-fields
+Plugin URI: https://www.oik-plugins.com/oik-plugins/oik-fields
 Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes, and 'virtual' fields
 Depends: oik base plugin
-Version: 1.40.5
+Version: 1.50.0
 Author: bobbingwide
-Author URI: http://www.oik-plugins.com/author/bobbingwide
+Author URI: https://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-fields
 Domain Path: /languages/
 License: GPLv2 or later
@@ -40,14 +40,23 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * "oik_pre_theme_field" - load functions used to display fields  
  * "oik_pre_form_field" - load functions used to create form fields
  * 
- * Note: In oik-fields version 1.18 the bw_theme_field() function was implemented in the wrong place. 
- * In version 1.19 we deliver the include file ( includes/bw_fields.inc ) in both oik and oik-fields, expecting to load it from the oik base plugin.
- * In version 1.40 and oik v2.3 we're still delivering the file in two places.
+ * Notes: 
+ * - In oik-fields version 1.18 the bw_theme_field() function was implemented in the wrong place. 
+ * - In version 1.19 we deliver the include file ( includes/bw_fields.inc ) in both oik and oik-fields, expecting to load it from the oik base plugin.
+ * - In version 1.40 and oik v2.3 we're still delivering the file in two places.
+ * - In version 1.50, dependent upon oik v3.2.1, we'll use the shared library file "bw_fields"
  */
 function oik_fields_init() {
-  oik_require( "includes/bw_register.inc" );
-  oik_require( "bw_metadata.inc" );
-  oik_require2( "includes/bw_fields.inc", "oik", "oik-fields" );
+	if ( oik_fields_check_oik_version() ) {
+		oik_require( "includes/bw_register.php" );
+		oik_require( "includes/bw_metadata.php" );
+		oik_require_lib( "bw_fields" );
+	} else {
+		oik_require( "includes/bw_register.inc" ); // Yes, we know it's deprecated
+		oik_require( "bw_metadata.inc" ); // Yes, we know it's deprecated
+		oik_require( "includes/bw_fields.inc" ); // Yes, we know it's deprecated
+	}
+		
   $path = oik_path( "shortcodes/oik-fields.php", "oik-fields" );
   bw_add_shortcode( 'bw_field', 'bw_field', oik_path( "shortcodes/oik-field.php", "oik-fields"));
   bw_add_shortcode( 'bw_fields', 'bw_metadata', $path, false );
@@ -65,6 +74,16 @@ function oik_fields_init() {
    * Some plugins may choose to defer their initialization until they know that oik-fields is active.
    */
   do_action( 'oik_fields_loaded' );
+}
+
+/**
+ * Checks the required version of oik
+ */ 
+function oik_fields_check_oik_version( $version="3.2.1") {
+	$active_version = oik_version();
+  $active = version_compare( $active_version, $version, "ge" ); 
+  bw_trace2( $active_version, $version, true );
+	return $active;
 }
 
 /**
@@ -113,7 +132,7 @@ function oik_fields_shortcode_atts( $atts, $content, $tag ) {
 			$atts = oik_fields_shortcode_atts_between( $atts, $content, $tag );
 		}	
 	}
-	bw_trace2();
+	//bw_trace2();
 	return( $atts );
 }
 
@@ -235,26 +254,27 @@ function bw_meta( $atts = null ) {
 }
 
 /**
- * Relocate the plugin to become its own plugin and set the plugin server
+ * Implement "oik_admin_menu" for oik-fields
  *
- * For version 1.19  we may also need to relocate the bw_fields.inc file to oik/includes
+ * Sets the plugin server.
  */
 function oik_fields_admin_menu() {
   oik_register_plugin_server( __FILE__ );
-  bw_add_relocation( 'oik/oik-fields.php', 'oik-fields/oik-fields.php' );
-  // bw_add_relocation( 'oik-fields/includes/bw_fields.inc', 'oik/includes/bw_fields.inc' );
 }
 
 /**
  * Dependency checking for oik-fields. 
  * 
- * oik-fields v1.18 required oik v2.0
- * oik-fields v1.19 now requires oik v2.1-alpha
- * oik-fields v1.20 is needed with oik v2.1-beta.0102 - this dependency checking is not yet developed.
- * oik-fields v1.31 has same code for bw_fields.inc as oik v2.1-beta.0121
- * oik-fields v1.35 is dependent upon oik v2.2-beta
- * oik-fields v1.36 is dependent upon oik v2.2
- * oik-fields v1.39 has been tested with oik v2.3 but does not require it
+ * Version | Dependency
+ * ------- | ---------------
+ * v1.18   | oik v2.0
+ * v1.19   | oik v2.1-alpha
+ * v1.20   | is needed with oik v2.1-beta.0102 - this dependency checking is not yet developed.
+ * v1.31   | has same code for bw_fields.inc as oik v2.1-beta.0121
+ * v1.35   | oik v2.2-beta
+ * v1.36   | oik v2.2
+ * v1.39   | has been tested with oik v2.3 but does not require it
+ * v1.50.0 | expects oik v3.2.1 but will mostly work with an earlier version.
  */ 
 function oik_fields_activation() {
   static $plugin_basename = null;
@@ -265,7 +285,7 @@ function oik_fields_activation() {
       require_once( "admin/oik-activation.php" );
     }
   }  
-  $depends = "oik:2.2";
+  $depends = "oik:3.2.1";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
 }
 
@@ -392,7 +412,7 @@ function oik_fields_query_field_types( $field_types ) {
  * Return the meta_value to use - either the value of the current post or the value of a post meta field of type noderef
  *
  * @param string $meta_value - the specified meta_value 
- * @returm ID - the post ID to use 
+ * @return ID - the post ID to use 
  */
 function oik_fields_default_meta_value_meta_key( $meta_value ) {
   $field_type = bw_query_field_type( $meta_value );
@@ -413,6 +433,7 @@ function oik_fields_default_meta_value_meta_key( $meta_value ) {
  * @return string $meta_value - default value if original was no good
  */ 
 function oik_fields_default_meta_value_noderef( $meta_value, $atts ) { 
+	//bw_trace2();
   if ( !$meta_value ) {
     $meta_value = bw_global_post_id();
   }
@@ -422,6 +443,7 @@ function oik_fields_default_meta_value_noderef( $meta_value, $atts ) {
   } else {
     $meta_value = oik_fields_default_meta_value_meta_key( $meta_value ); 
   }
+	//bw_trace2( $meta_value, "meta_value", false );
   return( $meta_value );
 }  
 

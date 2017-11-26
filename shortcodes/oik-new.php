@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2013-2016
+<?php // (C) Copyright Bobbing Wide 2013-2017
 
 /**
  * Implement [bw_new] shortcode to allow the creation of a new post through a simple form
@@ -490,7 +490,7 @@ function bw_notify_author_email( $atts, $validated, $valid, $sent ) {
     $fields['message'] = $message;
     $fields['contact'] = $email_to;
     $fields['from'] = $email_to;
-    oik_require( "includes/oik-contact-form-email.inc" );
+    oik_require( "includes/oik-contact-form-email.php" );
     $sent = bw_send_email( $email_to, $subject, $message, null, $fields );
   }  
   return( $sent );
