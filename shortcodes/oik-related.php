@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2014
+<?php // (C) Copyright Bobbing Wide 2014-2017
 
 /**
  * Implement [bw_related] shortcode
@@ -43,7 +43,7 @@ function bw_related( $atts=null, $content=null, $tag=null ) {
   //bw_backtrace();
   
   oik_require( "shortcodes/oik-list.php" );
-  oik_require( "includes/bw_posts.inc" );
+  oik_require( "includes/bw_posts.php" );
   $post_type = bw_array_get( $atts, "post_type", null );
   $meta_key = bw_array_get( $atts, "meta_key", null );
   $atts['post_parent'] = bw_array_get( $atts, 'post_parent', 'no' );

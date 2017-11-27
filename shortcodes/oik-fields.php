@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2013-2015
+<?php // (C) Copyright Bobbing Wide 2013-2017
 
 
 /**
@@ -73,7 +73,6 @@ function bw_metadata( $atts=null, $content=null, $tag=null ) {
       
     }
     if ( count( $names ) ) {
-      //oik_require( "bobbforms.inc" );
       foreach ( $names as $name ) {
 				$theme_it = bw_get_field_data_arg( $name, "#theme", true );
         if ( $theme_it ) {

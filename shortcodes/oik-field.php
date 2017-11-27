@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2013, 2014
+<?php // (C) Copyright Bobbing Wide 2013-2017
 /**
  * Implement the [bw_field] shortcode
  * 
@@ -39,7 +39,6 @@ function bw_field( $atts=null, $content=null, $tag=null ) {
     $names = explode( ",", $name );
   }
   if ( count( $names ) ) {
-    //oik_require( "bobbforms.inc" );
     foreach ( $names as $name ) {
       if ( bw_get_field_data_arg( $name, "#theme", true ) ) {
       

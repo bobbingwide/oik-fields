@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2015
+<?php // (C) Copyright Bobbing Wide 2015-2017
 
 /**
  * OIK_fields_groups class
@@ -104,7 +104,7 @@ class OIK_fields_groups {
 	}	
 	
 	public function get_posts() {
-		oik_require( "includes/bw_posts.inc" );
+		oik_require( "includes/bw_posts.php" );
 		$this->posts = bw_get_posts( $this->atts );
 	}
 	
