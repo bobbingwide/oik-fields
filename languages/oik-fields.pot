@@ -1,19 +1,40 @@
-# Copyright (C) 2014 oik fields
+# Copyright (C) 2017 oik fields
 # This file is distributed under the same license as the oik fields package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik fields 1.20\n"
+"Project-Id-Version: oik fields 1.50.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-fields\n"
-"POT-Creation-Date: 2014-01-06 09:19:55+00:00\n"
+"POT-Creation-Date: 2017-12-07 17:06:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: includes/bw_fields.inc:284
-msgid ": "
+#: admin/oik-activation.php:23
+msgid "Install %1$s"
+msgstr ""
+
+#: admin/oik-activation.php:55
+msgid "Activate %1$s"
+msgstr ""
+
+#: admin/oik-activation.php:73
+msgid "Upgrade %1$s"
+msgstr ""
+
+#: admin/oik-activation.php:189
+msgid " version "
+msgstr ""
+
+#: admin/oik-activation.php:191
+msgid "%1$s may not be fully functional."
+msgstr ""
+
+#: admin/oik-activation.php:193
+msgid ""
+"Please install and activate the required minimum version of this plugin: %1$s"
 msgstr ""
 
 #: includes/oik-fields-validation.php:47
@@ -24,116 +45,168 @@ msgstr ""
 msgid "Invalid checkbox"
 msgstr ""
 
-#: includes/oik-fields.inc:232
+#: includes/oik-fields.inc:290
 msgid "Yes"
 msgstr ""
 
-#: includes/oik-fields.inc:234
+#: includes/oik-fields.inc:292
 msgid "No"
 msgstr ""
 
-#: oik-fields.php:203
+#: oik-fields.php:355
+msgid "File size"
+msgstr ""
+
+#: oik-fields.php:364
+msgid "Dimensions"
+msgstr ""
+
+#: oik-fields.php:374
+msgid "Featured image"
+msgstr ""
+
+#: oik-fields.php:377
+msgid "Thumbnail"
+msgstr ""
+
+#: oik-fields.php:387
+msgid "Google map"
+msgstr ""
+
+#: oik-fields.php:397
 msgid "Text"
 msgstr ""
 
-#: oik-fields.php:204
+#: oik-fields.php:398
 msgid "Textarea"
 msgstr ""
 
-#: oik-fields.php:205
+#: oik-fields.php:399
 msgid "Select"
 msgstr ""
 
-#: oik-fields.php:206
+#: oik-fields.php:400
 msgid "Currency"
 msgstr ""
 
-#: oik-fields.php:207
+#: oik-fields.php:401
 msgid "Numeric"
 msgstr ""
 
-#: oik-fields.php:208
+#: oik-fields.php:402
 msgid "Date"
 msgstr ""
 
-#: oik-fields.php:209
+#: oik-fields.php:403
 msgid "noderef - internal link"
 msgstr ""
 
-#: oik-fields.php:210
+#: oik-fields.php:404
 msgid "Email address"
 msgstr ""
 
-#: oik-fields.php:211
+#: oik-fields.php:405
 msgid "URL - external link"
 msgstr ""
 
-#: oik-fields.php:212
+#: oik-fields.php:406
 msgid "Check box"
 msgstr ""
 
-#: shortcodes/oik-fields.php:66
-msgid "<i>field names</i>"
+#: oik-fields.php:407
+msgid "Virtual"
 msgstr ""
 
-#: shortcodes/oik-fields.php:66
+#: oik-fields.php:408
+msgid "Text with shortcodes"
+msgstr ""
+
+#: oik-fields.php:409
+msgid "Textarea with shortcodes"
+msgstr ""
+
+#: oik-fields.php:410
+msgid "PHP serialized"
+msgstr ""
+
+#: shortcodes/oik-field.php:85 shortcodes/oik-fields.php:130
 msgid "CSV list of field names. Default: all registered fields"
 msgstr ""
 
-#: shortcodes/oik-fields.php:67
-msgid "<i>ID</i>"
+#: shortcodes/oik-field.php:86
+msgid "CSV list of field names."
 msgstr ""
 
-#: shortcodes/oik-fields.php:67
+#: shortcodes/oik-field.php:87 shortcodes/oik-fields.php:131
 msgid "Post ID to use to access the fields"
 msgstr ""
 
-#: shortcodes/oik-new.php:37
-msgid "<i>post type</i>"
+#: shortcodes/oik-group.php:76
+msgid "Field or taxonomy to group by"
 msgstr ""
 
-#: shortcodes/oik-new.php:37
+#: shortcodes/oik-group.php:77
+msgid "Display type"
+msgstr ""
+
+#: shortcodes/oik-new.php:38
 msgid "Supporting post_type name"
 msgstr ""
 
-#: shortcodes/oik-new.php:38
-msgid "<i>format</i>"
-msgstr ""
-
-#: shortcodes/oik-new.php:38
+#: shortcodes/oik-new.php:39
 msgid "Field format string"
 msgstr ""
 
-#: shortcodes/oik-new.php:39
-msgid "n|<i>email</i>"
-msgstr ""
-
-#: shortcodes/oik-new.php:39
+#: shortcodes/oik-new.php:40
 msgid "Email address for New pending content email"
 msgstr ""
 
-#: shortcodes/oik-new.php:199
+#: shortcodes/oik-new.php:213
 msgid "Please enter a value for %s"
 msgstr ""
 
-#: shortcodes/oik-new.php:485
+#: shortcodes/oik-new.php:555
 msgid "Invalid input. Please corrrect and retry."
 msgstr ""
 
-#: shortcodes/oik-new.php:646
+#: shortcodes/oik-new.php:716
 msgid "Title"
 msgstr ""
 
-#: shortcodes/oik-new.php:653
+#: shortcodes/oik-new.php:723
 msgid "Content"
 msgstr ""
 
-#: shortcodes/oik-new.php:660
+#: shortcodes/oik-new.php:730
 msgid "Excerpt"
 msgstr ""
 
-#: shortcodes/oik-new.php:772
+#: shortcodes/oik-new.php:842
 msgid "Add new %s"
+msgstr ""
+
+#: shortcodes/oik-related.php:376
+msgid "Display related content"
+msgstr ""
+
+#: shortcodes/oik-related.php:396
+msgid "Related post type"
+msgstr ""
+
+#: shortcodes/oik-related.php:397
+msgid "name of noderef field"
+msgstr ""
+
+#: shortcodes/oik-related.php:398
+msgid "the default value depends on the field type"
+msgstr ""
+
+#: shortcodes/oik-related.php:399
+msgid "field format string"
+msgstr ""
+
+#: shortcodes/oik-related.php:400
+msgid "name of a noderef field"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
@@ -141,13 +214,13 @@ msgid "oik fields"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "http://www.oik-plugins.com/oik-plugins/oik-fields"
+msgid "https://www.oik-plugins.com/oik-plugins/oik-fields"
 msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
 "Field formatting for custom post type meta data, plus [bw_field] & "
-"[bw_fields] & [bw_new]  shortcodes"
+"[bw_fields], [bw_new] and [bw_related] shortcodes, and 'virtual' fields"
 msgstr ""
 
 #. Author of the plugin/theme
@@ -155,5 +228,5 @@ msgid "bobbingwide"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "http://www.bobbingwide.com"
+msgid "https://www.oik-plugins.com/author/bobbingwide"
 msgstr ""

@@ -3,8 +3,8 @@ Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 Requires at least: 4.8
-Tested up to: 4.9
-Stable tag: 1.50.0
+Tested up to: 4.9.1
+Stable tag: 1.50.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,12 +121,18 @@ The following field types are provided by the plugins listed below:
 * media - oik-media
 
 = What is oik-fields dependent upon? =
-This plugin is dependent upon the oik base plugin. It specifically includes the following files:
+This plugin is dependent upon the oik base plugin. It specifically includes the following files.
 
 ```
-  oik_require( "includes/bw_register.inc" );
-  oik_require( "bw_metadata.inc" );
-  oik_require2( "includes/bw_fields.inc", "oik-fields", "oik" ); // When required! 
+	if ( oik_fields_check_oik_version( "3.2.1" ) ) {
+		oik_require( "includes/bw_register.php" );
+		oik_require( "includes/bw_metadata.php" );
+		oik_require_lib( "bw_fields" );
+	} else {
+		oik_require( "includes/bw_register.inc" ); // Yes, we know it's deprecated
+		oik_require( "bw_metadata.inc" ); // Yes, we know it's deprecated
+		oik_require( "includes/bw_fields.inc" ); // Yes, we know it's deprecated
+	}
 ```  
   
 = Fields displayed by default =
@@ -142,13 +148,8 @@ If you don't want the field's label to be displayed by [bw_fields] add:
   
 == Frequently Asked Questions ==
 = Where is the FAQ? =
-[oik FAQ](http://www.oik-plugins.com/oik/oik-faq)
+[oik FAQ](https://www.oik-plugins.com/oik/oik-faq)
 
-= Is there a support forum? =
-Yes - please use the standard WordPress forum - http://wordpress.org/tags/oik?forum_id=10
-
-= Can I get support? = 
-Yes - see above 
 
 = What are ._field_name and _node_ref?  =
 
@@ -165,6 +166,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 == Upgrade Notice ==
+= 1.50.1 = 
+Upgrade for improved compatibility with oik v3.2.1 or higher
+
 = 1.50.0 =
 Now depends on oik v3.2.1 
 
@@ -253,10 +257,15 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.50.1 =
+* Changed: Improved compatibility with oik v3.2.1 [github bobbingwide oik-fields issue 26]
+* Tested: With WordPress 4.9.1 and WordPress Multisite
+* Tested: With PHP 7.0, 7.1 and 7.2	[github bobbingwide oik issues 91]
+
 = 1.50.0 = 
 * Changed: Now depends on oik v3.2.1 
 * Tested: With WordPress 4.9 and WordPress Multisite
-* Tested: With PHP 7.0 and 7.1
+* Tested: With PHP 7.0, 7.1 and 7.2
 
 = 1.40.5 =
 * Changed: Strip scheme in bw_theme_field_URL [github bobbingwide oik-fields issue 22]

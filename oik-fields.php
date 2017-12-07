@@ -4,7 +4,7 @@ Plugin Name: oik fields
 Plugin URI: https://www.oik-plugins.com/oik-plugins/oik-fields
 Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes, and 'virtual' fields
 Depends: oik base plugin
-Version: 1.50.0
+Version: 1.50.1
 Author: bobbingwide
 Author URI: https://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-fields
@@ -78,11 +78,14 @@ function oik_fields_init() {
 
 /**
  * Checks the required version of oik
+ *
+ * @param string $version - the required minimum version
+ * @return bool true if the required version is satisfied
  */ 
 function oik_fields_check_oik_version( $version="3.2.1") {
 	$active_version = oik_version();
   $active = version_compare( $active_version, $version, "ge" ); 
-  bw_trace2( $active_version, $version, true );
+  bw_trace2( $active, "Active version: $active_version. Checking for: $version.", true );
 	return $active;
 }
 
