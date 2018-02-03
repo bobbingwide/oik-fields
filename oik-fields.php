@@ -350,7 +350,7 @@ function oik_fields_oik_fields_loaded() {
                      , "#plugin" => "oik-fields"
                      , "#file" => "includes/oik-fields-virtual.php"
                      , "#form" => false
-                     , "#hint" => "virtual field"
+                     , "hint" => __( "virtual field", "oik-fields" )
                      ); 
   bw_register_field( "file_size", "virtual", "File size", $field_args );
   
@@ -359,7 +359,7 @@ function oik_fields_oik_fields_loaded() {
                      , "#plugin" => "oik-fields"
                      , "#file" => "includes/oik-fields-virtual.php"
                      , "#form" => false
-                     , "#hint" => "virtual field"
+                     , "hint" => __( "virtual field", "oik-fields" )
                      ); 
   bw_register_field( "dimensions", "virtual", "Dimensions", $field_args );
   
@@ -368,7 +368,7 @@ function oik_fields_oik_fields_loaded() {
                      , "#plugin" => "oik-fields"
                      , "#file" => "includes/oik-fields-virtual.php"
                      , "#form" => false
-                     , "#hint" => "virtual field"
+                     , "hint" => __( "virtual field", "oik-fields" )
                      , "#label" => false
                      ); 
   bw_register_field( "featured", "virtual", "Featured image", $field_args );
@@ -382,7 +382,7 @@ function oik_fields_oik_fields_loaded() {
                      , "#plugin" => "oik-fields"
                      , "#file" => "includes/oik-fields-virtual-google-map.php"
                      , "#form" => false
-                     , "#hint" => "virtual field"
+                     , "hint" => __( "virtual field", "oik-fields" )
                      ); 
 	bw_register_field( "googlemap", "virtual", "Google map", $field_args );
 } 

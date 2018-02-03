@@ -1,7 +1,7 @@
 <?php
 /* 
 
-    Copyright 2014-2016 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2014-2018 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -31,7 +31,7 @@
  */
 function bw_form_field_virtual( $name, $type, $title, $value, $args ) {
   bw_trace2();
-  $lab = label( $name, $title );
+  $lab = BW_::label( $name, $title );
   stag( "tr" );
   bw_td( $lab );
   stag( "td" );
