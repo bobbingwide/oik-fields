@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2015, 2017
+<?php // (C) Copyright Bobbing Wide 2015-2018
 /**
- * Return the Google Map for the given _post_code, _lat and _long
+ * Returns the Google Map for the given _post_code, _lat and _long
  *
  * This is similar to using [bw_show_googlemap] to display a Google Map
  * except we pass the values of _post_code, _lat and _long 
@@ -18,6 +18,7 @@ function bw_fields_get_google_map( $post_code, $lat=null, $long=null, $ID=null )
 	
 	if ( is_numeric( $lat )  && is_numeric( $long ) ) {
 		oik_require( "shortcodes/oik-googlemap.php" );
+		bw_gmap_map( null );
 		$google_map = bw_googlemap_v3( get_the_title( $ID )
 							, $lat
 							, $long
