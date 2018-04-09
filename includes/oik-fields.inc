@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2011-2016
+<?php // (C) Copyright Bobbing Wide 2011-2018
 
 /**
  * Library: 
@@ -265,14 +265,16 @@ function bw_theme_field_sctextarea( $key, $value ) {
  * @param array $value - the field value at index 0  
  */
 function bw_theme_field_email( $key, $value ) {
-  oik_require( "shortcodes/oik-email.php" );
-  $email = bw_array_get( $value, 0, $value );
-  // The prefix and separator have already been set, so null them out here
-  $atts = array( "prefix" => ""  
-               , "sep" => ""
-               , "email" => $email
-               );
-  e( _bw_email( $atts ) );
+	if ( !empty( $value ) ) {
+		oik_require( "shortcodes/oik-email.php" );
+		$email = bw_array_get( $value, 0, $value );
+		// The prefix and separator have already been set, so null them out here
+		$atts = array( "prefix" => ""  
+								 , "sep" => ""
+								 , "email" => $email
+								);
+		e( _bw_email( $atts ) );
+	}
 }
 
 /**
