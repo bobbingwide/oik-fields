@@ -84,7 +84,11 @@ function oik_fields_init() {
  */ 
 function oik_fields_check_oik_version( $version="3.2.1") {
 	$active_version = oik_version();
-  $active = version_compare( $active_version, $version, "ge" ); 
+	if ( $active_version ) { 
+		$active = version_compare( $active_version, $version, "ge" ); 
+	} else {
+		$active = true;
+	}
   bw_trace2( $active, "Active version: $active_version. Checking for: $version.", true );
 	return $active;
 }
