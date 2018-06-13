@@ -389,6 +389,18 @@ function oik_fields_oik_fields_loaded() {
                      , "hint" => __( "virtual field", "oik-fields" )
                      ); 
 	bw_register_field( "googlemap", "virtual", "Google map", $field_args );
+	
+	
+  $field_args = array( "#callback" => "bw_fields_get_template"
+                     , "#parms" => "_wp_page_template" 
+                     , "#plugin" => "oik-fields"
+                     , "#file" => "includes/oik-fields-virtual.php"
+                     , "#form" => false
+                     , "hint" => __( "virtual field", "oik-fields" )
+                     ); 
+	bw_register_field( "template", "virtual", "Page template", $field_args );
+	
+	
 } 
 
 /**

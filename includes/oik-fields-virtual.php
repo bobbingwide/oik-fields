@@ -48,7 +48,7 @@ function bw_fields_get_dimensions( $wp_attachment_metadata ) {
  */
 function bw_fields_get_featured_image( $thumbnail_id ) {
   $thumbnail =  wp_get_attachment_image_src( $thumbnail_id, "full" ) ;
-  if ( $thumbnail ) {
+  if ( $thumbnail  ) {
     $thumbnail = retimage( "featured", $thumbnail[0] );
   }
   bw_trace2( $thumbnail );
@@ -70,5 +70,13 @@ function bw_fields_get_thumbnail( $thumbnail_id ) {
   }
   bw_trace2( $thumbnail );
   return( $thumbnail);
+}
+
+/** 
+ * Return the page template name
+ *
+ */
+function bw_fields_get_template( $_wp_page_template ) {
+	return $_wp_page_template;
 }
  
