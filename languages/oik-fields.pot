@@ -1,14 +1,14 @@
-# Copyright (C) 2017 oik fields
+# Copyright (C) 2018 oik fields
 # This file is distributed under the same license as the oik fields package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik fields 1.50.0\n"
+"Project-Id-Version: oik fields 1.50.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-fields\n"
-"POT-Creation-Date: 2017-12-07 17:06:40+00:00\n"
+"POT-Creation-Date: 2018-12-10 10:49:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -45,87 +45,96 @@ msgstr ""
 msgid "Invalid checkbox"
 msgstr ""
 
-#: includes/oik-fields.inc:290
+#: includes/oik-fields.inc:292
 msgid "Yes"
 msgstr ""
 
-#: includes/oik-fields.inc:292
+#: includes/oik-fields.inc:294
 msgid "No"
 msgstr ""
 
-#: oik-fields.php:355
+#: oik-fields.php:357 oik-fields.php:366 oik-fields.php:375 oik-fields.php:389
+#: oik-fields.php:399
+msgid "virtual field"
+msgstr ""
+
+#: oik-fields.php:359
 msgid "File size"
 msgstr ""
 
-#: oik-fields.php:364
+#: oik-fields.php:368
 msgid "Dimensions"
 msgstr ""
 
-#: oik-fields.php:374
+#: oik-fields.php:378
 msgid "Featured image"
 msgstr ""
 
-#: oik-fields.php:377
+#: oik-fields.php:381
 msgid "Thumbnail"
 msgstr ""
 
-#: oik-fields.php:387
+#: oik-fields.php:391
 msgid "Google map"
 msgstr ""
 
-#: oik-fields.php:397
+#: oik-fields.php:401
+msgid "Page template"
+msgstr ""
+
+#: oik-fields.php:413
 msgid "Text"
 msgstr ""
 
-#: oik-fields.php:398
+#: oik-fields.php:414
 msgid "Textarea"
 msgstr ""
 
-#: oik-fields.php:399
+#: oik-fields.php:415
 msgid "Select"
 msgstr ""
 
-#: oik-fields.php:400
+#: oik-fields.php:416
 msgid "Currency"
 msgstr ""
 
-#: oik-fields.php:401
+#: oik-fields.php:417
 msgid "Numeric"
 msgstr ""
 
-#: oik-fields.php:402
+#: oik-fields.php:418
 msgid "Date"
 msgstr ""
 
-#: oik-fields.php:403
+#: oik-fields.php:419
 msgid "noderef - internal link"
 msgstr ""
 
-#: oik-fields.php:404
+#: oik-fields.php:420
 msgid "Email address"
 msgstr ""
 
-#: oik-fields.php:405
+#: oik-fields.php:421
 msgid "URL - external link"
 msgstr ""
 
-#: oik-fields.php:406
+#: oik-fields.php:422
 msgid "Check box"
 msgstr ""
 
-#: oik-fields.php:407
+#: oik-fields.php:423
 msgid "Virtual"
 msgstr ""
 
-#: oik-fields.php:408
+#: oik-fields.php:424
 msgid "Text with shortcodes"
 msgstr ""
 
-#: oik-fields.php:409
+#: oik-fields.php:425
 msgid "Textarea with shortcodes"
 msgstr ""
 
-#: oik-fields.php:410
+#: oik-fields.php:426
 msgid "PHP serialized"
 msgstr ""
 

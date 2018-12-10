@@ -4,7 +4,7 @@ Plugin Name: oik fields
 Plugin URI: https://www.oik-plugins.com/oik-plugins/oik-fields
 Description:  Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes, and 'virtual' fields
 Depends: oik base plugin
-Version: 1.50.1
+Version: 1.50.2
 Author: bobbingwide
 Author URI: https://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-fields
@@ -12,7 +12,7 @@ Domain Path: /languages/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-    Copyright 2011-2017 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2011-2018 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -82,7 +82,7 @@ function oik_fields_init() {
  * @param string $version - the required minimum version
  * @return bool true if the required version is satisfied
  */ 
-function oik_fields_check_oik_version( $version="3.2.1") {
+function oik_fields_check_oik_version( $version="3.2.8") {
 	$active_version = oik_version();
 	if ( $active_version ) { 
 		$active = version_compare( $active_version, $version, "ge" ); 
@@ -282,6 +282,7 @@ function oik_fields_admin_menu() {
  * v1.36   | oik v2.2
  * v1.39   | has been tested with oik v2.3 but does not require it
  * v1.50.0 | expects oik v3.2.1 but will mostly work with an earlier version.
+ * v1.50.2 | oik v3.2.8 - for Gutenberg compatibility
  */ 
 function oik_fields_activation() {
   static $plugin_basename = null;
@@ -292,7 +293,7 @@ function oik_fields_activation() {
       require_once( "admin/oik-activation.php" );
     }
   }  
-  $depends = "oik:3.2.1";
+  $depends = "oik:3.2.8";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
 }
 

@@ -1,11 +1,11 @@
 # oik-fields 
 ![banner](https://raw.githubusercontent.com/bobbingwide/oik-fields/master/assets/oik-fields-banner-772x250.jpg)
 * Contributors: bobbingwide
-* Donate link: http://www.oik-plugins.com/oik/oik-donate/
+* Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
-* Requires at least: 4.8
-* Tested up to: 4.9.1
-* Stable tag: 1.50.1
+* Requires at least: 4.9.8
+* Tested up to: 5.0
+* Stable tag: 1.50.2
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -167,6 +167,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 ## Upgrade Notice 
+# 1.50.2 
+Upgrade for peaceful coexistence with Gutenberg / WordPress 5.0. Now depends on oik v3.2.8.
+
 # 1.50.1 
 Upgrade for improved compatibility with oik v3.2.1 or higher
 
@@ -258,6 +261,16 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 ## Changelog 
+# 1.50.2 
+* Added: Add template virtual field, https://github.com/bobbingwide/oik-fields/issues/32
+* Changed: Only compare oik version if a value was obtained. Otherwise assume it's OK
+* Changed: Support googlemap virtual field in the block editor, https://github.com/bobbingwide/oik-fields/issues/31
+* Changed: Cater for blank email field in bw_theme_field_email, https://github.com/bobbingwide/oik-fields/issues/30
+* Changed: Eliminate deprecated messages from bw_translate, https://github.com/bobbingwide/oik-fields/issues/29
+* Tested: With Gutenberg 4.6.1
+* Tested: With WordPress 5.0
+* Tested: With PHP 7.2
+
 # 1.50.1 
 * Changed: Improved compatibility with oik v3.2.1 https://github.com/bobbingwide/oik-fields/issues/26
 * Tested: With WordPress 4.9.1 and WordPress Multisite
