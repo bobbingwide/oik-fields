@@ -45,6 +45,9 @@ function bw_field_has_value( $post_meta, $name ) {
  * 
  */
 function bw_metadata( $atts=null, $content=null, $tag=null ) {
+	if ( !oik_is_shortcode_expansion_necessary() ) {
+		return "Not today thank you.";
+	}
   $post_id = bw_array_get( $atts, "id", null );
   if ( $post_id ) {
     $single = true;
