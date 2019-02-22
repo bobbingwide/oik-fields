@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2014-2017
+<?php // (C) Copyright Bobbing Wide 2014-2019
 
 /**
  * Implement [bw_related] shortcode
@@ -67,7 +67,11 @@ function bw_related( $atts=null, $content=null, $tag=null ) {
     $atts['meta_value'] = bw_related_meta_value( $atts, $meta_key );
   } 
   $format = bw_array_get( $atts, "format", null );
-  if ( $format ) {
+  if ( $format === 'T') {
+  	oik_require( "shortcodes/oik-table.php");
+  	$result = bw_table( $atts );
+
+  } elseif ( $format ) {
     oik_require( "shortcodes/oik-pages.php" );
     $result = bw_pages( $atts );
   } else {
