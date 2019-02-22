@@ -5,7 +5,7 @@
 * Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 * Requires at least: 4.9.8
 * Tested up to: 5.0
-* Stable tag: 1.50.2
+* Stable tag: 1.51.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,7 @@ Display custom fields on the page, with labels and separators
 Display related content. Uses the field definition to determine the search criteria.
 Works for both noderef type fields and date fields ( using oik-dates )
 Now supports the format= parameter to display results using the same logic as [bw_pages]
+When format=T then it displays results using the same logic as [bw_table]
 
 #### Actions and filter hooks 
 Invokes - calls using do_action() or apply_filters()
@@ -167,6 +168,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 ## Upgrade Notice 
+# 1.51.0 
+Update for improvements to bw_related.
+
 # 1.50.2 
 Upgrade for peaceful coexistence with Gutenberg / WordPress 5.0. Now depends on oik v3.2.8.
 
@@ -261,9 +265,13 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 ## Changelog 
+# 1.51.0 
+* Changed: Display bw_related in table form when format=T, https://github.com/bobbingwide/oik-fields/issues/6
+* Changed: Now dependent upon oik v3.3.0
+
 # 1.50.2 
 * Added: Add template virtual field, https://github.com/bobbingwide/oik-fields/issues/32
-* Changed: Only compare oik version if a value was obtained. Otherwise assume it's OK
+* Changed: Only compare oik version if a value was obtained. Otherwise assume it's OK, https://github.com/bobbingwide/oik-fields/issues/26
 * Changed: Support googlemap virtual field in the block editor, https://github.com/bobbingwide/oik-fields/issues/31
 * Changed: Cater for blank email field in bw_theme_field_email, https://github.com/bobbingwide/oik-fields/issues/30
 * Changed: Eliminate deprecated messages from bw_translate, https://github.com/bobbingwide/oik-fields/issues/29
