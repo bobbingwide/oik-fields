@@ -267,6 +267,7 @@ This version matches the version in oik v1.17
 ## Changelog 
 # 1.51.0 
 * Changed: Display bw_related in table form when format=T, https://github.com/bobbingwide/oik-fields/issues/6
+* Changed: Don't expand bw_metadata when it's considered unnecessary, https://github.com/bobbingwide/oik-fields/issues/30
 * Changed: Now dependent upon oik v3.3.0
 
 # 1.50.2 
