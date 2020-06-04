@@ -398,9 +398,12 @@ function bw_theme_field_virtual( $key, $value, $field ) {
 	bw_trace2( $parm_values, "parm_values", true );
   $funcname = bw_load_callback( $field );
   if ( is_callable( $funcname ) ) {
-    e( call_user_func_array( $funcname, $parm_values ) );
+  	$field_value = call_user_func_array( $funcname, $parm_values );
+    e( $field_value );
   } else {
+  	$field_value = null;
     e( $funcname . $key );
   }
+  return $field_value;
 }
 

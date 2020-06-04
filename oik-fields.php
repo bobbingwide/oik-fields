@@ -45,9 +45,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * - In version 1.19 we deliver the include file ( includes/bw_fields.inc ) in both oik and oik-fields, expecting to load it from the oik base plugin.
  * - In version 1.40 and oik v2.3 we're still delivering the file in two places.
  * - In version 1.50, dependent upon oik v3.2.1, we'll use the shared library file "bw_fields"
+ * - Version 1.51.0 prefers oik v3.3.0 but the check should still be for 3.2.1
  */
 function oik_fields_init() {
-	if ( oik_fields_check_oik_version() ) {
+	if ( oik_fields_check_oik_version( "3.2.1") ) {
 		oik_require( "includes/bw_register.php" );
 		oik_require( "includes/bw_metadata.php" );
 		oik_require_lib( "bw_fields" );
@@ -79,10 +80,15 @@ function oik_fields_init() {
 /**
  * Checks the required version of oik
  *
+ * oik needs to be at least 3.2.1 in order to use the .php files rather than the .inc files
+ * @TODO - update this test or the calling routine to prevent warning messages
+ * when oik-fields is updated to be dependent on a higher version of oik, but oik has not yet been updated.
+ * oik-fields 1.51
+ *
  * @param string $version - the required minimum version
  * @return bool true if the required version is satisfied
  */ 
-function oik_fields_check_oik_version( $version="3.3.0") {
+function oik_fields_check_oik_version( $version="3.2.1") {
 	$active_version = oik_version();
 	if ( $active_version ) { 
 		$active = version_compare( $active_version, $version, "ge" ); 

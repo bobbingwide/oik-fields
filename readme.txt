@@ -3,7 +3,7 @@ Contributors: bobbingwide
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 Requires at least: 4.9.8
-Tested up to: 5.0
+Tested up to: 5.1.0
 Stable tag: 1.51.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -167,6 +167,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 == Upgrade Notice ==
+= 1.51.1 =
+oik version test should still be for 3.2.1
+
 = 1.51.0 =
 Update for improvements to bw_related.
 
@@ -264,6 +267,9 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.51.1 =
+* Changed: Reset oik version test to 3.2.1
+
 = 1.51.0 =
 * Changed: Display bw_related in table form when format=T, [github bobbingwide oik-fields issue 6]
 * Changed: Don't expand bw_metadata when it's considered unnecessary, [github bobbingwide oik-fields issue 30]
