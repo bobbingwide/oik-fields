@@ -406,6 +406,18 @@ function oik_fields_oik_fields_loaded() {
                      , "hint" => __( "virtual field", "oik-fields" )
                      ); 
 	bw_register_field( "template", "virtual", "Page template", $field_args );
+
+    /**
+     * Registers the Author name field, to display the name of the post's author.
+     */
+    $field_args = array( "#callback" => "bw_fields_get_author_name"
+    , "#parms" => ""
+    , "#plugin" => "oik-fields"
+    , "#file" => "includes/oik-fields-virtual-author.php"
+    , "#form" => false
+    , "hint" => __( "virtual field", "oik-fields" )
+    );
+    bw_register_field( "author_name", "virtual", "Author", $field_args );
 	
 	
 } 
