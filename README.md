@@ -4,8 +4,8 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 * Requires at least: 4.9.8
-* Tested up to: 5.0
-* Stable tag: 1.51.0
+* Tested up to: 5.8.0-RC2
+* Stable tag: 1.52.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,12 +104,15 @@ Support is also provided for specific fields:
 * post_content
 * excerpt
 * bw_header_image
+* post_date
+* post_modified
 
 Virtual fields provided:
 * file_size  - display the file size in bytes of an attachment
 * dimensions - display the width and height of an attached image
 * featured   - the featured image is the full size image
 * thumbnail  - the thumbnail sized version of the featured image
+* author_name - the name of the post's author
 
 
 # What other field types are there? 
@@ -168,6 +171,12 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 ## Upgrade Notice 
+# 1.52.2 
+Upgrade for the author_name field.
+
+# 1.51.1 
+oik version test should still be for 3.2.1
+
 # 1.51.0 
 Update for improvements to bw_related.
 
@@ -265,6 +274,17 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 ## Changelog 
+# 1.52.0 
+* Added: Added author_name virtual field.,https://github.com/bobbingwide/oik-fields/issues/35
+* Changed: Use id=. attribute to allow post ID to be obtained dynamically.,https://github.com/bobbingwide/oik-fields/issues/34
+* Tested: With Gutenberg 11.0.0
+* Tested: With WordPress 5.8.0-RC2 and WordPress Multi Site
+* Tested: With PHP 8.0
+* Tested: With PHPUnit 9
+
+# 1.51.1 
+* Changed: Reset oik version test to 3.2.1
+
 # 1.51.0 
 * Changed: Display bw_related in table form when format=T, https://github.com/bobbingwide/oik-fields/issues/6
 * Changed: Don't expand bw_metadata when it's considered unnecessary, https://github.com/bobbingwide/oik-fields/issues/30
@@ -457,5 +477,5 @@ This version matches the version in oik v1.17
 ## Further reading 
 If you want to read more about the oik plugins then please visit the
 
-[oik base plugin](http://www.oik-plugins.com/oik)
+[oik base plugin](https://www.oik-plugins.com/oik)
 
