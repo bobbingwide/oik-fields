@@ -49,6 +49,9 @@ function bw_metadata( $atts=null, $content=null, $tag=null ) {
 		return "Not today thank you.";
 	}
   $post_id = bw_array_get( $atts, "id", null );
+	if ( '.' === $post_id ) {
+		$post_id = bw_current_post_id();
+	}
   if ( $post_id ) {
     $single = true;
   } else { 
