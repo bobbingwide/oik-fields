@@ -1,39 +1,39 @@
-# Copyright (C) 2018 oik fields
+# Copyright (C) 2021 oik fields
 # This file is distributed under the same license as the oik fields package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik fields 1.50.1\n"
+"Project-Id-Version: oik fields 1.52.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-fields\n"
-"POT-Creation-Date: 2018-12-10 10:49:55+00:00\n"
+"POT-Creation-Date: 2021-07-12 11:03:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: en_GB\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-#: admin/oik-activation.php:23
+#: admin/oik-activation.php:29
 msgid "Install %1$s"
 msgstr "Install %1$s"
 
-#: admin/oik-activation.php:55
+#: admin/oik-activation.php:61
 msgid "Activate %1$s"
 msgstr "Activate %1$s"
 
-#: admin/oik-activation.php:73
+#: admin/oik-activation.php:79
 msgid "Upgrade %1$s"
 msgstr "Upgrade %1$s"
 
-#: admin/oik-activation.php:189
-msgid " version "
-msgstr " version "
+#: admin/oik-activation.php:195
+msgid "version"
+msgstr "version"
 
-#: admin/oik-activation.php:191
+#: admin/oik-activation.php:197
 msgid "%1$s may not be fully functional."
 msgstr "%1$s may not be fully functional."
 
-#: admin/oik-activation.php:193
+#: admin/oik-activation.php:199
 msgid ""
 "Please install and activate the required minimum version of this plugin: %1$s"
 msgstr "Please install and activate the required minimum version of this plugin: %1$s"
@@ -54,92 +54,96 @@ msgstr "Yes"
 msgid "No"
 msgstr "No"
 
-#: oik-fields.php:357 oik-fields.php:366 oik-fields.php:375 oik-fields.php:389
-#: oik-fields.php:399
+#: oik-fields.php:364 oik-fields.php:373 oik-fields.php:382 oik-fields.php:396
+#: oik-fields.php:406 oik-fields.php:418
 msgid "virtual field"
 msgstr "virtual field"
 
-#: oik-fields.php:359
+#: oik-fields.php:366
 msgid "File size"
 msgstr "File size"
 
-#: oik-fields.php:368
+#: oik-fields.php:375
 msgid "Dimensions"
 msgstr "Dimensions"
 
-#: oik-fields.php:378
+#: oik-fields.php:385
 msgid "Featured image"
 msgstr "Featured image"
 
-#: oik-fields.php:381
+#: oik-fields.php:388
 msgid "Thumbnail"
 msgstr "Thumbnail"
 
-#: oik-fields.php:391
+#: oik-fields.php:398
 msgid "Google map"
 msgstr "Google map"
 
-#: oik-fields.php:401
+#: oik-fields.php:408
 msgid "Page template"
 msgstr "Page template"
 
-#: oik-fields.php:413
+#: oik-fields.php:420
+msgid "Author"
+msgstr "Author"
+
+#: oik-fields.php:432
 msgid "Text"
 msgstr "Text"
 
-#: oik-fields.php:414
+#: oik-fields.php:433
 msgid "Textarea"
 msgstr "Textarea"
 
-#: oik-fields.php:415
+#: oik-fields.php:434
 msgid "Select"
 msgstr "Select"
 
-#: oik-fields.php:416
+#: oik-fields.php:435
 msgid "Currency"
 msgstr "Currency"
 
-#: oik-fields.php:417
+#: oik-fields.php:436
 msgid "Numeric"
 msgstr "Numeric"
 
-#: oik-fields.php:418
+#: oik-fields.php:437
 msgid "Date"
 msgstr "Date"
 
-#: oik-fields.php:419
+#: oik-fields.php:438
 msgid "noderef - internal link"
 msgstr "noderef - internal link"
 
-#: oik-fields.php:420
+#: oik-fields.php:439
 msgid "Email address"
 msgstr "Email address"
 
-#: oik-fields.php:421
+#: oik-fields.php:440
 msgid "URL - external link"
 msgstr "URL - external link"
 
-#: oik-fields.php:422
+#: oik-fields.php:441
 msgid "Check box"
 msgstr "Check box"
 
-#: oik-fields.php:423
+#: oik-fields.php:442
 msgid "Virtual"
 msgstr "Virtual"
 
-#: oik-fields.php:424
+#: oik-fields.php:443
 msgid "Text with shortcodes"
 msgstr "Text with shortcodes"
 
-#: oik-fields.php:425
+#: oik-fields.php:444
 msgid "Textarea with shortcodes"
 msgstr "Textarea with shortcodes"
 
-#: oik-fields.php:426
+#: oik-fields.php:445
 msgid "PHP serialized"
 msgstr "PHP serialised"
 
-#: shortcodes/oik-field.php:85 shortcodes/oik-fields.php:130
+#: shortcodes/oik-field.php:85 shortcodes/oik-fields.php:136
 msgid "CSV list of field names. Default: all registered fields"
 msgstr "CSV list of field names. Default: all registered fields"
 
@@ -147,7 +151,7 @@ msgstr "CSV list of field names. Default: all registered fields"
 msgid "CSV list of field names."
 msgstr "CSV list of field names."
 
-#: shortcodes/oik-field.php:87 shortcodes/oik-fields.php:131
+#: shortcodes/oik-field.php:87 shortcodes/oik-fields.php:137
 msgid "Post ID to use to access the fields"
 msgstr "Post ID to use to access the fields"
 
@@ -195,49 +199,44 @@ msgstr "Excerpt"
 msgid "Add new %s"
 msgstr "Add new %s"
 
-#: shortcodes/oik-related.php:376
+#: shortcodes/oik-related.php:380
 msgid "Display related content"
 msgstr "Display related content"
 
-#: shortcodes/oik-related.php:396
+#: shortcodes/oik-related.php:400
 msgid "Related post type"
 msgstr "Related post type"
 
-#: shortcodes/oik-related.php:397
+#: shortcodes/oik-related.php:401
 msgid "name of noderef field"
 msgstr "name of noderef field"
 
-#: shortcodes/oik-related.php:398
+#: shortcodes/oik-related.php:402
 msgid "the default value depends on the field type"
 msgstr "the default value depends on the field type"
 
-#: shortcodes/oik-related.php:399
+#: shortcodes/oik-related.php:403
 msgid "field format string"
 msgstr "field format string"
 
-#: shortcodes/oik-related.php:400
+#: shortcodes/oik-related.php:404
 msgid "name of a noderef field"
 msgstr "name of a noderef field"
 
-#. Plugin Name of the plugin/theme
 msgid "oik fields"
 msgstr "oik fields"
 
-#. Plugin URI of the plugin/theme
 msgid "https://www.oik-plugins.com/oik-plugins/oik-fields"
 msgstr "https://www.oik-plugins.com/oik-plugins/oik-fields"
 
-#. Description of the plugin/theme
 msgid ""
 "Field formatting for custom post type meta data, plus [bw_field] & "
 "[bw_fields], [bw_new] and [bw_related] shortcodes, and 'virtual' fields"
 msgstr "Field formatting for custom post type meta data, plus [bw_field] & [bw_fields], [bw_new] and [bw_related] shortcodes, and 'virtual' fields"
 
-#. Author of the plugin/theme
 msgid "bobbingwide"
 msgstr "bobbingwide"
 
-#. Author URI of the plugin/theme
 msgid "https://www.oik-plugins.com/author/bobbingwide"
 msgstr "https://www.oik-plugins.com/author/bobbingwide"
 
