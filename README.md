@@ -1,11 +1,11 @@
 # oik-fields 
-![banner](https://raw.githubusercontent.com/bobbingwide/oik-fields/master/assets/oik-fields-banner-772x250.jpg)
+![banner](assets/oik-fields-banner-772x250.jpg)
 * Contributors: bobbingwide
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 * Requires at least: 4.9.8
-* Tested up to: 5.8.0-RC2
-* Stable tag: 1.52.0
+* Tested up to: 6.0.1
+* Stable tag: 1.53.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -171,6 +171,9 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 ## Upgrade Notice 
+# 1.53.0 
+[bw_new] - support updates to existing content
+
 # 1.52.2 
 Upgrade for the author_name field.
 
@@ -274,6 +277,11 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 ## Changelog 
+# 1.53.0 
+* Changed: [bw_new] - support updates to existing content,https://github.com/bobbingwide/oik-fields/issues/36
+* Tested: With WordPress 6.0.1 and WordPress Multi Site
+* Tested: With PHP 8.0
+
 # 1.52.0 
 * Added: Added author_name virtual field.,https://github.com/bobbingwide/oik-fields/issues/35
 * Changed: Use id=. attribute to allow post ID to be obtained dynamically.,https://github.com/bobbingwide/oik-fields/issues/34
