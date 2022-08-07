@@ -538,12 +538,12 @@ function _bw_process_new_post_form_oik( $atts) {
   if ( $valid ) {
     $valid = bw_spam_check( $post_type, $validated );
     if ( $valid ) {
-			$post_status = bw_determine_post_status( $post_type, $validated );
-      $sent = bw_insert_post( $post_type, $validated ); 
-			bw_set_post_terms( $post_type, $validated, $sent );
-			if ( $post_status != "publish" ) {
-				bw_notify_author_email( $atts, $validated, $valid, $sent );
-			}
+		$post_status = bw_determine_post_status( $post_type, $validated );
+        $sent = bw_maybe_insert_post( $post_type, $validated, $atts );
+		bw_set_post_terms( $post_type, $validated, $sent );
+		if ( $post_status != "publish" ) {
+			bw_notify_author_email( $atts, $validated, $valid, $sent );
+		}
     } else {
       $sent = true; 
     }    
@@ -904,5 +904,38 @@ function bw_set_post_terms( $post_type, $validated, $post_ID ) {
 	}
 }
 
-                 
- 
+/**
+ * Inserts a new post or updates an existing post.
+ *
+ * - Only allows update of an existing post for logged in users who can publish posts immediately.
+ * - Only performs an update if a post with the same post title already exists.
+ * - See comments for get_page_by_title() for which post that might be.
+ * - Depends on a filter function for the 'bw_new_pre_update_post' filter to apply the fields in $validated to the $post.
+ * - Updates other fields via $_POST. Note: these aren't filtered.
+ * - If the filter function returns null then the existing post is not updated.
+ *
+ * @param $post_type
+ * @param $validated
+ * @return ID
+ */
+function bw_maybe_insert_post( $post_type, $validated, $atts ) {
+   $allow_update = ( 'publish' === $validated['post_status'] );
+   if ( $allow_update) {
+       $post = get_page_by_title($validated['post_title'], ARRAY_A, $post_type);
+       //echo $validated['post_title'];
+       if ( $post ) {
+           $post = apply_filters( 'bw_new_pre_update_post', $post, $validated );
+           //echo "Updating" ;
+           if ( $post ) {
+               //print_r(  $post );
+               $_POST = $validated;
+               $result = wp_update_post($post, true);
+               bw_trace2($result, "result", true, BW_TRACE_DEBUG);
+               //print_r( $result );
+               return $post['ID'];
+           }
+       }
+   }
+   $post_id = bw_insert_post( $post_type, $validated );
+   return $post_id;
+}
