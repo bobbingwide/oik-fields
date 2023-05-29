@@ -921,7 +921,7 @@ function bw_set_post_terms( $post_type, $validated, $post_ID ) {
 function bw_maybe_insert_post( $post_type, $validated, $atts ) {
    $allow_update = ( 'publish' === $validated['post_status'] );
    if ( $allow_update) {
-       $post = get_page_by_title($validated['post_title'], ARRAY_A, $post_type);
+       $post = bw_get_page_by_title($validated['post_title'], ARRAY_A, $post_type);
        //echo $validated['post_title'];
        if ( $post ) {
            $post = apply_filters( 'bw_new_pre_update_post', $post, $validated );
@@ -938,4 +938,33 @@ function bw_maybe_insert_post( $post_type, $validated, $atts ) {
    }
    $post_id = bw_insert_post( $post_type, $validated );
    return $post_id;
+}
+
+/**
+ * Gets the first page by title.
+ *
+ * Replaces the get_page_by_title() function which was deprecated in WordPress 6.2 by the fix for TRAC #57041.
+ *
+ * @param $post_title
+ * @param $output
+ * @param $post_type
+ * @return WP_Post|null
+ */
+function bw_get_page_by_title( $post_title, $output, $post_type ) {
+    $post = null;
+    $args = [
+        'post_type' => $post_type,
+        'title'     => $post_title,
+        'orderby' => 'post_date',
+        'order' => 'asc',
+        'suppress_filters' => true
+        ];
+    $query = new WP_Query( $args );
+    $posts = $query->get_posts();
+    bw_trace2( $posts, "posts", true, BW_TRACE_VERBOSE );
+    if ( count( $posts )) {
+        // Return the first post found in the output format chosen.
+        $post = get_post( $posts[0]->ID, $output );
+    }
+    return $post;
 }
