@@ -1,0 +1,310 @@
+== Upgrade Notice ==
+= 1.53.0 = 
+[bw_new] - support updates to existing content 
+
+= 1.52.2 =
+Upgrade for the author_name field. 
+
+= 1.51.1 =
+oik version test should still be for 3.2.1
+
+= 1.51.0 =
+Update for improvements to bw_related.
+
+= 1.50.2 =
+Upgrade for peaceful coexistence with Gutenberg / WordPress 5.0. Now depends on oik v3.2.8.
+
+= 1.50.1 = 
+Upgrade for improved compatibility with oik v3.2.1 or higher
+
+= 1.50.0 =
+Now depends on oik v3.2.1 
+
+= 1.40.5 = 
+Upgrade for improved display of mshot2 fields ( oik-mshot plugin extension ).
+
+= 1.40.4 = 
+Required if you need to set a publication date to an original image date, using oik-media v0.0.1
+
+= 1.40.3 = 
+Required for oik-media 
+
+= 1.40.2 = 
+Includes changes for oik-requests ( part of the new WP-a2z.org )
+
+= 1.40.1 =
+Provides a workaround for WordPress TRAC #29608
+
+= 1.40 =
+Improves formatting for URL type fields
+
+= 1.39 = 
+Added more virtual fields and by= parameter for [bw_related]. Tested with WordPress 4.0-beta4
+
+= 1.38 =
+For anyone wanting to use virtual fields. Tested with WordPress 4.0-beta2
+
+= 1.37 =
+Required for sites wanting to use shortcode expansion in fields in tables
+
+= 1.36 = 
+Required for oik-shortcodes v1.12 or higher
+
+= 1.35 =
+Required for rngs.org.uk. Tested with WordPress 3.9-RC1
+
+= 1.34 =
+Required for oik-plugins.com's use of [bw_related post_type=post tag=_field_name] in widgets
+
+= 1.33 =
+Required for oik-plugins.com 
+
+= 1.32 =
+Required for officialcaravan.co.uk
+
+= 1.31 =
+Required for OLC
+
+= 1.30 =
+Required if you need the new [bw_related] shortcode
+
+= 1.20 =
+If you use oik-fields then please upgrade to this version prior to upgrading the oik base plugins to v2.1-beta.0102 or higher.
+
+= 1.19.1107 = 
+Required for PHPHants November 2013
+
+= 1.19.1028                   
+Required for Royal Navy Golfing Society www.rngs.org.uk
+
+= 1.19.0905 =
+Requires oik v2.1-alpha.0905 for improved logic in [bw_new] shortcode
+
+= 1.19.0803 =
+Needed for oik-plugins v1.2
+
+= 1.19.0723 =
+Required for dtib_reviews plugin
+
+= 1.19.0718 =
+Now works with oik v2.1-alpha.0718. You should be able to upgrade the plugins ( oik-fields and oik ) in any order. 
+
+= 1.18.0325 =
+Required for oik-plugins v0.1.0325 and oik-user v0.1.0325, depends on oik v2.0-alpha-0325
+
+= 1.18.0315 =
+Required for oik-tunes v0.1.0314 
+
+= 1.18.0302 =
+For oik base plugin v2.0-alpha and oik-tunes v0.1.0302
+
+= 1.18.0101 =
+This version is dependent upon oik v1.17 or higher
+
+= 1.17 =
+This version matches the version in oik v1.17
+
+== Changelog ==
+= 1.53.0 = 
+* Changed: [bw_new] - support updates to existing content,[github bobbingwide oik-fields issue 36]
+* Tested: With WordPress 6.0.1 and WordPress Multi Site
+* Tested: With PHP 8.0
+
+= 1.52.0 = 
+* Added: Added author_name virtual field.,[github bobbingwide oik-fields issue 35]
+* Changed: Use id=. attribute to allow post ID to be obtained dynamically.,[github bobbingwide oik-fields issue 34]
+* Tested: With Gutenberg 11.0.0
+* Tested: With WordPress 5.8.0-RC2 and WordPress Multi Site
+* Tested: With PHP 8.0
+* Tested: With PHPUnit 9
+
+= 1.51.1 =
+* Changed: Reset oik version test to 3.2.1
+
+= 1.51.0 =
+* Changed: Display bw_related in table form when format=T, [github bobbingwide oik-fields issue 6]
+* Changed: Don't expand bw_metadata when it's considered unnecessary, [github bobbingwide oik-fields issue 30]
+* Changed: Now dependent upon oik v3.3.0
+
+= 1.50.2 = 
+* Added: Add template virtual field, [github bobbingwide oik-fields issue 32]
+* Changed: Only compare oik version if a value was obtained. Otherwise assume it's OK, [github bobbingwide oik-fields issue 26]
+* Changed: Support googlemap virtual field in the block editor, [github bobbingwide oik-fields issue 31]
+* Changed: Cater for blank email field in bw_theme_field_email, [github bobbingwide oik-fields issue 30]
+* Changed: Eliminate deprecated messages from bw_translate, [github bobbingwide oik-fields issue 29]
+* Tested: With Gutenberg 4.6.1 
+* Tested: With WordPress 5.0
+* Tested: With PHP 7.2 
+
+= 1.50.1 =
+* Changed: Improved compatibility with oik v3.2.1 [github bobbingwide oik-fields issue 26]
+* Tested: With WordPress 4.9.1 and WordPress Multisite
+* Tested: With PHP 7.0, 7.1 and 7.2	[github bobbingwide oik issues 91]
+
+= 1.50.0 = 
+* Changed: Now depends on oik v3.2.1 
+* Tested: With WordPress 4.9 and WordPress Multisite
+* Tested: With PHP 7.0, 7.1 and 7.2
+
+= 1.40.5 =
+* Changed: Strip scheme in bw_theme_field_URL [github bobbingwide oik-fields issue 22]
+* Fixed: Incorrect output for bw_theme_field_noderef when 'None' selected [github bobbingwide oik-fields issue 19]
+* Tested: With WordPress 4.7.2 and WordPress Multisite
+
+= 1.40.4 =
+* Changed: Add bw_set_validated_field() [github bobbingwide oik-fields issue 14]
+* Changed: Whitespace and tracing
+
+= 1.40.3 = 
+* Added: Cater for multipart forms, required for oik-media
+* Added: Display 'Category' as a selection list [github bobbingwide oik-fields issue 15]
+* Changed: Enhance [bw_new] for authorised users [github bobbingwide oik-fields issue 16]
+* Changed: Trace levels and docblocks
+* Fixed: Atrocious performance of textarea fields in Chrome [github bobbingwide oik issue 26]
+* Fixed: Nonce field appearing twice [github bobbingwide oik-fields issue 13]
+
+= 1.40.2 =
+* Added: Add 'googlemap' virtual field [github bobbingwide oik-fields issues 3]
+* Added: Support for displaying 'serialized' fields [github bobbingwide oik-fields issues 10]
+* Added: [bw_group] shortcode to shortcode to count the occurrences of a particular field value [github bobbingwide oik-fields issues 4]
+* Changed: Set trace levels on some trace calls
+* Fixed: Don't display fields with null values [github bobbingwide oik-fields issues 2]
+* Fixed: Show all the selected values for a multiple select field [github bobbingwide oik-fields issues 1]
+
+= 1.40.1 =
+* Added: Implements "oik_shortcode_atts" filter
+* Changed: Returns $post_id value in parms for use by virtual fields
+* Fixed: Provides a workaround to WordPress TRAC #29608
+* Tested: With WordPress 4.3
+
+= 1.40 =
+* Changed: Improved formatting for the URL field type
+* Changed: [bw_fields] better handling when displaying multiple posts
+* Changed: Commented out some trace calls
+* Changed: Started internationalization ( i18n ) and localization ( l10n )
+* Changed: Delivers, but doesn't currently use, oik_fields_no_texturize_shortcodes() 
+* Fixed: Some documentation typos
+
+= 1.39 =
+* Added: featured and thumbnail virtual fields
+* Added: by=noderef_field for [bw_related] to show posts linked via the named noderef_field
+* Added: #label arg. Set to false when you don't want the field label or separator to be displayed when using [bw_fields]
+* Changed: [bw_field] and [bw_fields] now issue "Invalid use of $tag. No fields to process for $post_id" to trace output only
+* Changed: [bw_field] and [bw_fields] accept the field names as the first unnamed parameter.
+
+= 1.38 =
+* Added: file_size and dimensions virtual fields
+* Changed: Invokes "oik_fields_loaded" with priority 9 to define virtual fields before other plugins
+* Changed: Commented out some trace calls
+* Added: File includes/oik-fields-virtual.php contains the file_size and dimensions virtual fields
+
+= 1.37 =
+* Added: sctext and sctextarea field types
+
+= 1.36 = 
+* Added: Custom taxonomy fields will be displayed by [bw_fields] shortcode
+* Added: Support for 'virtual' fields using dynamically loaded callback functions
+* Changed: Improved plugin dependency checking
+* Changed: Updated [bw_related] shortcode help and syntax
+* Changed: bw_fields, bw_new and bw_related shortcodes won't expand in 'the_title'
+
+= 1.35 = 
+* Added: [bw_related] now displays output as [bw_pages] when format= parameter is set
+* Tested: With WordPress 3.9-RC1 
+* Changed: bw_query_related_fields() to attempt to find values for post_type and meta_key when neither parameter is set. Not ready for production.  
+
+= 1.34 =
+* Added: [bw_related tag=._field_name] and [bw_related tag=_node_ref._field_name] support
+* Added: [bw_related category_name=._field_name] and [bw_related category_name=_node_ref._field_name] support
+* Added: bw_query_taxonomy_value(), bw_query_fieldref_value() and bw_query_field_value()  
+
+= 1.33 = 
+* Added: [bw_related meta_key=_this_field meta_value=_that_field] support
+* Changed: [bw_related] now defaults to post_parent=no
+
+= 1.32 =
+* Fixed: Reinstated some logic for [bw_field] allowing display of a field without labels and separator
+* Changed: Now supports displaying post object properties. 
+
+= 1.31 = 
+* Added: Initial support for displaying custom taxonomies as fields. Field type: "taxonomy"
+* Added: [bw_fields] can be used to display a custom taxonomy if it's been registered as a field using bw_register_field()
+* Changed: [bw_new] supports multiple selection list fields. 
+* Changed: Removed notify from bw_get_field_data_arg()
+* Changed: oik v2.1-beta.0121 and oik-fields v1.31 should deliver identical versions of includes/bw_fields.inc
+* Tested: Performed some compatibility testing with different versions of oik base plugin
+ 
+= 1.30 =
+* Added: [bw_related] shortcode to list related content
+* Added: oik_fields_default_meta_value_noderef filter to return the default value for a noderef type field 
+* Changed: Copyright dates
+* Changed: Added readme.md - built from readme.txt. See also [GitHub oik-fields](https://github.com/bobbingwide/oik-fields)
+
+= 1.20 =
+* Changed: oik base plugin now implements message issuing APIs, previously developed in shortcodes/oik-new.php. 
+
+= 1.19.1107 = 
+* Fixed: Theming for a select field with no value. 
+
+= 1.19.1028 =
+* Added: theming for textarea and checkbox fields
+* Added: "bw_metadata" action for use in themes or other plugins to display output of "bw_fields"
+* Added: Implements "oik_query_field_types" filter to lists the field types it can handle
+* Changed: Improved _bw_theme_field_default()
+* Changed: bw_funcname() will trace a message when the default field formatting will be used 
+* Changed: for [bw_new] shortcode - altered passing by reference to remove messages about deprecation
+
+= 1.19.0905 = 
+* Changed: "oik_add_new_fields_${post_type}" filter is now passed the default fields for the post_type, determined using bw_add_new_fields_defaults()
+* Added: _bw_show_new_post_form_oik() calls bw_context() for the post_type; used by dtib-review to set the label for the post_title.
+* Added: bw_get_edit_post_link() for use in emails 
+* Changed: bw_notify_author_email() replaces bw_notify_admin_email() 
+* Changed: bw_notify_author_email() sends a "New pending content:" message to the author of the post containing the [bw_new] shortcode
+* Added: Some comments about implementing filters used in [bw_new]
+
+= 1.19.0802 =
+* Added: Messages for [bw_new] shortcode
+* Added: Field validation can be implemented using filters "bw_field_validation_${field_type}" and " bw_field_validation_${field}"
+* Added: Default implementation to set spam checking fields to pass to Akismet
+* Added: Field validation functions for: text, textarea, email. 
+* Changed: Improved validation/sanitization for "title", "post_content"
+
+= 1.19.0723 = 
+* Added: Started adding field validation functions ( new file includes/oik-fields-validation.php )
+* Added: bw_issue_message() and related functions for creating and displaying messages
+* Added: _bw_field_validation_required() to validate required fields
+* Added: Visual indicator for required fields
+* Added: Support for HTML5 "required"
+* Added: Support for HTML5 type="email"
+* Added: "oik_set_spam_fields" filter to allow the CPT to determine field values to pass to the spam checker. 
+* Added: "bw_validate_functions" filter logic 
+* Changed: Renamed bw_validate_field() to bw_obtain_field() to reflect what it's actually doing
+
+= 1.19.0718 =
+* Changed: Some functions moved back to the oik base plugin as they were needed by [bw_table]. The file /includes/bw_fields.inc is a copy of the file delivered in oik v2.1
+* Added: [bw_new] shortcode to allow end-user creation of certain custom post types
+
+= 1.18.0325 =
+* Changed: Improved support for formatting of fields displayed by [bw_fields] and [bw_user] shortcodes
+* Added: bw_get_field_names() to return array of registered field names for a post_type
+* Added: Separate label and field formatting, 
+* Added: Default separator functions: bw_format_sep() and  bw_default_sep()
+
+= 1.18.0315 =
+* Added: Support for multiple selection noderef fields 
+
+= 1.18.0302 =
+* Changed: noderef fields now formatted as a link in [bw_fields] and custom columns
+
+= 1.18.0101 =
+* Added: Dependency logic on the oik base plugin
+* Added: phpdoc comments
+* Changed: Improved logic for bw_theme_field_url()
+* Fixed: Handle value of 0 in bw_return_field_select() 
+ 
+= 1.17 =
+* Added: bw_return_field_select() API
+* Changed: Ability for some formatting APIs to receive values directly or as array index 0
+
+= earlier =
+* Refer to the oik plugin for previous versions of this optional plugin
