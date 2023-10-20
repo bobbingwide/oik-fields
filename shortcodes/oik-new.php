@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2013-2017
+<?php // (C) Copyright Bobbing Wide 2013-2017, 2023
 
 /**
  * Implement [bw_new] shortcode to allow the creation of a new post through a simple form
@@ -243,9 +243,9 @@ function bw_field_validation( $field, &$validated ) {
   $valid = _bw_field_validation_required( $valid, $field, $data );
   
   $value = $validated[$field];
-  $value = apply_filters( "bw_field_validation_${field_type}", $value, $field, $data ); 
+  $value = apply_filters( "bw_field_validation_{$field_type}", $value, $field, $data ); 
   
-  $value = apply_filters( "bw_field_validation_${field}", $value, $field, $data );
+  $value = apply_filters( "bw_field_validation_{$field}", $value, $field, $data );
   $validated[$field] = $value;
   
   /** How do we determine if it's valid or not? 
@@ -358,11 +358,11 @@ function bw_validate_fields( $format, $fields, &$validated ) {
  * @return bool - true if validated
  */
 function bw_validate_form_as_required( $post_type, &$validated ) {
-  $handle = apply_filters( "oik_add_new_${post_type}", true );
+  $handle = apply_filters( "oik_add_new_{$post_type}", true );
   if ( $handle ) { 
-    $format = apply_filters( "oik_add_new_format_${post_type}", bw_add_new_format_default() , $post_type );
+    $format = apply_filters( "oik_add_new_format_{$post_type}", bw_add_new_format_default() , $post_type );
     $fields = bw_add_new_fields_defaults( $post_type ); 
-    $fields = apply_filters( "oik_add_new_fields_${post_type}", $fields, $post_type );
+    $fields = apply_filters( "oik_add_new_fields_{$post_type}", $fields, $post_type );
     $valid = bw_validate_fields( $format, $fields, $validated );
     $valid = !bw_query_messages();
   } else {
@@ -446,7 +446,7 @@ function bw_set_validated_field( $post, $validated, $field ) {
 function bw_spam_check( $post_type, $validated ) {
   $fields = $validated;
   $fields['comment_type'] = $post_type; 
-  $fields = apply_filters( "oik_set_spam_fields_${post_type}", $fields );
+  $fields = apply_filters( "oik_set_spam_fields_{$post_type}", $fields );
   bw_trace2( $fields, "fields", true, BW_TRACE_DEBUG ); 
   $send = bw_akismet_check( $fields );
   return( $send );
@@ -616,7 +616,7 @@ function _bw_show_new_post_fields( $fields ) {
 /**
  * Notes about implementing filters for [bw_new] shortcode, using $post_type = "post" as an example
  * 
- * You only need to implement the "oik_add_new_${post_type}" filter if you don't want the default processing which is "true"
+ * You only need to implement the "oik_add_new_{$post_type}" filter if you don't want the default processing which is "true"
  * e.g.
  * add_filter( "oik_add_new_post", "__return_false" );
  *
@@ -806,11 +806,11 @@ function bw_form_as_required( $format, $fields ) {
 function _bw_show_new_post_form_oik( $atts ) {
   $post_type = bw_array_get( $atts, "post_type", null );
   bw_context( "post_type", $post_type );
-  $handle = apply_filters( "oik_add_new_${post_type}", true );
+  $handle = apply_filters( "oik_add_new_{$post_type}", true );
   if ( $handle ) { 
-    $format = apply_filters( "oik_add_new_format_${post_type}", bw_add_new_format_default() , $post_type );
+    $format = apply_filters( "oik_add_new_format_{$post_type}", bw_add_new_format_default() , $post_type );
     $fields = bw_add_new_fields_defaults( $post_type ); 
-    $fields = apply_filters( "oik_add_new_fields_${post_type}", $fields, $post_type );
+    $fields = apply_filters( "oik_add_new_fields_{$post_type}", $fields, $post_type );
     oik_require( "bobbforms.inc" );
     $class = bw_array_get( $atts, "class", "bw_new_post" );
     sdiv( $class );

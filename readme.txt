@@ -3,7 +3,7 @@ Contributors: bobbingwide
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 Requires at least: 4.9.8
-Tested up to: 6.2.2
+Tested up to: 6.3
 Stable tag: 1.54.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -179,7 +179,7 @@ Cater for deprecation get_page_by_title() in WordPress 6.2
 == Changelog ==
 = 1.54.0 =
 * Changed: Add bw_get_page_by_title() for WordPress 6.2 changes #37
-* Tested: With WordPress 6.2.2 and WordPress Multi Site
+* Tested: With WordPress 6.3 and WordPress Multisite
 * Tested: With PHP 8.0
 
 = 1.53.0 = 

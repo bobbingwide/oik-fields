@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2014-2019
+<?php // (C) Copyright Bobbing Wide 2014-2019, 2023
 
 /**
  * Implement [bw_related] shortcode
@@ -223,7 +223,7 @@ function bw_related_meta_value( $atts, $meta_key ) {
   $meta_value = bw_array_get( $atts, "meta_value", null );
   $field_type = bw_query_field_type( $meta_key );
   bw_trace2( $field_type, "field_type" );
-  $meta_value = apply_filters( "oik_default_meta_value_${field_type}", $meta_value, $atts );
+  $meta_value = apply_filters( "oik_default_meta_value_{$field_type}", $meta_value, $atts );
   //bw_trace2( $meta_value, "meta_value" );
   return( $meta_value ); 
 }   
