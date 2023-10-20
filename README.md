@@ -4,8 +4,8 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 * Requires at least: 4.9.8
-* Tested up to: 6.2.2
-* Stable tag: 1.54.0
+* Tested up to: 6.4-RC1
+* Stable tag: 1.54.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -171,27 +171,19 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 ## Upgrade Notice 
-# 1.54.0 
-Cater for deprecation get_page_by_title() in WordPress 6.2
+# 1.54.1 
+Upgrade for support for PHP 8.1 and PHP 8.2
 
-# 1.53.0 
-[bw_new] - support updates to existing content
 
 ## Changelog 
-# 1.54.0 
-* Changed: Add bw_get_page_by_title() for WordPress 6.2 changes #37
-* Tested: With WordPress 6.2.2 and WordPress Multi Site
-* Tested: With PHP 8.0
-
-# 1.53.0 
-* Changed: [bw_new] - support updates to existing content,https://github.com/bobbingwide/oik-fields/issues/36
-* Tested: With WordPress 6.0.1 and WordPress Multi Site
-* Tested: With PHP 8.0
-
+# 1.54.1 
+* Changed: Support PHP 8.1 and PHP 8.2 #38
+* Tested: With WordPress 6.4-RC1 and WordPress Multisite
+* Tested: With PHP 8.0, PHP 8.1 and PHP 8.2
+* Tested: With PHPUnit 9.6
 
 
 ## Further reading 
 If you want to read more about the oik plugins then please visit the
 
 [oik base plugin](https://www.oik-plugins.com/oik)
-

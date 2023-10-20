@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 1.54.0 = 
+Cater for the deprecation of get_page_by_title() in WordPress 6.2
+
 = 1.53.0 = 
 [bw_new] - support updates to existing content 
 
@@ -105,6 +108,11 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.54.0 =
+* Changed: Add bw_get_page_by_title() for WordPress 6.2 changes #37
+* Tested: With WordPress 6.3 and WordPress Multisite
+* Tested: With PHP 8.0
+
 = 1.53.0 = 
 * Changed: [bw_new] - support updates to existing content,[github bobbingwide oik-fields issue 36]
 * Tested: With WordPress 6.0.1 and WordPress Multi Site
