@@ -45,6 +45,9 @@ function bw_field_has_value( $post_meta, $name ) {
  * 
  */
 function bw_metadata( $atts=null, $content=null, $tag=null ) {
+	if ( !function_exists( 'oik_is_shortcode_expansion_necessary') ) {
+		return 'oik-fields requires oik';
+	}
 	if ( !oik_is_shortcode_expansion_necessary() ) {
 		return "Not today thank you.";
 	}

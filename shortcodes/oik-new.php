@@ -145,7 +145,7 @@ function bw_display_messages() {
  * @return bool - true if the field has been set, false if the field is not set
  */
 function bw_obtain_field( $field_name, &$validated ) {
-  $value = bw_array_get( $_REQUEST, $field_name, null );
+  $value = bw_array_get( $_REQUEST, $field_name, '' );
   bw_trace2( $value, "value", true, BW_TRACE_VERBOSE );
   //bw_backtrace();
   if ( is_array( $value ) ) {
@@ -154,7 +154,7 @@ function bw_obtain_field( $field_name, &$validated ) {
       $value[$k] = stripslashes( trim( $v )) ;
       
     }
-  } else { 
+  } else {
     $value = stripslashes( trim( $value ));
   }  
   $validated[ $field_name ] = $value;
