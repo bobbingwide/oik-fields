@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 1.54.1 = 
+Upgrade for support for PHP 8.1 and PHP 8.2
+
 = 1.54.0 = 
 Cater for the deprecation of get_page_by_title() in WordPress 6.2
 
@@ -108,6 +111,12 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.54.1 = 
+* Changed: Support PHP 8.1 and PHP 8.2 #38
+* Tested: With WordPress 6.4-RC1 and WordPress Multisite
+* Tested: With PHP 8.0, PHP 8.1 and PHP 8.2
+* Tested: With PHPUnit 9.6
+
 = 1.54.0 =
 * Changed: Add bw_get_page_by_title() for WordPress 6.2 changes #37
 * Tested: With WordPress 6.3 and WordPress Multisite
