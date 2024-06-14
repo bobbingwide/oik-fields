@@ -1,7 +1,7 @@
 <?php
 /* 
 
-    Copyright 2014-2018 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2014-2024 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -77,6 +77,7 @@ function bw_form_field_category( $name, $type, $title, $value, $args ) {
                , "hierarchical" => 1
                , "name" => $name //  "" 
                , "show_option_all" => 0
+            , 'taxonomy' => $name
                );
   $selected = bw_array_get( $_REQUEST, $name, null );
   if ( $selected ) {
