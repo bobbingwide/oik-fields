@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 1.54.2 = 
+Upgrade for support for PHP 8.2 and PHP 8.3
+
 = 1.54.1 = 
 Upgrade for support for PHP 8.1 and PHP 8.2
 
@@ -111,6 +114,12 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.54.2 = 
+* Changed: Support PHP 8.1, PHP 8.2 and PHP 8.3 #38
+* Tested: With WordPress 6.4.2 and WordPress Multisite
+* Tested: With PHP 8.0, PHP 8.1, PHP 8.2 and PHP 8.3
+* Tested: With PHPUnit 9.6
+
 = 1.54.1 = 
 * Changed: Support PHP 8.1 and PHP 8.2 #38
 * Tested: With WordPress 6.4-RC1 and WordPress Multisite

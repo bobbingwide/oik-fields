@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="" tests="4" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.098231">
-    <testsuite name="oik-fields" tests="4" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.098231">
-      <testsuite name="Tests_load_php" file="C:\apache\htdocs\wordpress\wp-content\plugins\oik-fields\tests\test-a-load-php.php" tests="4" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.098231">
-        <testcase name="test_load_admin_php" class="Tests_load_php" classname="Tests_load_php" file="C:\apache\htdocs\wordpress\wp-content\plugins\oik-fields\tests\test-a-load-php.php" line="22" assertions="1" time="0.044502"/>
-        <testcase name="test_load_includes_php" class="Tests_load_php" classname="Tests_load_php" file="C:\apache\htdocs\wordpress\wp-content\plugins\oik-fields\tests\test-a-load-php.php" line="29" assertions="1" time="0.027150"/>
-        <testcase name="test_load_shortcodes_php" class="Tests_load_php" classname="Tests_load_php" file="C:\apache\htdocs\wordpress\wp-content\plugins\oik-fields\tests\test-a-load-php.php" line="43" assertions="1" time="0.010879"/>
-        <testcase name="test_load_plugin_php" class="Tests_load_php" classname="Tests_load_php" file="C:\apache\htdocs\wordpress\wp-content\plugins\oik-fields\tests\test-a-load-php.php" line="52" assertions="1" time="0.015700"/>
+  <testsuite name="" tests="4" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.248453">
+    <testsuite name="oik-fields" tests="4" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.248453">
+      <testsuite name="Tests_load_php" file="C:\apache\htdocs\wordpress\wp-content\plugins\oik-fields\tests\test-a-load-php.php" tests="4" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.248453">
+        <testcase name="test_load_admin_php" class="Tests_load_php" classname="Tests_load_php" file="C:\apache\htdocs\wordpress\wp-content\plugins\oik-fields\tests\test-a-load-php.php" line="22" assertions="1" time="0.204569"/>
+        <testcase name="test_load_includes_php" class="Tests_load_php" classname="Tests_load_php" file="C:\apache\htdocs\wordpress\wp-content\plugins\oik-fields\tests\test-a-load-php.php" line="29" assertions="1" time="0.017418"/>
+        <testcase name="test_load_shortcodes_php" class="Tests_load_php" classname="Tests_load_php" file="C:\apache\htdocs\wordpress\wp-content\plugins\oik-fields\tests\test-a-load-php.php" line="43" assertions="1" time="0.013994"/>
+        <testcase name="test_load_plugin_php" class="Tests_load_php" classname="Tests_load_php" file="C:\apache\htdocs\wordpress\wp-content\plugins\oik-fields\tests\test-a-load-php.php" line="52" assertions="1" time="0.012472"/>
       </testsuite>
     </testsuite>
   </testsuite>
