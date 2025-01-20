@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2011-2018
+<?php // (C) Copyright Bobbing Wide 2011-2018, 2024
 
 /**
  * Library: 
@@ -115,7 +115,7 @@ function bw_theme_field_select( $key, $value, $field ) {
  * @return string the field value(s), comma separated as necessary
  */
 function bw_return_field_select( $key, $value, $field ) {
-	//bw_trace2(); 
+	//bw_trace2();
 	//bw_backtrace();
 	$args = bw_array_get( $field, '#args', null );
 	$multiple = false;
@@ -133,9 +133,11 @@ function bw_return_field_select( $key, $value, $field ) {
 		}
 		$result = implode( ", ", $results );
 	} else {
-		// If value is an empty array this will return an empty array. 
+		// If value is an empty array this will return an empty array.
+		// We need to cater for a value of '0'.
 		$val = bw_array_get( $value, 0, $value );
-		if ( !empty( $val ) ) {
+		//bw_trace2( $val, "val", false);
+		if ( '0' == $val  || !empty( $val ) ) {
 			$result = bw_array_get( $select, $val, $val );   
 		}
 	}	  

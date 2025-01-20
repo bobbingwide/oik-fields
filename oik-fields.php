@@ -386,14 +386,19 @@ function oik_fields_oik_fields_loaded() {
   
   $field_args[ "#callback" ] = "bw_fields_get_thumbnail";
   bw_register_field( "thumbnail", "virtual", "Thumbnail", $field_args );
-	
-	
+
+  /**
+   * If you want to register the Google Maps field to not be displayed by default
+   * then copy the registration into your own code, change the field name
+   * and set the value of the #theme arg to false.
+  */
   $field_args = array( "#callback" => "bw_fields_get_google_map"
                      , "#parms" => "_post_code,_lat,_long" 
                      , "#plugin" => "oik-fields"
                      , "#file" => "includes/oik-fields-virtual-google-map.php"
                      , "#form" => false
-                     , "hint" => __( "virtual field", "oik-fields" )
+                     , "hint" => __( "virtual field", "oik-fields" ),
+                       "#theme" => true
                      ); 
 	bw_register_field( "googlemap", "virtual", "Google map", $field_args );
 	
