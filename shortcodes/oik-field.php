@@ -1,4 +1,5 @@
-<?php // (C) Copyright Bobbing Wide 2013-2017
+<?php // (C) Copyright Bobbing Wide 2013-2017, 2024
+
 /**
  * Implement the [bw_field] shortcode
  * 
@@ -22,7 +23,9 @@
  * 
  */
 function bw_field( $atts=null, $content=null, $tag=null ) {
-  //bw_trace2( );
+
+  bw_trace2( );
+
   $post_id = bw_array_get_dcb( $atts, "id", null, "bw_current_post_id" );
   //bw_backtrace();
   //p( "Fields for $post_id "); 
@@ -34,32 +37,37 @@ function bw_field( $atts=null, $content=null, $tag=null ) {
   }  
   if ( null == $name ) {
     $names = bw_get_field_names( $post_id );
+	$force_themeing = false;
   } else {
     $name = wp_strip_all_tags( $name, TRUE );
     $names = explode( ",", $name );
+	$force_themeing = true;
   }
   if ( count( $names ) ) {
     foreach ( $names as $name ) {
-      if ( bw_get_field_data_arg( $name, "#theme", true ) ) {
-      
-        /**
-         * We have to cater for "taxonomy" fields as well
-         */
-         $type = bw_query_field_type( $name );
-         if ( $type === "taxonomy" ) {
-           // bw_custom_column_taxonomy( $name, $post_id );
-           bw_format_taxonomy( $name, $post_id );
-         } else { 
-           //bw_custom_column_post_meta( $column, $post_id );
-           $post_meta = get_post_meta( $post_id, $name, FALSE );
-           //bw_trace2( $post_meta );
-           $customfields = array( $name => $post_meta ); 
-           //bw_format_meta( $customfields );
-           bw_format_field( $customfields ); 
+	    $field_type = bw_query_field_type( $name );
+	    switch ( $field_type ) {
+		    case null:
+			    bw_theme_object_property( $post_id, $name, $atts );
+			    break;
+		    /**
+		     * We have to cater for "taxonomy" fields as well
+		     */
+		    case 'taxonomy':
+			    bw_format_taxonomy( $name, $post_id );
+			    break;
+		    default:
+			    $theme_it = $force_themeing || bw_get_field_data_arg( $name, "#theme", true );
+			    if ( $theme_it ) {
+
+				    $post_meta=get_post_meta( $post_id, $name, false );
+				    //bw_trace2( $post_meta );
+				    $customfields=array( $name=>$post_meta );
+				    //bw_format_meta( $customfields );
+				    bw_format_field( $customfields );
+			    }
          }  
-      } else {
-        bw_theme_object_property( $post_id, $name, $atts );
-      } 
+
     }
   } else {
     bw_trace2( "Invalid use of $tag. No field name to process for $post_id" );

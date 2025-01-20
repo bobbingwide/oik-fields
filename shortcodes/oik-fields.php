@@ -75,42 +75,43 @@ function bw_metadata( $atts=null, $content=null, $tag=null ) {
     $name = bw_array_get_from( $atts, "fields,0", NULL );
     if ( null == $name ) {
       $names = bw_get_field_names( $post_id );
+	  $force_themeing = false;
       
     } else {
       $name = wp_strip_all_tags( $name, TRUE );
       $names = explode( ",", $name );
+	  $force_themeing = true;
       
     }
+	bw_trace2( $force_themeing, 'force_themeing', false );
     if ( count( $names ) ) {
       foreach ( $names as $name ) {
-				$theme_it = bw_get_field_data_arg( $name, "#theme", true );
-        if ( $theme_it ) {
-        
-          /**
-           * We have to cater for "taxonomy" fields as well
-           */
-          $type = bw_query_field_type( $name );
-          if ( $type === "taxonomy" ) {
-            // bw_custom_column_taxonomy( $name, $post_id );
-            bw_format_taxonomy( $name, $post_id );
-          } else { 
-            //bw_custom_column_post_meta( $column, $post_id );
-						
-            $post_meta = get_post_meta( $post_id, $name, FALSE );
-            bw_trace2( $post_meta, "post_meta", false, BW_TRACE_VERBOSE );
-						if ( false == bw_get_field_data_arg( $name, "#theme_null", true ) ) {
-							$theme_it = bw_field_has_value( $post_meta, $name );
-						}
-						
-						if ( $theme_it ) {
-							
-							$customfields = array( $name => $post_meta ); 
-							bw_format_meta( $customfields );
-						}
-          }  
-        } else {
-          bw_theme_object_property( $post_id, $name, $atts );
-        }  
+		  $field_type = bw_query_field_type( $name );
+		  switch ( $field_type ) {
+			  case null:
+				  bw_theme_object_property( $post_id, $name, $atts );
+				  break;
+			  /**
+			   * We have to cater for "taxonomy" fields as well
+			   */
+			  case 'taxonomy':
+				  bw_format_taxonomy( $name, $post_id );
+				  break;
+
+			  default:
+				  $theme_it = $force_themeing || bw_get_field_data_arg( $name, "#theme", true );
+				  if ( $theme_it ) {
+					  $post_meta=get_post_meta( $post_id, $name, false );
+					  bw_trace2( $post_meta, "post_meta", false, BW_TRACE_VERBOSE );
+					  if ( false == bw_get_field_data_arg( $name, "#theme_null", true ) ) {
+						  $theme_it=bw_field_has_value( $post_meta, $name );
+					  }
+					  if ( $theme_it ) {
+						  $customfields=array( $name=>$post_meta );
+						  bw_format_meta( $customfields );
+					  }
+				  }
+		  }
       }
     } else {
       bw_trace2( "Invalid use of $tag. No field names to process for $post_id", null, true, BW_TRACE_WARNING );
