@@ -372,8 +372,12 @@ function bw_load_callback( $field ) {
 }  
 
 /**
- * Theme a field of type 'virtual'
- * 
+ * Themes a field of type 'virtual'
+ *
+ * The callback functions for virtual fields are a bit different from those for other field types.
+ * They return the HTML to be displayed; this is then echoed using e().
+ * Others perform the echoing themselves.
+ *
  * @param string $key
  * @param mixed $value
  * @param array $field
