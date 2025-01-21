@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 1.54.3 = 
+Upgrade to enable use of bw_form_field_category for hierarchical taxonomies other than Category
+
 = 1.54.2 = 
 Upgrade for support for PHP 8.2 and PHP 8.3
 
@@ -114,6 +117,12 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.54.3 = 
+* Changed: Enable bw_form_field_category for other hierarchical taxonomies #39
+* Tested: With WordPress 6.5.4 and WordPress Multisite
+* Tested: With PHP 8.3
+* Tested: With PHPUnit 9.6
+
 = 1.54.2 = 
 * Changed: Support PHP 8.1, PHP 8.2 and PHP 8.3 #38
 * Tested: With WordPress 6.4.2 and WordPress Multisite
