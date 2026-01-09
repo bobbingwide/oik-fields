@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 1.54.4 = 
+Update to use sb-field-block to render certain virtual fields.
+
 = 1.54.3 = 
 Upgrade to enable use of bw_form_field_category for hierarchical taxonomies other than Category
 
@@ -117,6 +120,14 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.54.4 = 
+* Changed: Force themeing of explicitely named fields, for sb-field-block #12
+* Changed: Update docblock comment for virtual field theming
+* Changed bw_theme_field_select: Cater for a value of 0 #40
+* Tested: With WordPress 6.7.1 and WordPress Multisite
+* Tested: With PHP 8.3
+* Tested: With PHPUnit 9.6
+
 = 1.54.3 = 
 * Changed: Enable bw_form_field_category for other hierarchical taxonomies #39
 * Tested: With WordPress 6.5.4 and WordPress Multisite

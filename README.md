@@ -4,8 +4,8 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 * Requires at least: 4.9.8
-* Tested up to: 6.7.1
-* Stable tag: 1.54.4
+* Tested up to: 6.9
+* Stable tag: 1.55.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -171,17 +171,16 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 ## Upgrade Notice 
-# 1.54.4 
-Update to use sb-field-block to render certain virtual fields.
+# 1.55.0 
+Upgrade for accessibility improvements to the featured image virtual field.
 
 ## Changelog 
-# 1.54.4 
-* Changed: Force themeing of explicitely named fields, for sb-field-block #12
-* Changed: Update docblock comment for virtual field theming
-* Changed bw_theme_field_select: Cater for a value of 0 #40
-* Tested: With WordPress 6.7.1 and WordPress Multisite
-* Tested: With PHP 8.3
-* Tested: With PHPUnit 9.6
+# 1.55.0 
+* Accessibility: use wp_get_attachment_image() since it sets the alt attribute #41
+* Changed: Update PHPUnit tests for PHPUnit 10 & 11 #42
+* Tested: With WordPress 6.9 and WordPress Multisite
+* Tested: With PHP 8.3 & PHP 8.4
+* Tested: With PHPUnit 9.6, 10 & 11
 
 ## Further reading 
 If you want to read more about the oik plugins then please visit the
