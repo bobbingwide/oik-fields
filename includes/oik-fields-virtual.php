@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2014
+<?php // (C) Copyright Bobbing Wide 2014, 2026
 /**
  * Return the file size of an attached file
  *
@@ -41,24 +41,18 @@ function bw_fields_get_dimensions( $wp_attachment_metadata ) {
 }
 
 /**
- * Return a featured image
+ * Returns a featured image.
  * 
  * @param ID $thumbnail_id - the ID of the post's thumbnail image
  * @return full size featured image
  */
 function bw_fields_get_featured_image( $thumbnail_id ) {
-  $thumbnail =  wp_get_attachment_image_src( $thumbnail_id, "full" ) ;
-  if ( $thumbnail  ) {
-    $thumbnail = retimage( "featured", $thumbnail[0] );
-  }
-  bw_trace2( $thumbnail );
-  return( $thumbnail);
+	$thumbnail = wp_get_attachment_image( $thumbnail_id, "full");
+	return $thumbnail;
 }
 
-
-
 /**
- * Return the thumbnail for the featured image
+ * Returns the thumbnail for the featured image.
  * 
  * @param ID $thumbnail_id - the ID of the post's thumbnail image
  * @return thumbnail sized featured image
@@ -68,8 +62,7 @@ function bw_fields_get_thumbnail( $thumbnail_id ) {
   if ( $thumbnail ) {
     $thumbnail = retimage( "thumbnail", $thumbnail[0] );
   }
-  bw_trace2( $thumbnail );
-  return( $thumbnail);
+  return $thumbnail;
 }
 
 /** 
@@ -79,4 +72,3 @@ function bw_fields_get_thumbnail( $thumbnail_id ) {
 function bw_fields_get_template( $_wp_page_template ) {
 	return $_wp_page_template;
 }
- 
