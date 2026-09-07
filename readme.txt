@@ -3,8 +3,8 @@ Contributors: bobbingwide
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: custom fields, metadata, shortcodes, [bw_field], [bw_fields], [bw_new], [bw_related]
 Requires at least: 4.9.8
-Tested up to: 6.9
-Stable tag: 1.55.0
+Tested up to: 7.1
+Stable tag: 1.55.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -170,14 +170,13 @@ Not yet. But supporting 'fieldref' fields ( field references aka field type 'fie
 1. oik-fields displaying custom fields for a custom post type (CPT) called Premium plugins
 
 == Upgrade Notice ==
-= 1.55.0 = 
-Upgrade for accessibility improvements to the featured image virtual field.
+= 1.55.1 = 
+Tested with WordPress 7.1. Corrected plugin version.
 
 == Changelog ==
-= 1.55.0 = 
-* Accessibility: use wp_get_attachment_image() since it sets the alt attribute #41
-* Changed: Update PHPUnit tests for PHPUnit 10 & 11 #42
-* Tested: With WordPress 6.9 and WordPress Multisite
+= 1.55.1 = 
+* Changed: Corrected plugin version
+* Tested: With WordPress 7.1 and WordPress Multisite
 * Tested: With PHP 8.3 & PHP 8.4
 * Tested: With PHPUnit 9.6, 10 & 11
 

@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 1.55.0 = 
+Upgrade for accessibility improvements to the featured image virtual field.
+
 = 1.54.4 = 
 Update to use sb-field-block to render certain virtual fields.
 
@@ -120,6 +123,13 @@ This version is dependent upon oik v1.17 or higher
 This version matches the version in oik v1.17
 
 == Changelog ==
+= 1.55.0 = 
+* Accessibility: use wp_get_attachment_image() since it sets the alt attribute #41
+* Changed: Update PHPUnit tests for PHPUnit 10 & 11 #42
+* Tested: With WordPress 6.9 and WordPress Multisite
+* Tested: With PHP 8.3 & PHP 8.4
+* Tested: With PHPUnit 9.6, 10 & 11
+
 = 1.54.4 = 
 * Changed: Force themeing of explicitely named fields, for sb-field-block #12
 * Changed: Update docblock comment for virtual field theming
